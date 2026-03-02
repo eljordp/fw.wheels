@@ -44,6 +44,444 @@ brandTabs.forEach(tab => {
   });
 });
 
+// ===== WHEEL DATA =====
+const wheelData = {
+  // AH Series
+  ah01: {
+    name: 'AODHAN AH01',
+    series: 'AH Series — Classic Multi-Spoke',
+    finishes: ['Silver Machined Face'],
+    sizes: ['15x8', '16x8', '17x9', '18x9.5'],
+    boltPatterns: ['4x100/114.3', '5x100/114.3', '5x100'],
+    offsets: ['+20', '+15', '+25', '+35'],
+    centerBore: '73.1mm',
+    priceRange: '$162 – $237 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/products/AH01_1580_SMF_03_c945adcb-3d0e-462c-9707-484af09d073f.jpg?v=1749494722',
+      'https://www.aodhanwheels.com/cdn/shop/products/AH01_179010H_SMF_03_bc9a113f-5723-437e-9612-804713c35078.jpg?v=1749494722'
+    ]
+  },
+  ah02: {
+    name: 'AODHAN AH02',
+    series: 'AH Series — Classic Multi-Spoke',
+    finishes: ['Gloss Black'],
+    sizes: ['17x8', '18x8.5', '18x9.5'],
+    boltPatterns: ['4x100/114.3', '5x100/114.3', '5x100', '5x114.3', '5x120'],
+    offsets: ['+35'],
+    centerBore: '73.1mm (72.6 for 5x120)',
+    priceRange: '$237 – $262 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/files/AH02_17808H_GB_03.jpg',
+      'https://www.aodhanwheels.com/cdn/shop/files/AH02_1885_GB_03.jpg'
+    ]
+  },
+  ah03: {
+    name: 'AODHAN AH03',
+    series: 'AH Series — Classic Multi-Spoke',
+    finishes: ['Gloss Black'],
+    sizes: ['15x8', '16x8', '17x9', '18x9.5'],
+    boltPatterns: ['4x100/114.3', '5x100/114.3', '5x114.3'],
+    offsets: ['+20', '+15', '+25', '+30'],
+    centerBore: '73.1mm',
+    priceRange: '$162 – $237 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/products/AH03_179010H_GB_03_bbc5dc32-4ddb-4e58-9cfc-fe188386f434.jpg?v=1749494710',
+      'https://www.aodhanwheels.com/cdn/shop/products/AH03_1680_GB_03_e689a6b9-0a5c-45d8-b50b-0deba830a440.jpg?v=1749494709'
+    ]
+  },
+  ah04: {
+    name: 'AODHAN AH04',
+    series: 'AH Series — Classic Multi-Spoke',
+    finishes: ['Silver Machined Face'],
+    sizes: ['15x8', '16x8', '17x9', '18x9.5'],
+    boltPatterns: ['4x100/114.3', '5x100/114.3', '5x100'],
+    offsets: ['+20', '+15', '+25', '+35'],
+    centerBore: '73.1mm',
+    priceRange: '$162 – $207 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/products/AH04_179010H_SMF_03_f34e9704-835d-4c3b-b356-7287ebf406b7.jpg?v=1749494706',
+      'https://www.aodhanwheels.com/cdn/shop/products/AH04_1580_MS_03.jpg?v=1749494706'
+    ]
+  },
+  ah05: {
+    name: 'AODHAN AH05',
+    series: 'AH Series — Classic Multi-Spoke',
+    finishes: ['Gloss Black'],
+    sizes: ['15x8', '16x8', '17x9', '18x8.5'],
+    boltPatterns: ['4x100/114.3', '5x100/114.3', '5x114.3'],
+    offsets: ['+20', '+15', '+25', '+35'],
+    centerBore: '73.1mm',
+    priceRange: '$162 – $237 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/products/AH05_179010H_GB_03_94785440-bdb2-43bf-b0df-b7755d450e40.jpg',
+      'https://www.aodhanwheels.com/cdn/shop/products/AH05_1885_GB_03_156efae4-7220-4320-bfe1-0743b65e5149.jpg'
+    ]
+  },
+  ah06: {
+    name: 'AODHAN AH06',
+    series: 'AH Series — Classic Multi-Spoke',
+    finishes: ['Textured Bronze'],
+    sizes: ['17x9', '18x9'],
+    boltPatterns: ['5x100', '5x114.3'],
+    offsets: ['+35', '+30'],
+    centerBore: '73.1mm',
+    priceRange: '$224 – $249 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/products/AH06_1790_BRZ_03_ed0915fe-14b1-4289-8a92-cfb5977428dc.jpg?v=1749494698',
+      'https://www.aodhanwheels.com/cdn/shop/products/AH06_1890_BRZ_03_0b441f17-3a38-44d3-96bb-b8ddf4fc1635.jpg?v=1749494698'
+    ]
+  },
+  ah07: {
+    name: 'AODHAN AH07',
+    series: 'AH Series — Classic Multi-Spoke',
+    finishes: ['Textured Bronze', 'Gloss Black'],
+    sizes: ['18x8.5', '18x9.5'],
+    boltPatterns: ['5x100', '5x114.3'],
+    offsets: ['+35', '+30'],
+    centerBore: '73.1mm',
+    priceRange: '$249 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/products/AH07_1885_BRZ_02_47a7ed17-066a-4429-a93a-68d8278a5877.jpg?v=1749494695',
+      'https://www.aodhanwheels.com/cdn/shop/products/AH07_1885_GB_02_4c7a50c2-a127-4ba6-8a47-395e8b214986.jpg?v=1749494695'
+    ]
+  },
+  ah08: {
+    name: 'AODHAN AH08',
+    series: 'AH Series — Classic Multi-Spoke',
+    finishes: ['Textured Bronze', 'Gloss Black'],
+    sizes: ['18x8.5', '18x9.5'],
+    boltPatterns: ['5x100', '5x114.3'],
+    offsets: ['+35', '+30'],
+    centerBore: '73.1mm',
+    priceRange: '$249 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/products/AH08_1885_BRZ_03_698bc731-eaf4-4451-a92f-efdf6f91b5f4.jpg',
+      'https://www.aodhanwheels.com/cdn/shop/products/AH08_1885_GB_03.jpg'
+    ]
+  },
+  ah09: {
+    name: 'AODHAN AH09',
+    series: 'AH Series — Classic Multi-Spoke',
+    finishes: ['Silver Machined Face'],
+    sizes: ['18x8.5', '18x9.5'],
+    boltPatterns: ['5x100'],
+    offsets: ['+35'],
+    centerBore: '73.1mm',
+    priceRange: '$249 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/products/AH09_1885_MS_D_03.jpg?v=1749494596',
+      'https://www.aodhanwheels.com/cdn/shop/products/AH09_1895_MS_D_03.jpg?v=1749494596'
+    ]
+  },
+  ahx: {
+    name: 'AODHAN AHX',
+    series: 'AH Series — Classic Multi-Spoke',
+    finishes: ['Hyper Black'],
+    sizes: ['18x8.5', '18x9.5'],
+    boltPatterns: ['5x112', '5x114.3', '5x120'],
+    offsets: ['+35'],
+    centerBore: '73.1mm (72.6 for 5x120)',
+    priceRange: '$249 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/files/AHX_1885_HBLK_03.jpg?v=1752518439',
+      'https://www.aodhanwheels.com/cdn/shop/files/AHX_1895_HBLK_03.jpg?v=1752518439'
+    ]
+  },
+  ah11: {
+    name: 'AODHAN AH11',
+    series: 'AH Series — Classic Multi-Spoke',
+    finishes: ['Silver Machined Face'],
+    sizes: ['18x8.5', '18x9.5', '19x8.5', '19x9.5'],
+    boltPatterns: ['5x112', '5x114.3'],
+    offsets: ['+35'],
+    centerBore: '73.1mm',
+    priceRange: '$249 – $299 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/files/AH11_1885_MS_03.jpg?v=1749494550',
+      'https://www.aodhanwheels.com/cdn/shop/files/AH11_1895_MS_03.jpg?v=1749494550'
+    ]
+  },
+  // DS Series
+  ds01: {
+    name: 'AODHAN DS01',
+    series: 'DS Series — Deep Concave',
+    finishes: ['Bronze w/ Machined Lip', 'Gloss Black'],
+    sizes: ['18x8.5', '18x9.5'],
+    boltPatterns: ['5x100', '5x114.3'],
+    offsets: ['+35', '+30'],
+    centerBore: '73.1mm',
+    priceRange: '$249 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/products/DS01_1885_BRONZE_03_52b41525-7011-44e1-8919-62f099957031.jpg',
+      'https://www.aodhanwheels.com/cdn/shop/products/DS01_1885_GB_03_458fba51-fb98-477c-b57e-6dbf8172a167.jpg'
+    ]
+  },
+  ds02: {
+    name: 'AODHAN DS02',
+    series: 'DS Series — Deep Concave',
+    finishes: ['Bronze w/ Machined Lip'],
+    sizes: ['18x8.5', '18x9.5'],
+    boltPatterns: ['5x100', '5x114.3'],
+    offsets: ['+35', '+30', '+22', '+15'],
+    centerBore: '73.1mm',
+    priceRange: '$249 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/products/DS02_1885_BRZ_03_bae8b50d-0182-4be2-813e-493b07e46567.jpg?v=1749494658',
+      'https://www.aodhanwheels.com/cdn/shop/products/DS02_1895_BRZML_03.jpg?v=1749494658'
+    ]
+  },
+  ds03: {
+    name: 'AODHAN DS03',
+    series: 'DS Series — Deep Concave',
+    finishes: ['Silver w/ Machined Face'],
+    sizes: ['18x9.5', '18x10.5', '19x9.5', '19x10.5', '19x11'],
+    boltPatterns: ['5x100', '5x114.3', '5x120', '5x127'],
+    offsets: ['+30', '+35', '+40', '+45'],
+    centerBore: '73.1mm',
+    priceRange: '$249 – $299 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/files/DS03_1895_MS_03D.jpg?v=1749494676',
+      'https://www.aodhanwheels.com/cdn/shop/files/DS03_1895_MS_03P.jpg?v=1749494676'
+    ]
+  },
+  ds05: {
+    name: 'AODHAN DS05',
+    series: 'DS Series — Deep Concave',
+    finishes: ['Bronze w/ Machined Lip'],
+    sizes: ['18x8.5', '18x9.5'],
+    boltPatterns: ['5x100', '5x114.3'],
+    offsets: ['+35', '+30', '+22'],
+    centerBore: '73.1mm',
+    priceRange: '$249 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/products/DS05_BRZ_1885_03.jpg?v=1749494649',
+      'https://www.aodhanwheels.com/cdn/shop/products/DS05_1895_BRZ_03.jpg?v=1749494649'
+    ]
+  },
+  ds06: {
+    name: 'AODHAN DS06',
+    series: 'DS Series — Deep Concave',
+    finishes: ['Gloss Black'],
+    sizes: ['18x8.5', '18x9.5'],
+    boltPatterns: ['5x100', '5x114.3'],
+    offsets: ['+35', '+30', '+22'],
+    centerBore: '73.1mm',
+    priceRange: '$249 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/products/DS06_1885_GB_03_832affc0-0e8d-428b-8cec-6b468e1ea0c8.jpg?v=1749494619',
+      'https://www.aodhanwheels.com/cdn/shop/products/DS06_1895_GB_03_750b5340-59be-4d9b-9936-a2533b79e034.jpg?v=1749494619'
+    ]
+  },
+  ds07: {
+    name: 'AODHAN DS07',
+    series: 'DS Series — Deep Concave',
+    finishes: ['Gloss Black'],
+    sizes: ['18x8.5', '18x9.5'],
+    boltPatterns: ['5x100', '5x114.3'],
+    offsets: ['+35', '+30', '+22', '+15'],
+    centerBore: '73.1mm',
+    priceRange: '$249 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/products/DS07_1885_GB_03.jpg?v=1749494614',
+      'https://www.aodhanwheels.com/cdn/shop/products/DS07_1895_GB_03.jpg?v=1749494614'
+    ]
+  },
+  ds08: {
+    name: 'AODHAN DS08',
+    series: 'DS Series — Deep Concave',
+    finishes: ['Bronze w/ Machined Lip'],
+    sizes: ['18x8.5', '18x9.5'],
+    boltPatterns: ['5x100', '5x114.3'],
+    offsets: ['+35', '+30', '+22'],
+    centerBore: '73.1mm',
+    priceRange: '$274 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/products/DS08_1885_BZ_03.jpg?v=1749494587',
+      'https://www.aodhanwheels.com/cdn/shop/products/DS08_1895_BZ_03.jpg?v=1749494587'
+    ]
+  },
+  ds09: {
+    name: 'AODHAN DS09',
+    series: 'DS Series — Deep Concave',
+    finishes: ['Bronze w/ Machined Lip'],
+    sizes: ['18x8.5', '18x9.5'],
+    boltPatterns: ['5x100', '5x114.3'],
+    offsets: ['+35', '+30', '+22'],
+    centerBore: '73.1mm',
+    priceRange: '$274 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/products/DS09_1885_BZML_03_0d6eac8f-3909-498f-8d30-fed270016d8a.jpg?v=1749494569',
+      'https://www.aodhanwheels.com/cdn/shop/products/DS09_1995_BZML_03_349edecc-c85b-44d8-a6df-c35936768370.jpg?v=1749494569'
+    ]
+  },
+  dsx: {
+    name: 'AODHAN DSX',
+    series: 'DS Series — Deep Concave',
+    finishes: ['Bronze w/ Machined Lip'],
+    sizes: ['18x8.5', '18x9.5'],
+    boltPatterns: ['5x100', '5x114.3'],
+    offsets: ['+35', '+30', '+22'],
+    centerBore: '73.1mm',
+    priceRange: '$206 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/products/DSX_1885_BZML_03.jpg?v=1749494544',
+      'https://www.aodhanwheels.com/cdn/shop/products/DSX_1895_BZML_03.jpg?v=1749494544'
+    ]
+  },
+  // AFF Series
+  aff1: {
+    name: 'AODHAN AFF1',
+    series: 'AFF Series — Flow Form',
+    finishes: ['Matte Black', 'Matte Bronze'],
+    sizes: ['20x9', '20x10.5'],
+    boltPatterns: ['5x114.3', '5x120'],
+    offsets: ['+32', '+45', '+30', '+35'],
+    centerBore: '73.1mm (72.6 for 5x120)',
+    priceRange: '$362 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/products/AFF1_2090_MB_03_e46a0924-dbb8-4456-a6a5-b44a706063d8.jpg?v=1749494680',
+      'https://www.aodhanwheels.com/cdn/shop/products/AFF1_2090_MBRZ_03_7574050d-541f-4e91-8398-7c77c4f8a342.jpg?v=1749494680'
+    ]
+  },
+  aff2: {
+    name: 'AODHAN AFF2',
+    series: 'AFF Series — Flow Form',
+    finishes: ['Silver Machined Face'],
+    sizes: ['19x8.5', '19x9.5'],
+    boltPatterns: ['5x112', '5x114.3'],
+    offsets: ['+35'],
+    centerBore: '66.6mm (5x112) / 73.1mm (5x114.3)',
+    priceRange: '$224 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/products/AFF02_1985_SMF_03.jpg?v=1749494562',
+      'https://www.aodhanwheels.com/cdn/shop/products/AFF02_1995_SMF_03.jpg?v=1749494562'
+    ]
+  },
+  aff3: {
+    name: 'AODHAN AFF3',
+    series: 'AFF Series — Flow Form',
+    finishes: ['Silver Machined Face'],
+    sizes: ['20x9', '20x10.5'],
+    boltPatterns: ['5x114.3', '5x120'],
+    offsets: ['+32', '+45', '+30', '+35'],
+    centerBore: '73.1mm (72.6 for 5x120)',
+    priceRange: '$362 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/products/AFF03_2090_MS_03.jpg?v=1749494576',
+      'https://www.aodhanwheels.com/cdn/shop/products/AFF03_20105_MS_03.jpg?v=1749494576'
+    ]
+  },
+  aff7: {
+    name: 'AODHAN AFF7',
+    series: 'AFF Series — Flow Form',
+    finishes: ['Silver Machined Face'],
+    sizes: ['18x8.5', '18x9.5', '19x8.5', '19x9.5', '20x9', '20x10.5'],
+    boltPatterns: ['5x112'],
+    offsets: ['+35', '+30'],
+    centerBore: '66.6mm',
+    priceRange: '$274 – $362 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/products/AFF7_1885_SMF_03.jpg?v=1749494580',
+      'https://www.aodhanwheels.com/cdn/shop/products/AFF7_2090_SMF_03.jpg?v=1749494581'
+    ]
+  },
+  aff9: {
+    name: 'AODHAN AFF9',
+    series: 'AFF Series — Flow Form',
+    finishes: ['Matte Black', 'Matte Bronze', 'Gloss Silver Machined Face'],
+    sizes: ['20x9', '20x10.5'],
+    boltPatterns: ['5x120'],
+    offsets: ['+30', '+35'],
+    centerBore: '72.6mm',
+    priceRange: '$362 /wheel',
+    images: [
+      'https://www.aodhanwheels.com/cdn/shop/products/AFF9_2090_MB_03_f7785824-4973-49ac-856b-12205908e088.jpg?v=1749494553',
+      'https://www.aodhanwheels.com/cdn/shop/products/AFF9_2090_MBZ_03_2efee466-3cb1-4d9e-b2d7-959f57cd23ea.jpg?v=1749494553'
+    ]
+  }
+};
+
+// ===== WHEEL MODAL =====
+const wheelModal = document.getElementById('wheelModal');
+const modalClose = document.getElementById('modalClose');
+const modalImages = document.getElementById('modalImages');
+const modalTitle = document.getElementById('modalTitle');
+const modalSpecs = document.getElementById('modalSpecs');
+const modalQuoteBtn = document.getElementById('modalQuoteBtn');
+
+function openWheelModal(wheelId) {
+  const wheel = wheelData[wheelId];
+  if (!wheel) return;
+
+  modalTitle.textContent = wheel.name;
+
+  // Render images
+  modalImages.innerHTML = wheel.images.map(src =>
+    `<img src="${src}" alt="${wheel.name}" loading="lazy">`
+  ).join('');
+
+  // Render specs
+  modalSpecs.innerHTML = `
+    <div class="spec-group">
+      <div class="spec-label">Series</div>
+      <div class="spec-value">${wheel.series}</div>
+    </div>
+    <div class="spec-group">
+      <div class="spec-label">Price Range</div>
+      <div class="spec-value" style="color: var(--gold); font-weight: 600;">${wheel.priceRange}</div>
+    </div>
+    <div class="spec-group">
+      <div class="spec-label">Available Finishes</div>
+      <div class="spec-chips">${wheel.finishes.map(f => `<span class="spec-chip">${f}</span>`).join('')}</div>
+    </div>
+    <div class="spec-group">
+      <div class="spec-label">Sizes</div>
+      <div class="spec-chips">${wheel.sizes.map(s => `<span class="spec-chip">${s}</span>`).join('')}</div>
+    </div>
+    <div class="spec-group">
+      <div class="spec-label">Bolt Patterns</div>
+      <div class="spec-chips">${wheel.boltPatterns.map(b => `<span class="spec-chip">${b}</span>`).join('')}</div>
+    </div>
+    <div class="spec-group">
+      <div class="spec-label">Offsets</div>
+      <div class="spec-chips">${wheel.offsets.map(o => `<span class="spec-chip">${o}</span>`).join('')}</div>
+    </div>
+    <div class="spec-group">
+      <div class="spec-label">Center Bore</div>
+      <div class="spec-value">${wheel.centerBore}</div>
+    </div>
+  `;
+
+  wheelModal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeWheelModal() {
+  wheelModal.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// Click on wheel cards to open modal
+document.querySelectorAll('.wheel-card[data-wheel]').forEach(card => {
+  card.addEventListener('click', () => {
+    openWheelModal(card.dataset.wheel);
+  });
+});
+
+// Close modal
+modalClose.addEventListener('click', closeWheelModal);
+wheelModal.addEventListener('click', (e) => {
+  if (e.target === wheelModal) closeWheelModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeWheelModal();
+});
+
+// Close modal + scroll to contact on quote button
+modalQuoteBtn.addEventListener('click', () => {
+  closeWheelModal();
+});
+
 // ===== QUOTE FORM =====
 const quoteForm = document.getElementById('quoteForm');
 quoteForm.addEventListener('submit', (e) => {
