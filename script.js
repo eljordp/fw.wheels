@@ -7,18 +7,31 @@ window.addEventListener('scroll', () => {
 // ===== MOBILE MENU =====
 const mobileToggle = document.getElementById('mobileToggle');
 const navLinks = document.getElementById('navLinks');
+const navBackdrop = document.getElementById('navBackdrop');
+
+function openMobileMenu() {
+  mobileToggle.classList.add('active');
+  navLinks.classList.add('open');
+  navBackdrop.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMobileMenu() {
+  mobileToggle.classList.remove('active');
+  navLinks.classList.remove('open');
+  navBackdrop.classList.remove('active');
+  document.body.style.overflow = '';
+}
 
 mobileToggle.addEventListener('click', () => {
-  mobileToggle.classList.toggle('active');
-  navLinks.classList.toggle('open');
+  navLinks.classList.contains('open') ? closeMobileMenu() : openMobileMenu();
 });
+
+navBackdrop.addEventListener('click', closeMobileMenu);
 
 // Close menu when a link is clicked
 navLinks.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => {
-    mobileToggle.classList.remove('active');
-    navLinks.classList.remove('open');
-  });
+  link.addEventListener('click', closeMobileMenu);
 });
 
 // ===== BRAND FILTER TABS =====
