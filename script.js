@@ -37,6 +37,57 @@ navLinks.querySelectorAll('a').forEach(link => {
 // ===== BRAND FILTER TABS =====
 const brandTabs = document.querySelectorAll('.brand-tab');
 const brandSections = document.querySelectorAll('.brand-section');
+const seriesTabsContainer = document.getElementById('seriesTabs');
+
+// Series definitions per brand
+const brandSeriesMap = {
+  aodhan: [
+    { id: 'all', label: 'All Series' },
+    { id: 'ah', label: 'AH Series' },
+    { id: 'ds', label: 'DS Series' },
+    { id: 'aff', label: 'AFF Series' }
+  ],
+  mflow: [
+    { id: 'all', label: 'All Series' },
+    { id: 'mfr', label: 'MFR Series' },
+    { id: 'mfl', label: 'MFL Series' },
+    { id: 'mf', label: 'MF Offroad' }
+  ]
+};
+
+function renderSeriesTabs(brand) {
+  const series = brandSeriesMap[brand];
+  if (!series) {
+    seriesTabsContainer.innerHTML = '';
+    return;
+  }
+  seriesTabsContainer.innerHTML = series.map((s, i) =>
+    `<button class="series-tab${i === 0 ? ' active' : ''}" data-series="${s.id}" data-brand="${brand}">${s.label}</button>`
+  ).join('');
+
+  // Attach click handlers
+  seriesTabsContainer.querySelectorAll('.series-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const seriesId = tab.dataset.series;
+      const parentBrand = tab.dataset.brand;
+
+      // Update active sub-tab
+      seriesTabsContainer.querySelectorAll('.series-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      // Filter series groups within the brand section
+      const brandSection = document.querySelector(`.brand-section[data-brand="${parentBrand}"]`);
+      if (!brandSection) return;
+      brandSection.querySelectorAll('.series-group[data-series]').forEach(group => {
+        if (seriesId === 'all') {
+          group.classList.remove('series-hidden');
+        } else {
+          group.classList.toggle('series-hidden', group.dataset.series !== seriesId);
+        }
+      });
+    });
+  });
+}
 
 brandTabs.forEach(tab => {
   tab.addEventListener('click', () => {
@@ -53,7 +104,12 @@ brandTabs.forEach(tab => {
       } else {
         section.classList.toggle('hidden', section.dataset.brand !== brand);
       }
+      // Reset series visibility when switching brands
+      section.querySelectorAll('.series-group[data-series]').forEach(g => g.classList.remove('series-hidden'));
     });
+
+    // Render series sub-tabs
+    renderSeriesTabs(brand);
   });
 });
 

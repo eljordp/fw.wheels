@@ -343,6 +343,48 @@ img {
   border-color: var(--accent);
 }
 
+/* ===== SERIES SUB-TABS ===== */
+.series-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 32px;
+}
+
+.series-tabs:empty {
+  display: none;
+}
+
+.series-tab {
+  padding: 8px 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-body);
+}
+
+.series-tab:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.series-tab.active {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.series-group.series-hidden {
+  display: none;
+}
+
 .brand-section {
   margin-bottom: 64px;
   animation: fadeUp 0.4s ease-out;
@@ -1029,6 +1071,27 @@ img {
     flex-shrink: 0;
     padding: 8px 18px;
     font-size: 0.72rem;
+  }
+
+  /* Series sub-tabs — horizontal scroll on mobile */
+  .series-tabs {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-bottom: 24px;
+    gap: 6px;
+  }
+
+  .series-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .series-tab {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    font-size: 0.68rem;
   }
 
   /* Brand header */
