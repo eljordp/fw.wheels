@@ -411,6 +411,172 @@ const wheelData = {
       'https://www.aodhanwheels.com/cdn/shop/products/AFF9_2090_MB_03_f7785824-4973-49ac-856b-12205908e088.jpg?v=1749494553',
       'https://www.aodhanwheels.com/cdn/shop/products/AFF9_2090_MBZ_03_2efee466-3cb1-4d9e-b2d7-959f57cd23ea.jpg?v=1749494553'
     ]
+  },
+  // ===== MFLOW RACING =====
+  // MFR Series
+  mfr1: {
+    name: 'MFLOW MFR1',
+    series: 'MFR Series — Flow Form',
+    finishes: ['Matte Black', 'Hyper Black', 'Matte Bronze'],
+    sizes: ['18x8.5', '18x9.5', '19x8.5', '19x9.5', '20x8.5', '20x9.5'],
+    boltPatterns: ['5x100', '5x112', '5x114.3', '5x120'],
+    offsets: ['+30', '+35', '+38'],
+    centerBore: '73.1mm',
+    priceRange: '$212 – $274 /wheel',
+    images: [
+      'https://unleashedwheels.com/cdn/shop/files/mflow-racing-mfr1-hyper-black-unleashedwheels.jpg?v=1724878850',
+      'https://unleashedwheels.com/cdn/shop/files/mflow-racing-mfr1-matte-bronze-unleashedwheels.jpg?v=1724879474'
+    ]
+  },
+  mfr2: {
+    name: 'MFLOW MFR2',
+    series: 'MFR Series — Flow Form',
+    finishes: ['Matte Black', 'Matte Bronze'],
+    sizes: ['18x8.5', '18x9.5', '19x8.5', '19x9.5', '20x8.5', '20x9.5'],
+    boltPatterns: ['5x112', '5x114.3', '5x120'],
+    offsets: ['+35', '+38'],
+    centerBore: '73.1mm',
+    priceRange: '$212 – $274 /wheel',
+    images: [
+      'https://unleashedwheels.com/cdn/shop/files/mflow-mfr2-matte-black-unleashedwheels.jpg?v=1724881053',
+      'https://unleashedwheels.com/cdn/shop/files/mflow-mfr2-matte-bronze-unleashedwheels.jpg?v=1724884011'
+    ]
+  },
+  mfr3: {
+    name: 'MFLOW MFR3',
+    series: 'MFR Series — Flow Form',
+    finishes: ['Gloss Black', 'Hyper Silver', 'Matte Bronze'],
+    sizes: ['18x8.5', '18x9.5', '19x8.5', '19x9.5'],
+    boltPatterns: ['5x100', '5x114.3'],
+    offsets: ['+35'],
+    centerBore: '73.1mm',
+    priceRange: '$212 – $237 /wheel',
+    images: [
+      'https://unleashedwheels.com/cdn/shop/files/mflow-mfr3-gloss-black-unleashedwheels.jpg?v=1724886960',
+      'https://unleashedwheels.com/cdn/shop/files/mflow-mfr3-hyper-silver-unleashedwheels.jpg?v=1724884908'
+    ]
+  },
+  mfr4: {
+    name: 'MFLOW MFR4',
+    series: 'MFR Series — Flow Form',
+    finishes: ['Matte Black Machined Lip', 'Matte Bronze Machined Lip'],
+    sizes: ['18x8.5', '19x8.5', '19x9.5', '20x8.5', '20x9.5'],
+    boltPatterns: ['5x100', '5x112', '5x114.3', '5x120'],
+    offsets: ['+35', '+38'],
+    centerBore: '73.1mm',
+    priceRange: '$212 – $274 /wheel',
+    images: [
+      'https://unleashedwheels.com/cdn/shop/files/mflow-racing-mfr4-matte-black-unleashedwheels.jpg?v=1743713898',
+      'https://unleashedwheels.com/cdn/shop/files/mflow-racing-mfr4-matte-bronze-unleashedwheels.jpg?v=1743711412'
+    ]
+  },
+  // MFL Series
+  mfl1: {
+    name: 'MFLOW MFL1',
+    series: 'MFL Series — Flow Forming',
+    finishes: ['PVD Chrome', 'Matte Black Machined Lip', 'Matte Bronze Machined Lip'],
+    sizes: ['18x8.5', '18x9.5', '19x8.5', '19x9.5', '20x8.5', '20x9.5'],
+    boltPatterns: ['5x100', '5x112', '5x114.3', '5x120'],
+    offsets: ['+30', '+35', '+38'],
+    centerBore: '73.1mm',
+    priceRange: '$212 – $324 /wheel',
+    images: [
+      'https://unleashedwheels.com/cdn/shop/files/mflow-mfl1-chrome-unleashedwheels.jpg?v=1725407132',
+      'https://unleashedwheels.com/cdn/shop/files/mflow-mfl1-matte-black-machined-lip.jpg?v=1725060775'
+    ]
+  },
+  mfl2: {
+    name: 'MFLOW MFL2',
+    series: 'MFL Series — Flow Forming',
+    finishes: ['PVD Chrome', 'Matte Black Machined Lip', 'Matte Bronze Machined Lip'],
+    sizes: ['18x8.5', '18x9.5', '19x8.5', '19x9.5', '20x8.5', '20x9.5'],
+    boltPatterns: ['5x100', '5x112', '5x114.3', '5x120'],
+    offsets: ['+30', '+35', '+38'],
+    centerBore: '73.1mm',
+    priceRange: '$212 – $324 /wheel',
+    images: [
+      'https://unleashedwheels.com/cdn/shop/files/mflow-mfl2-chrome-unleashedwheels.jpg?v=1725491264',
+      'https://unleashedwheels.com/cdn/shop/files/mflow-mfl2-matte-bronze-unleashedwheels.jpg?v=1725490367'
+    ]
+  },
+  // MF Series (Offroad)
+  mf01: {
+    name: 'MFLOW MF01',
+    series: 'MF Series — Offroad',
+    finishes: ['Matte Bronze', 'Matte Black'],
+    sizes: ['17x9'],
+    boltPatterns: ['5x127'],
+    offsets: ['-12', '+12'],
+    centerBore: '71.5mm',
+    priceRange: '$199 /wheel',
+    images: [
+      'https://wheelplususa.com/cdn/shop/files/ML1-Matte-Bronze-Wheels-Rims_3ad8bf49-f08a-49bb-9302-06533e4b7df0.jpg?v=1760723096'
+    ]
+  },
+  mf02: {
+    name: 'MFLOW MF02',
+    series: 'MF Series — Offroad',
+    finishes: ['Matte Bronze', 'Matte Black'],
+    sizes: ['17x9'],
+    boltPatterns: ['5x127', '6x135', '6x139.7'],
+    offsets: ['-12', '0', '+12'],
+    centerBore: '106.1mm',
+    priceRange: '$199 /wheel',
+    images: [
+      'https://wheelplususa.com/cdn/shop/files/ML2-Matte-Bronze-Wheels-Rims_fb68a9cd-c705-430c-8528-82482fadc791.jpg?v=1760723100'
+    ]
+  },
+  mf03: {
+    name: 'MFLOW MF03',
+    series: 'MF Series — Offroad',
+    finishes: ['Matte Bronze', 'Matte Black'],
+    sizes: ['17x9'],
+    boltPatterns: ['6x135', '6x139.7'],
+    offsets: ['-12', '0'],
+    centerBore: '106.1mm',
+    priceRange: '$199 /wheel',
+    images: [
+      'https://wheelplususa.com/cdn/shop/files/ML3-Matte-Bronze-Wheels-Rims_cbb74392-f31f-4e29-a763-a3baa6144e46.jpg?v=1760723105'
+    ]
+  },
+  mf04: {
+    name: 'MFLOW MF04',
+    series: 'MF Series — Offroad',
+    finishes: ['Matte Bronze', 'Matte Black'],
+    sizes: ['17x9'],
+    boltPatterns: ['6x127', '6x135', '6x139.7'],
+    offsets: ['-12', '0', '+12'],
+    centerBore: '106.1mm',
+    priceRange: '$199 /wheel',
+    images: [
+      'https://wheelplususa.com/cdn/shop/files/ML4-Matte-Bronze-Wheels-Rims_11ea4bd5-2319-4dac-99cf-e21577708852.jpg?v=1760723110'
+    ]
+  },
+  mf05: {
+    name: 'MFLOW MF05',
+    series: 'MF Series — Offroad',
+    finishes: ['Matte Bronze', 'Matte Black'],
+    sizes: ['17x8.5', '17x9'],
+    boltPatterns: ['5x127', '6x139.7'],
+    offsets: ['-12', '0', '+5', '+12', '+25'],
+    centerBore: '106.1mm',
+    priceRange: '$199 /wheel',
+    images: [
+      'https://wheelplususa.com/cdn/shop/files/ML5-Matte-Bronze-Wheels-Rims_1169e107-97e2-4715-aa91-370bbd559acc.jpg?v=1760723116'
+    ]
+  },
+  mf06: {
+    name: 'MFLOW MF06',
+    series: 'MF Series — Offroad',
+    finishes: ['Matte Bronze', 'Matte Black'],
+    sizes: ['17x8.5', '17x9'],
+    boltPatterns: ['6x139.7'],
+    offsets: ['0', '+5', '+25'],
+    centerBore: '106.1mm',
+    priceRange: '$199 /wheel',
+    images: [
+      'https://wheelplususa.com/cdn/shop/files/ML6-Matte-Bronze-Wheels-Rims_703504bc-3243-4c2f-9474-de40328a625c.jpg?v=1760723123'
+    ]
   }
 };
 
