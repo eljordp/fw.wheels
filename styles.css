@@ -648,6 +648,41 @@ img {
   color: var(--text-muted);
 }
 
+.spec-chip--selectable {
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.spec-chip--selectable:hover {
+  border-color: var(--gold);
+  color: var(--text);
+}
+
+.spec-chip--selectable.spec-chip--active {
+  background: var(--gold);
+  color: #000;
+  border-color: var(--gold);
+  font-weight: 600;
+}
+
+.spec-chip--dual::after {
+  content: '2x';
+  font-size: 0.55rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-left: 4px;
+  vertical-align: super;
+}
+
+#dynamicSpecs .spec-group {
+  animation: fadeUp 0.15s ease-out;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .modal-quote-btn {
   margin-top: auto;
 }
