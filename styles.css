@@ -1090,6 +1090,9 @@ img {
     flex-shrink: 0;
     padding: 8px 18px;
     font-size: 0.72rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
   }
 
   /* Series sub-tabs — horizontal scroll on mobile */
@@ -1111,6 +1114,9 @@ img {
     flex-shrink: 0;
     padding: 6px 14px;
     font-size: 0.68rem;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
   }
 
   /* Brand header */
@@ -1285,6 +1291,35 @@ img {
   }
 }
 
+/* --- Small tablets / large phones (600px) --- */
+@media (max-width: 600px) {
+  .wheel-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .brand-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .brand-price {
+    font-size: 0.95rem;
+  }
+
+  .brand-name {
+    font-size: 1.4rem;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+  }
+}
+
 /* --- Small phones (480px) --- */
 @media (max-width: 480px) {
   .wheel-grid {
@@ -1301,7 +1336,7 @@ img {
   }
 
   .wheel-price {
-    font-size: 0.62rem;
+    font-size: 0.6rem;
   }
 
   .wheel-swatches {
@@ -1322,17 +1357,80 @@ img {
     grid-column: span 1;
   }
 
+  .hero {
+    min-height: 35vh;
+  }
+
+  .hero-subtitle {
+    max-width: 100%;
+    font-size: 0.85rem;
+  }
+
   .hero-actions .btn {
-    padding: 12px 24px;
+    padding: 14px 24px;
     font-size: 0.8rem;
+    min-height: 48px;
   }
 
   .brand-header {
     padding: 12px 4px;
+    margin-bottom: 12px;
+  }
+
+  .brand-name {
+    font-size: 1.2rem;
   }
 
   .section-title {
-    font-size: 1.9rem;
+    font-size: 1.8rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.85rem;
+    margin-bottom: 24px;
+  }
+
+  .series-title {
+    font-size: 0.72rem;
+  }
+
+  .brands, .gallery, .about, .contact {
+    padding: 36px 0;
+  }
+
+  .modal-images {
+    max-height: 200px;
+  }
+
+  .modal-images img {
+    height: 200px;
+  }
+
+  .modal-title {
+    font-size: 1.3rem;
+  }
+
+  .modal-close {
+    width: 44px;
+    height: 44px;
+    font-size: 28px;
+  }
+
+  .footer {
+    padding: 28px 0 20px;
+  }
+
+  .footer-links {
+    gap: 12px;
+    font-size: 0.8rem;
+  }
+
+  .footer-brand p {
+    font-size: 0.8rem;
+  }
+
+  .logo {
+    font-size: 1.5rem;
   }
 }
 
@@ -1341,5 +1439,33 @@ img {
   .hero-tagline {
     font-size: 0.6rem;
     letter-spacing: 2px;
+  }
+
+  .logo {
+    font-size: 1.3rem;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+  }
+
+  .brand-name {
+    font-size: 1.1rem;
+  }
+
+  .container {
+    padding: 0 12px;
+  }
+
+  .wheel-grid {
+    gap: 8px;
+  }
+
+  .wheel-name {
+    font-size: 0.6rem;
+  }
+
+  .modal-info {
+    padding: 16px 12px 20px;
   }
 }
