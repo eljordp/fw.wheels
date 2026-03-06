@@ -573,7 +573,8 @@ const wheelData = {
     priceRange: '$212 – $237 /wheel',
     images: [
       'https://unleashedwheels.com/cdn/shop/files/mflow-mfr3-gloss-black-unleashedwheels.jpg?v=1724886960&width=800',
-      'https://unleashedwheels.com/cdn/shop/files/mflow-mfr3-hyper-silver-unleashedwheels.jpg?v=1724884908&width=800'
+      'https://unleashedwheels.com/cdn/shop/files/mflow-mfr3-hyper-silver-unleashedwheels.jpg?v=1724884908&width=800',
+      'https://unleashedwheels.com/cdn/shop/files/mflow-mfr3-matte-bronze-unleashedwheels.jpg?v=1724886960&width=800'
     ],
     variants: {
       '18x8.5': { finishes: ['Gloss Black', 'Hyper Silver', 'Matte Bronze'], boltPatterns: ['5x100', '5x114.3'], offsets: ['+35'] },
@@ -605,7 +606,8 @@ const wheelData = {
     priceRange: '$212 – $324 /wheel',
     images: [
       'https://unleashedwheels.com/cdn/shop/files/mflow-mfl1-chrome-unleashedwheels.jpg?v=1725407132&width=800',
-      'https://unleashedwheels.com/cdn/shop/files/mflow-mfl1-matte-black-machined-lip.jpg?v=1725060775&width=800'
+      'https://unleashedwheels.com/cdn/shop/files/mflow-mfl1-matte-black-machined-lip.jpg?v=1725060775&width=800',
+      'https://unleashedwheels.com/cdn/shop/files/mflow-mfl1-matte-bronze-unleashedwheels.jpg?v=1725407132&width=800'
     ],
     variants: {
       '18x8.5': { finishes: ['Chrome', 'Matte Black Machined Lip', 'Matte Bronze Machined Lip'], boltPatterns: ['5x100', '5x114.3'], offsets: ['+35'] },
