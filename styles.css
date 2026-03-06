@@ -511,11 +511,18 @@ img {
   height: 22px;
   border-radius: 50%;
   border: 2px solid var(--border);
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, transform 0.15s;
+  cursor: pointer;
 }
 
 .wheel-swatch:hover {
   border-color: var(--text-muted);
+  transform: scale(1.15);
+}
+
+.wheel-swatch.active {
+  border-color: var(--text);
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--text);
 }
 
 .wheel-swatch-more {

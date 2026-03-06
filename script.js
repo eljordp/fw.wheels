@@ -1114,6 +1114,41 @@ function getFinishColor(finish) {
   return '#999';
 }
 
+// Map image URL to likely finish names
+function guessFinishFromUrl(url) {
+  const l = url.toLowerCase();
+  if (l.includes('_smf_') || l.includes('_sml_') || l.includes('silver-machined') || (l.includes('_silver_') && !l.includes('hyper'))) return ['Silver Machined Face', 'Silver Machined Lip', 'Silver'];
+  if (l.includes('_ms_') || l.includes('machined-silver')) return ['Machined Silver'];
+  if (l.includes('_gb_') || l.includes('gloss-black')) return ['Gloss Black', 'Gloss Black Machined Face'];
+  if (l.includes('_brz_') || l.includes('_brzml_')) return ['Bronze', 'Bronze Machined Lip'];
+  if (l.includes('_hb_') || l.includes('_hblk_') || l.includes('hyper-black')) return ['Hyper Black'];
+  if (l.includes('_mg_')) return ['Machined Gold', 'Machined Grey'];
+  if (l.includes('_gmf_')) return ['Gold Machined Face'];
+  if (l.includes('_gsmf_')) return ['Gloss Silver Machined Face'];
+  if (l.includes('matte-bronze') || l.includes('matte_bronze')) return ['Matte Bronze', 'Matte Bronze Machined Lip', 'Matte Bronze Machined Tip'];
+  if (l.includes('matte-black') || l.includes('matte_black') || l.includes('_bk_') || (l.includes('-black-') && !l.includes('hyper') && !l.includes('gloss'))) return ['Matte Black', 'Matte Black Machined Lip', 'Matte Black Machined Tip', 'Black', 'Satin Black'];
+  if (l.includes('hyper-silver')) return ['Hyper Silver'];
+  if (l.includes('-chrome') || l.includes('_chrome')) return ['Chrome', 'PVD Chrome'];
+  if (l.includes('_gm_') || l.includes('gunmetal')) return ['Gunmetal'];
+  if (l.includes('_w_') || l.includes('-white')) return ['White'];
+  if (l.includes('_vgc_') || l.includes('vacuum-gold')) return ['Vacuum Gold Chrome'];
+  if (l.includes('_s_') || l.includes('-silver') || l.includes('_silver')) return ['Silver', 'Satin Silver'];
+  if (l.includes('_mbr_')) return ['Matte Bronze'];
+  if (l.includes('_br_')) return ['Bronze'];
+  return [];
+}
+
+// Build finish→image map for a wheel
+function buildFinishImageMap(wheel) {
+  const map = {};
+  if (!wheel.images) return map;
+  wheel.images.forEach(url => {
+    const matched = guessFinishFromUrl(url);
+    matched.forEach(f => { if (!map[f]) map[f] = url; });
+  });
+  return map;
+}
+
 document.querySelectorAll('.wheel-card').forEach(card => {
   const id = card.dataset.wheel;
   const wheel = wheelData[id];
@@ -1138,13 +1173,32 @@ document.querySelectorAll('.wheel-card').forEach(card => {
     wheel.finishes.forEach(f => finishes.add(f));
   }
 
+  const finishImgMap = buildFinishImageMap(wheel);
+  const cardImg = card.querySelector('.wheel-img-wrap img');
+  const originalSrc = cardImg ? cardImg.src : '';
+
   const arr = [...finishes];
-  const maxShow = 3;
-  arr.slice(0, maxShow).forEach(f => {
+  const maxShow = 4;
+  arr.slice(0, maxShow).forEach((f, i) => {
     const dot = document.createElement('span');
     dot.className = 'wheel-swatch';
     dot.style.background = getFinishColor(f);
     dot.title = f;
+
+    // Make clickable
+    dot.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // Highlight active swatch
+      swatchEl.querySelectorAll('.wheel-swatch').forEach(s => s.classList.remove('active'));
+      dot.classList.add('active');
+      // Swap image if we have one for this finish
+      if (cardImg && finishImgMap[f]) {
+        cardImg.src = finishImgMap[f].replace('width=800', 'width=400');
+      } else if (cardImg) {
+        cardImg.src = originalSrc;
+      }
+    });
+
     swatchEl.appendChild(dot);
   });
   if (arr.length > maxShow) {
