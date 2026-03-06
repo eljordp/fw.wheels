@@ -1072,6 +1072,89 @@ quoteForm.addEventListener('submit', (e) => {
   }, 3000);
 });
 
+// ===== CARD PRICES & SWATCHES =====
+const finishColors = {
+  'Silver Machined Face': '#c0c0c0',
+  'Machined Silver': '#b8b8b8',
+  'Silver Machined Lip': '#c8c8c8',
+  'Gloss Black': '#1a1a1a',
+  'Matte Black': '#2d2d2d',
+  'Hyper Black': '#4a4a4a',
+  'Bronze': '#8b6914',
+  'Matte Bronze': '#7a5c12',
+  'Bronze Machined Lip': '#8b6914',
+  'Matte Bronze Machined Lip': '#7a5c12',
+  'Chrome': '#e0e0e0',
+  'PVD Chrome': '#dcdcdc',
+  'Gunmetal': '#6b6b6b',
+  'Gold Machined Face': '#c9952c',
+  'Vacuum Gold Chrome': '#c9952c',
+  'Matte Black Machined Lip': '#2d2d2d',
+  'Silver': '#c0c0c0',
+  'Hyper Silver': '#b0b0b0',
+  'Satin Silver': '#aaa',
+  'Machined Gold': '#c9952c',
+  'White': '#f0f0f0',
+  'Matte Bronze Machined Tip': '#7a5c12',
+  'Matte Black Machined Tip': '#2d2d2d',
+  'Matte Black Machine Lip': '#2d2d2d',
+  'Gloss Black Machined Face': '#1a1a1a',
+  'Satin Black': '#333',
+};
+
+function getFinishColor(finish) {
+  if (finishColors[finish]) return finishColors[finish];
+  const lower = finish.toLowerCase();
+  if (lower.includes('silver') || lower.includes('machined') || lower.includes('chrome')) return '#c0c0c0';
+  if (lower.includes('black')) return '#2d2d2d';
+  if (lower.includes('bronze')) return '#8b6914';
+  if (lower.includes('gold')) return '#c9952c';
+  if (lower.includes('gunmetal') || lower.includes('gun metal')) return '#6b6b6b';
+  if (lower.includes('white')) return '#f0f0f0';
+  return '#999';
+}
+
+document.querySelectorAll('.wheel-card').forEach(card => {
+  const id = card.dataset.wheel;
+  const wheel = wheelData[id];
+  if (!wheel) return;
+
+  // Price
+  const priceEl = card.querySelector('.wheel-price');
+  if (priceEl && wheel.priceRange) {
+    const m = wheel.priceRange.match(/\$[\d,]+/);
+    priceEl.textContent = m ? 'From ' + m[0] : wheel.priceRange;
+  }
+
+  // Swatches
+  const swatchEl = card.querySelector('.wheel-swatches');
+  if (!swatchEl) return;
+  const finishes = new Set();
+  if (wheel.variants) {
+    Object.values(wheel.variants).forEach(v => {
+      if (v.finishes) v.finishes.forEach(f => finishes.add(f));
+    });
+  } else if (wheel.finishes) {
+    wheel.finishes.forEach(f => finishes.add(f));
+  }
+
+  const arr = [...finishes];
+  const maxShow = 3;
+  arr.slice(0, maxShow).forEach(f => {
+    const dot = document.createElement('span');
+    dot.className = 'wheel-swatch';
+    dot.style.background = getFinishColor(f);
+    dot.title = f;
+    swatchEl.appendChild(dot);
+  });
+  if (arr.length > maxShow) {
+    const more = document.createElement('span');
+    more.className = 'wheel-swatch-more';
+    more.textContent = '+' + (arr.length - maxShow);
+    swatchEl.appendChild(more);
+  }
+});
+
 // ===== SCROLL ANIMATIONS =====
 const observerOptions = {
   threshold: 0.1,
