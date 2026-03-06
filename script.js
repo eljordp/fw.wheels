@@ -1120,38 +1120,262 @@ function getFinishColor(finish) {
   return '#999';
 }
 
+// Static finish→image map per model (from Shopify API scrape)
+const finishImages = {
+  // AH Series
+  ah02: {
+    'Gloss Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH02_1885_GB_01.jpg?width=800',
+    'Hyper Black w/ Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH02_1885_HB_01.jpg?width=800',
+    'Silver w/ Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH02_1885_SML_01.jpg?width=800'
+  },
+  ah03: {
+    'Gloss Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH03_1895_GB_01_64ca1671-71d7-446e-b1f1-8b8a097421e2.jpg?width=800',
+    'Silver Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH03_1895_SMF_01_a9be5c1a-f60b-4ffe-94fe-848c3f2429d4.jpg?width=800'
+  },
+  ah05: {
+    'Gloss Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH05_1885_GB_01_a855e277-7da3-438e-8cd3-3a7f8ca4dfd7.jpg?width=800',
+    'Silver Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH05_1885_SMF_01.jpg?width=800'
+  },
+  ah06: {
+    'Textured Bronze': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH06_1890_BRZ_01_e5e62626-4a73-4759-afe0-b0e77bb4ac07.jpg?width=800',
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH06_1890_GB_01.jpg?width=800',
+    'Matte Gray': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH06_1890_MG_01.jpg?width=800'
+  },
+  ah07: {
+    'Textured Bronze': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH07_1885_BRZ_01_4879e738-46cc-437f-96f6-e30943f06adb.jpg?width=800',
+    'Gloss Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH07_1885_GB_01_059ed767-38ba-4802-ad2a-7eb0c87d4774.jpg?width=800',
+    'Hyper Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH07_1885_HB_01_9e5fa8cc-9743-46a9-a3c0-f7021e1df3a8.jpg?width=800',
+    'Gloss White': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH07_1885_WHT_01_95faee32-55cd-411d-8411-c2ea2ba1c02f.jpg?width=800'
+  },
+  ah08: {
+    'Textured Bronze': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH08_1885_BRZ_01.jpg?width=800',
+    'Gloss Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH08_1885_GB_01.jpg?width=800',
+    'Hyper Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH08_1885_HB_01.jpg?width=800',
+    'Gloss White': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH08_1885_WHT_01.jpg?width=800'
+  },
+  ah09: {
+    'Silver Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH09_1885_MS_D_01.jpg?width=800',
+    'Hyper Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH09_1885_HB_D_01.jpg?width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH09_1885_BRZ_D_01.jpg?width=800'
+  },
+  ahx: {
+    'Hyper Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AHX_1885_HBLK_01.jpg?width=800',
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AHX_1885_MB_01.jpg?width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AHX_1885_MBZ_01.jpg?width=800',
+    'Silver Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AHX_1885_MS_01.jpg?width=800'
+  },
+  ah11: {
+    'Silver Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH11_1885_MS_01.jpg?width=800',
+    'Hyper Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH11_1885_HBLK_01.jpg?width=800',
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH11_1885_MB_01.jpg?width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH11_1895_MBZ_01.jpg?width=800'
+  },
+  // DS Series
+  ds01: {
+    'Bronze w/Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS01_1885_BRONZE_03_52b41525-7011-44e1-8919-62f099957031.jpg?width=800',
+    'Gloss Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS01_1885_GB_01_ed615246-dbd4-48bb-872d-a5e5de8997b8.jpg?width=800',
+    'Silver w/Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS01_18105_SML_01_f90c839c-4c87-4001-ab75-c4ecb1ec3445.jpg?width=800'
+  },
+  ds02: {
+    'Bronze w/Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS02_1885_BRZ_03_bae8b50d-0182-4be2-813e-493b07e46567.jpg?width=800',
+    'Silver w/Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS02_1885_SMF_03.jpg?width=800',
+    'Hyper Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS02_18105_SMF_03.jpg?width=800'
+  },
+  ds05: {
+    'Bronze w/Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS05_BRZ_1885_03.jpg?width=800',
+    'Gloss Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS05_1885_GB_03_ca49bed6-bd5f-4255-b6af-5615052c480d.jpg?width=800',
+    'Silver w/Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS05_18105_SMF_03_c437ea07-45c2-4142-9724-46d04ccb75c6.jpg?width=800'
+  },
+  ds06: {
+    'Bronze w/Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS06_1885_BRONZE_01_e3844a1a-8486-4f93-80ba-5b33c98343ad.jpg?width=800',
+    'Gloss Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS06_1885_GB_03_832affc0-0e8d-428b-8cec-6b468e1ea0c8.jpg?width=800',
+    'Silver w/Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS06_1895_SMF_03_ff12ed63-e6c7-4cbc-88ad-574207d444d9.jpg?width=800'
+  },
+  ds07: {
+    'Gloss Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS07_1885_GB_03.jpg?width=800',
+    'Silver w/Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS07_1895_SMF_03.jpg?width=800'
+  },
+  ds08: {
+    'Bronze w/Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS08_1885_BZ_03.jpg?width=800',
+    'Gloss Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS08_1885_MS_03.jpg?width=800',
+    'Silver w/Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS08_1895_MS_03.jpg?width=800'
+  },
+  ds09: {
+    'Bronze w/Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS09_1885_BZML_03_0d6eac8f-3909-498f-8d30-fed270016d8a.jpg?width=800',
+    'Silver w/Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS09_1885_SMF_01_c1d7efa9-e364-41ad-a9b4-4f4b1390c558.jpg?width=800',
+    'Gloss Black W /Gold Rivets': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS09_1895_GB_01_9e5cf815-37d9-4033-9eeb-11ad9e45fd1b.jpg?width=800',
+    'Candy Red w/ (Chrome Rivets)': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS09_1985_CR_01_83d7cdcd-d4c2-4be8-8999-eff1c4482c0a.jpg?width=800'
+  },
+  dsx: {
+    'Bronze w/Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DSX_1885_BZML_03.jpg?width=800',
+    'Silver w/Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DSX_1885_SMF_03.jpg?width=800'
+  },
+  // AFF Series
+  aff1: {
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF1_2090_MB_03_e46a0924-dbb8-4456-a6a5-b44a706063d8.jpg?width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF1_2090_MBRZ_03_7574050d-541f-4e91-8398-7c77c4f8a342.jpg?width=800',
+    'Silver Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF1_20105_SMF_03_dce2b951-ff5e-4171-9323-44c3b64e9a72.jpg?width=800'
+  },
+  aff9: {
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF9_2090_MB_03_f7785824-4973-49ac-856b-12205908e088.jpg?width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF9_2090_MBZ_03_2efee466-3cb1-4d9e-b2d7-959f57cd23ea.jpg?width=800',
+    'Gloss Silver Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF9_20105_SMF_01_d2b00b4d-163a-46bf-9a86-cfcd731f9606.jpg?width=800'
+  },
+  // Mflow Road Series
+  mfr1: {
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-racing-mfr1-matte-bronze-unleashedwheels.jpg?width=800',
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-racing-mfr1-matte-black-unleashedwheels.jpg?width=800',
+    'Hyper Black': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-racing-mfr1-hyper-black-unleashedwheels.jpg?width=800'
+  },
+  mfr2: {
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-mfr2-matte-bronze-unleashedwheels.jpg?width=800',
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-mfr2-matte-black-unleashedwheels.jpg?width=800'
+  },
+  mfr3: {
+    'Gloss Black': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-mfr3-gloss-black-unleashedwheels.jpg?width=800',
+    'Hyper Silver': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-mfr3-hyper-silver-unleashedwheels.jpg?width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-mfr3-matte-bronze-unleashedwheels.jpg?width=800'
+  },
+  mfr4: {
+    'Matte Black Machine Lip': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-racing-mfr4-matte-black-unleashedwheels.jpg?width=800',
+    'Matte Bronze Machined Lip': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-racing-mfr4-matte-bronze-unleashedwheels.jpg?width=800'
+  },
+  // Mflow Luxury Series
+  mfl1: {
+    'Matte Black Machined Lip': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-mfl1-matte-black-machined-lip.jpg?width=800',
+    'Matte Bronze Machined Lip': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-mfl1-matte-bronze-unleashedwheels.jpg?width=800',
+    'Chrome': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-mfl1-chrome-unleashedwheels.jpg?width=800'
+  },
+  mfl2: {
+    'Matte Black Machined Lip': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow_mfl2-matte-black-unleashedwheels.jpg?width=800',
+    'Matte Bronze Machined Lip': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-mfl2-matte-bronze-unleashedwheels.jpg?width=800',
+    'Chrome': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-mfl2-chrome-unleashedwheels.jpg?width=800'
+  },
+  // Mflow Offroad Series
+  mf01: {
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF01_20MATT_20BLACK.jpg?width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF01_20MATT_20BRONZE.jpg?width=800'
+  },
+  mf02: {
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF02_205H_20MATT_20BLACK.jpg?width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF02_20MATTBRONZE.jpg?width=800'
+  },
+  mf03: {
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF03_20MATTBLACK.jpg?width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF03_20MATTBRONZE.jpg?width=800'
+  },
+  mf04: {
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF04_205H_20matt_20black.jpg?width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF04_205H_20matt_20bronze.jpg?width=800'
+  },
+  mf05: {
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF05_20MATTBLACK.jpg?width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF05_20MATTBRONZE.jpg?width=800'
+  },
+  mf06: {
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF06_20MATT_20BLACK.jpg?width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF06_20MATT_20BRONZE.jpg?width=800'
+  },
+  // Vors
+  'vors-tr4': {
+    'Hyper Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_18X85_HB.jpg?width=800',
+    'Silver Machined': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_17X8_SILVER.jpg?width=800',
+    'Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_19X85_BK_1.jpg?width=800'
+  },
+  'vors-tr10': {
+    'Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR10_18X85_BK_1.jpg?width=800',
+    'White': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR10_18X85_W_1.jpg?width=800'
+  },
+  'vors-tr37': {
+    'Hyper Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_18X85_HB.jpg?width=800',
+    'Bronze': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_17X8_BR_1.jpg?width=800',
+    'White': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_17X9_W_1.jpg?width=800'
+  },
+  'vors-tr88': {
+    'Bronze': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR88_18X95_MBR_1.jpg?width=800',
+    'Silver Machined': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR88_19X95_S_1.jpg?width=800',
+    'Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR88_20X9_BK_1.jpg?width=800'
+  },
+  'vors-vr8': {
+    'Hyper Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/VR8_18X9_HB_CR_MAIN.jpg?width=800',
+    'Silver': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/VR8_19X95_S_1.jpg?width=800',
+    'Gloss Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/VR8_20X85_GB_1_5ae9b9d4-fd34-4dde-97bc-008bfe2aa565.jpg?width=800'
+  },
+  'vors-ar5': {
+    'Silver Machined': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR05_18X85_SILVER_STD.jpg?width=800',
+    'Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR5_17X8_BK_1.jpg?width=800'
+  },
+  'vors-sp1': {
+    'Hyper Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/SP1_18X8_HB.jpg?width=800',
+    'Silver Machined': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/SP1_18X9_SILVER_2KPX.jpg?width=800',
+    'White': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/SP1_16X8_WHITE_1.jpg?width=800'
+  },
+  'vors-lt53': {
+    'Gun Metal': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/LT53_18X9_GM_1.jpg?width=800',
+    'Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/LT53_18X9_BK_1.jpg?width=800'
+  },
+  'vors-uo2': {
+    'Hyper Silver': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/UO2_18X85_S_1.jpg?width=800'
+  }
+};
+
 // Map image URL to likely finish names
 function guessFinishFromUrl(url) {
   const l = url.toLowerCase();
-  if (l.includes('_smf_') || l.includes('_sml_') || l.includes('silver-machined') || (l.includes('_silver_') && !l.includes('hyper'))) return ['Silver Machined Face', 'Silver Machined Lip', 'Silver', 'Silver Machined'];
-  if (l.includes('_ms_') || l.includes('machined-silver')) return ['Machined Silver'];
-  if (l.includes('_gb_') || l.includes('gloss-black')) return ['Gloss Black', 'Gloss Black Machined Face', 'Black'];
-  if (l.includes('_brz_') || l.includes('_brzml_')) return ['Bronze', 'Bronze Machined Lip', 'Textured Bronze'];
-  if (l.includes('_hb_') || l.includes('_hblk_') || l.includes('hyper-black')) return ['Hyper Black'];
-  if (l.includes('_mg_')) return ['Machined Gold', 'Machined Grey'];
+  if (l.includes('_smf_') || l.includes('silver-machined') || (l.includes('_silver_') && !l.includes('hyper'))) return ['Silver Machined Face', 'Silver Machined Lip', 'Silver', 'Silver Machined'];
+  if (l.includes('_sml_')) return ['Silver w/ Machined Lip', 'Silver Machined Lip', 'Silver w/Machined Lip'];
+  if (l.includes('_ms_') || l.includes('machined-silver') || l.includes('machined_20silver')) return ['Machined Silver', 'Silver Machined Face', 'Silver Machined'];
+  if (l.includes('_gb_') || l.includes('gloss-black') || l.includes('gloss_20black')) return ['Gloss Black', 'Gloss Black Machined Face', 'Black'];
+  if (l.includes('_brz_') || l.includes('_brzml_')) return ['Bronze', 'Bronze Machined Lip', 'Textured Bronze', 'Bronze w/Machined Lip'];
+  if (l.includes('_hblk_')) return ['Hyper Black'];
+  if (l.includes('_hb_') || l.includes('hyper-black') || l.includes('hyper_20black')) return ['Hyper Black'];
+  if (l.includes('_wht_')) return ['Gloss White', 'White'];
+  if (l.includes('_mb_') && !l.includes('_mbz_') && !l.includes('_mbr_')) return ['Matte Black', 'Matte Black Machined Lip'];
+  if (l.includes('_mbz_') || l.includes('_mbrz_')) return ['Matte Bronze', 'Matte Bronze Machined Lip', 'Matte Bronze Machined Tip'];
+  if (l.includes('_mg_') || l.includes('matte-gunmetal')) return ['Matte Gray', 'Matte Gunmetal'];
   if (l.includes('_gmf_')) return ['Gold Machined Face'];
   if (l.includes('_gsmf_')) return ['Gloss Silver Machined Face'];
-  if (l.includes('matte-bronze') || l.includes('matte_bronze')) return ['Matte Bronze', 'Matte Bronze Machined Lip', 'Matte Bronze Machined Tip'];
-  if (l.includes('matte-black') || l.includes('matte_black') || l.includes('_bk_') || (l.includes('-black-') && !l.includes('hyper') && !l.includes('gloss'))) return ['Matte Black', 'Matte Black Machined Lip', 'Matte Black Machined Tip', 'Black', 'Satin Black'];
-  if (l.includes('hyper-silver')) return ['Hyper Silver'];
-  if (l.includes('-chrome') || l.includes('_chrome')) return ['Chrome', 'PVD Chrome'];
-  if (l.includes('_gm_') || l.includes('gunmetal')) return ['Gunmetal'];
-  if (l.includes('_w_') || l.includes('-white') || l.includes('_white')) return ['White', 'Gloss White'];
-  if (l.includes('_vgc_') || l.includes('vacuum-gold')) return ['Vacuum Gold Chrome'];
+  if (l.includes('matte-bronze') || l.includes('matte_bronze') || l.includes('matt_20bronze') || l.includes('matt_bronze') || l.includes('mattbronze')) return ['Matte Bronze', 'Matte Bronze Machined Lip', 'Matte Bronze Machined Tip'];
+  if (l.includes('matte-black') || l.includes('matte_black') || l.includes('matt_20black') || l.includes('matt_black') || l.includes('mattblack')) return ['Matte Black', 'Matte Black Machined Lip', 'Matte Black Machine Lip', 'Black', 'Satin Black'];
+  if (l.includes('_bk_') || (l.includes('-black-') && !l.includes('hyper') && !l.includes('gloss') && !l.includes('matte') && !l.includes('matt'))) return ['Black', 'Matte Black', 'Satin Black'];
+  if (l.includes('hyper-silver') || l.includes('hyper_20silver')) return ['Hyper Silver'];
+  if (l.includes('-chrome') || l.includes('_chrome') || l.includes('chromepvd') || l.includes('chrome-pvd')) return ['Chrome', 'PVD Chrome'];
+  if (l.includes('_gm_') || l.includes('gunmetal')) return ['Gunmetal', 'Gun Metal'];
+  if (l.includes('_w_') || l.includes('_white')) return ['White', 'Gloss White'];
+  if (l.includes('-white')) return ['White', 'Gloss White'];
+  if (l.includes('_vgc_') || l.includes('vacuum-gold') || l.includes('_vg_')) return ['Vacuum Gold Chrome', 'Gold Vacuum (PVD)', 'Vacuum Chrome (PVD)'];
+  if (l.includes('_bz_') || l.includes('_bzml_') || l.includes('_bronze_') || l.includes('bronze')) return ['Bronze', 'Bronze w/Machined Lip', 'Bronze Machined Lip'];
+  if (l.includes('_cr_') && !l.includes('chrome')) return ['Candy Red w/ (Chrome Rivets)'];
   if (l.includes('_s_') || l.includes('-silver') || l.includes('_silver')) return ['Silver', 'Satin Silver', 'Silver Machined'];
-  if (l.includes('_mbr_')) return ['Matte Bronze'];
+  if (l.includes('_mbr_')) return ['Matte Bronze', 'Bronze'];
   if (l.includes('_br_')) return ['Bronze'];
+  if (l.includes('_sf_')) return ['Satin Silver', 'Silver'];
   return [];
 }
 
-// Build finish→image map for a wheel
-function buildFinishImageMap(wheel) {
+// Build finish→image map for a wheel (3-layer: static map → images array → variant images)
+function buildFinishImageMap(wheel, id) {
   const map = {};
-  if (!wheel.images) return map;
-  wheel.images.forEach(url => {
-    const matched = guessFinishFromUrl(url);
-    matched.forEach(f => { if (!map[f]) map[f] = url; });
-  });
+  // 1. Static overrides (highest priority, guaranteed correct)
+  if (finishImages[id]) {
+    Object.assign(map, finishImages[id]);
+  }
+  // 2. From images array via URL guessing
+  if (wheel.images) {
+    wheel.images.forEach(url => {
+      const matched = guessFinishFromUrl(url);
+      matched.forEach(f => { if (!map[f]) map[f] = url; });
+    });
+  }
+  // 3. From variant images via URL guessing
+  if (wheel.variants) {
+    Object.values(wheel.variants).forEach(v => {
+      if (v.image) {
+        const matched = guessFinishFromUrl(v.image);
+        matched.forEach(f => { if (!map[f]) map[f] = v.image; });
+      }
+    });
+  }
   return map;
 }
 
@@ -1179,7 +1403,7 @@ document.querySelectorAll('.wheel-card').forEach(card => {
     wheel.finishes.forEach(f => finishes.add(f));
   }
 
-  const finishImgMap = buildFinishImageMap(wheel);
+  const finishImgMap = buildFinishImageMap(wheel, id);
   const cardImg = card.querySelector('.wheel-img-wrap img');
   const originalSrc = cardImg ? cardImg.src : '';
 
