@@ -719,8 +719,8 @@ const wheelData = {
     centerBore: '73.1mm',
     priceRange: '$195 – $295 /wheel',
     images: [
-      'https://www.vorswheels.com/cdn/shop/files/TR4_18X95_HB_1.jpg?width=800',
-      'https://www.vorswheels.com/cdn/shop/files/TR4_18X95_BK_1.jpg?width=800'
+      'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_18X85_HB.jpg?width=800',
+      'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_17X8_SILVER.jpg?width=800'
     ],
     variants: {
       '17x8': { finishes: ['Black', 'Bronze', 'Hyper Black', 'Silver Machined', 'White'], boltPatterns: ['4x100/114.3', '5x100', '5x114.3'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_17X8_SILVER.jpg?width=800'},
@@ -759,8 +759,8 @@ const wheelData = {
     centerBore: '73.1mm',
     priceRange: '$195 – $250 /wheel',
     images: [
-      'https://www.vorswheels.com/cdn/shop/files/TR14_18X85_BK_1.jpg?width=800',
-      'https://www.vorswheels.com/cdn/shop/files/TR14_18X85_S_1.jpg?width=800'
+      'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR14_18X8_S_1.jpg?width=800',
+      'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR14_18X9_S_1.jpg?width=800'
     ],
     variants: {
       '18x8': { finishes: ['Black', 'Silver'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR14_18X8_S_1.jpg?width=800'},
@@ -774,8 +774,8 @@ const wheelData = {
     centerBore: '73.1mm',
     priceRange: '$165 – $275 /wheel',
     images: [
-      'https://www.vorswheels.com/cdn/shop/files/TR37_18X95_WHITE.jpg?width=800',
-      'https://www.vorswheels.com/cdn/shop/files/TR37_19X85_BLACK.jpg?width=800'
+      'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_18X85_HB.jpg?width=800',
+      'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_17X8_BR_1.jpg?width=800'
     ],
     variants: {
       '17x8': { finishes: ['Black', 'Bronze', 'Hyper Black', 'Silver Machined', 'White'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_17X8_BR_1.jpg?width=800'},
@@ -900,8 +900,7 @@ const wheelData = {
     centerBore: '73.1mm',
     priceRange: '$230 – $248 /wheel',
     images: [
-      'https://www.vorswheels.com/cdn/shop/files/UO2_19X85_BK_1.jpg?width=800',
-      'https://www.vorswheels.com/cdn/shop/files/UO2_19X85_HS_1.jpg?width=800'
+      'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/UO2_18X85_S_1.jpg?width=800'
     ],
     variants: {
       '19x8.5': { finishes: ['Black', 'Hyper Silver'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+35'] },
