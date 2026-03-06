@@ -1101,6 +1101,11 @@ const finishColors = {
   'Matte Black Machine Lip': '#2d2d2d',
   'Gloss Black Machined Face': '#1a1a1a',
   'Satin Black': '#333',
+  'Textured Bronze': '#8b6914',
+  'Gloss White': '#f5f5f5',
+  'Silver Machined': '#c0c0c0',
+  'Gun Metal': '#6b6b6b',
+  'Black': '#1a1a1a',
 };
 
 function getFinishColor(finish) {
@@ -1118,10 +1123,10 @@ function getFinishColor(finish) {
 // Map image URL to likely finish names
 function guessFinishFromUrl(url) {
   const l = url.toLowerCase();
-  if (l.includes('_smf_') || l.includes('_sml_') || l.includes('silver-machined') || (l.includes('_silver_') && !l.includes('hyper'))) return ['Silver Machined Face', 'Silver Machined Lip', 'Silver'];
+  if (l.includes('_smf_') || l.includes('_sml_') || l.includes('silver-machined') || (l.includes('_silver_') && !l.includes('hyper'))) return ['Silver Machined Face', 'Silver Machined Lip', 'Silver', 'Silver Machined'];
   if (l.includes('_ms_') || l.includes('machined-silver')) return ['Machined Silver'];
-  if (l.includes('_gb_') || l.includes('gloss-black')) return ['Gloss Black', 'Gloss Black Machined Face'];
-  if (l.includes('_brz_') || l.includes('_brzml_')) return ['Bronze', 'Bronze Machined Lip'];
+  if (l.includes('_gb_') || l.includes('gloss-black')) return ['Gloss Black', 'Gloss Black Machined Face', 'Black'];
+  if (l.includes('_brz_') || l.includes('_brzml_')) return ['Bronze', 'Bronze Machined Lip', 'Textured Bronze'];
   if (l.includes('_hb_') || l.includes('_hblk_') || l.includes('hyper-black')) return ['Hyper Black'];
   if (l.includes('_mg_')) return ['Machined Gold', 'Machined Grey'];
   if (l.includes('_gmf_')) return ['Gold Machined Face'];
@@ -1131,9 +1136,9 @@ function guessFinishFromUrl(url) {
   if (l.includes('hyper-silver')) return ['Hyper Silver'];
   if (l.includes('-chrome') || l.includes('_chrome')) return ['Chrome', 'PVD Chrome'];
   if (l.includes('_gm_') || l.includes('gunmetal')) return ['Gunmetal'];
-  if (l.includes('_w_') || l.includes('-white')) return ['White'];
+  if (l.includes('_w_') || l.includes('-white') || l.includes('_white')) return ['White', 'Gloss White'];
   if (l.includes('_vgc_') || l.includes('vacuum-gold')) return ['Vacuum Gold Chrome'];
-  if (l.includes('_s_') || l.includes('-silver') || l.includes('_silver')) return ['Silver', 'Satin Silver'];
+  if (l.includes('_s_') || l.includes('-silver') || l.includes('_silver')) return ['Silver', 'Satin Silver', 'Silver Machined'];
   if (l.includes('_mbr_')) return ['Matte Bronze'];
   if (l.includes('_br_')) return ['Bronze'];
   return [];
