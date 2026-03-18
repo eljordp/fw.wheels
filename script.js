@@ -1,3 +1,6 @@
+// ===== CONFIG =====
+const SET_OF_4_DISCOUNT = 0.05; // 5% off a full set of 4 wheels
+
 // ===== NAVBAR SCROLL EFFECT =====
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
@@ -1002,7 +1005,18 @@ function openWheelModal(wheelId) {
     </div>
     <div class="spec-group">
       <div class="spec-label">Price</div>
-      <div class="spec-value" style="color: var(--gold); font-weight: 600;">${wheel.priceRange} <span class="free-ship-badge">Free Shipping</span></div>
+      <div class="spec-value" style="color: var(--gold); font-weight: 600;">
+        ${wheel.priceRange} <span class="free-ship-badge">Free Shipping</span>
+        ${(() => {
+          const m = wheel.priceRange.match(/\$(\d[\d,]*)/);
+          const perWheel = m ? parseInt(m[1].replace(',','')) : null;
+          if (!perWheel) return '';
+          const setFull = perWheel * 4;
+          const setDisc = Math.round(setFull * (1 - SET_OF_4_DISCOUNT));
+          const save = setFull - setDisc;
+          return `<div class="set-price">Set of 4: <strong>$${setDisc.toLocaleString()}</strong> <span class="set-save">save $${save}</span></div>`;
+        })()}
+      </div>
     </div>
     <div class="spec-group">
       <div class="spec-label">Select Size</div>
@@ -1056,27 +1070,57 @@ function openWheelModal(wheelId) {
 function updateModalVariant(wheelId, size) {
   const wheel = wheelData[wheelId];
   const variant = getVariantData(wheel, size);
+  const finishImgMap = buildFinishImageMap(wheel, wheelId);
 
   const dynamicSpecs = document.getElementById('dynamicSpecs');
   dynamicSpecs.innerHTML = `
     <div class="spec-group">
-      <div class="spec-label">Available Finishes</div>
-      <div class="spec-chips">${variant.finishes.map(f => `<span class="spec-chip">${f}</span>`).join('')}</div>
+      <div class="spec-label">Finish</div>
+      <div class="spec-chips" id="finishChips">
+        ${variant.finishes.map((f, i) =>
+          `<span class="spec-chip spec-chip--selectable${i === 0 ? ' spec-chip--active' : ''}" data-finish="${f}">${f}</span>`
+        ).join('')}
+      </div>
     </div>
     <div class="spec-group">
-      <div class="spec-label">Bolt Patterns</div>
-      <div class="spec-chips">${variant.boltPatterns.map(b => {
-        const dual = b.includes('/');
-        return `<span class="spec-chip${dual ? ' spec-chip--dual' : ''}">${b}</span>`;
-      }).join('')}</div>
+      <div class="spec-label">Bolt Pattern</div>
+      <div class="spec-chips" id="boltChips">
+        ${variant.boltPatterns.map((b, i) => {
+          const dual = b.includes('/');
+          return `<span class="spec-chip spec-chip--selectable${i === 0 ? ' spec-chip--active' : ''}${dual ? ' spec-chip--dual' : ''}" data-bolt="${b}">${b}</span>`;
+        }).join('')}
+      </div>
     </div>
     <div class="spec-group">
-      <div class="spec-label">Offsets</div>
-      <div class="spec-chips">${variant.offsets.map(o => `<span class="spec-chip">${o}</span>`).join('')}</div>
+      <div class="spec-label">Offset</div>
+      <div class="spec-chips">
+        ${variant.offsets.map(o => `<span class="spec-chip">${o}</span>`).join('')}
+      </div>
     </div>
   `;
 
-  // Update image
+  // Finish chip click → swap modal image
+  dynamicSpecs.querySelectorAll('#finishChips .spec-chip--selectable').forEach(chip => {
+    chip.addEventListener('click', () => {
+      dynamicSpecs.querySelectorAll('#finishChips .spec-chip--selectable').forEach(c => c.classList.remove('spec-chip--active'));
+      chip.classList.add('spec-chip--active');
+      const finish = chip.dataset.finish;
+      if (finishImgMap[finish]) {
+        modalImages.innerHTML = `<img decoding="async" src="${finishImgMap[finish]}" alt="${wheel.name} - ${finish}" loading="lazy">`;
+      }
+    });
+  });
+
+  // Bolt pattern chip click → mark selected (for quote context)
+  dynamicSpecs.querySelectorAll('#boltChips .spec-chip--selectable').forEach(chip => {
+    chip.addEventListener('click', () => {
+      dynamicSpecs.querySelectorAll('#boltChips .spec-chip--selectable').forEach(c => c.classList.remove('spec-chip--active'));
+      chip.classList.add('spec-chip--active');
+      modalQuoteBtn.dataset.bolt = chip.dataset.bolt;
+    });
+  });
+
+  // Update image for selected size
   if (variant.image) {
     modalImages.innerHTML = `<img decoding="async" src="${variant.image}" alt="${wheel.name} ${size}" loading="lazy">`;
   } else if (wheel.images) {

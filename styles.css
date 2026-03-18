@@ -382,6 +382,32 @@ img {
 }
 
 /* ===== FREE SHIPPING BADGE ===== */
+.set-price {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.set-price strong {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.set-save {
+  display: inline-block;
+  background: #16a34a;
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 100px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
 .free-ship-badge {
   display: inline-block;
   background: #16a34a;
