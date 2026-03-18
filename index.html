@@ -23,7 +23,19 @@
       </button>
       <ul class="nav-links" id="navLinks">
         <li><a href="#home">Home</a></li>
-        <li><a href="#brands">Brands</a></li>
+        <li class="nav-has-sub" id="navBrandsItem">
+          <div class="nav-brand-row">
+            <a href="#brands" class="nav-brands-link">Brands</a>
+            <button class="nav-sub-toggle" id="navSubToggle" aria-label="Open brand menu">
+              <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+          <ul class="nav-sub-menu" id="navSubMenu">
+            <li><a href="#brands" data-brand-filter="aodhan" class="nav-sub-link">Aodhan</a></li>
+            <li><a href="#brands" data-brand-filter="mflow" class="nav-sub-link">MFlow Racing</a></li>
+            <li><a href="#brands" data-brand-filter="vors" class="nav-sub-link">Vors</a></li>
+          </ul>
+        </li>
         <li><a href="#gallery">Gallery</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>
@@ -79,6 +91,13 @@
 
       <!-- Series Sub-Tabs (populated by JS) -->
       <div class="series-tabs" id="seriesTabs"></div>
+
+      <!-- Model Jump Dropdown (populated by JS when brand selected) -->
+      <div class="model-jump-wrap" id="modelJumpWrap">
+        <select id="modelJumpSelect">
+          <option value="">Jump to a model...</option>
+        </select>
+      </div>
 
       <!-- Aodhan -->
       <div class="brand-section" data-brand="aodhan">

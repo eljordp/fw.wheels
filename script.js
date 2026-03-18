@@ -34,6 +34,31 @@ navLinks.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', closeMobileMenu);
 });
 
+// ===== NAV BRANDS ACCORDION (mobile) =====
+const navSubToggle = document.getElementById('navSubToggle');
+const navSubMenu = document.getElementById('navSubMenu');
+
+navSubToggle.addEventListener('click', (e) => {
+  e.preventDefault();
+  const isOpen = navSubMenu.classList.contains('open');
+  navSubMenu.classList.toggle('open', !isOpen);
+  navSubToggle.classList.toggle('open', !isOpen);
+});
+
+// Nav brand sub-links — filter brands section and close menu
+document.querySelectorAll('.nav-sub-link[data-brand-filter]').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const brand = link.dataset.brandFilter;
+    // Trigger the brand tab for that brand
+    const targetTab = document.querySelector(`.brand-tab[data-brand="${brand}"]`);
+    if (targetTab) targetTab.click();
+    closeMobileMenu();
+    // Scroll to brands section
+    document.getElementById('brands').scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
 // ===== BRAND FILTER TABS =====
 const brandTabs = document.querySelectorAll('.brand-tab');
 const brandSections = document.querySelectorAll('.brand-section');
@@ -95,6 +120,39 @@ function renderSeriesTabs(brand) {
   });
 }
 
+// ===== MODEL JUMP DROPDOWN =====
+const modelJumpWrap = document.getElementById('modelJumpWrap');
+const modelJumpSelect = document.getElementById('modelJumpSelect');
+
+function getBrandWheelKeys(brand) {
+  const prefixes = {
+    aodhan: (id) => id.startsWith('ah') || id.startsWith('ds') || id.startsWith('aff'),
+    mflow: (id) => id.startsWith('mf'),
+    vors: (id) => id.startsWith('vors-')
+  };
+  const test = prefixes[brand];
+  if (!test) return [];
+  return Object.keys(wheelData).filter(test);
+}
+
+function populateModelJump(brand) {
+  if (brand === 'all') {
+    modelJumpWrap.classList.remove('visible');
+    return;
+  }
+  const keys = getBrandWheelKeys(brand);
+  modelJumpSelect.innerHTML = '<option value="">Jump to a model...</option>' +
+    keys.map(id => `<option value="${id}">${wheelData[id]?.name || id}</option>`).join('');
+  modelJumpWrap.classList.add('visible');
+}
+
+modelJumpSelect.addEventListener('change', () => {
+  const id = modelJumpSelect.value;
+  if (!id) return;
+  openWheelModal(id);
+  modelJumpSelect.value = '';
+});
+
 brandTabs.forEach(tab => {
   tab.addEventListener('click', () => {
     const brand = tab.dataset.brand;
@@ -116,6 +174,9 @@ brandTabs.forEach(tab => {
 
     // Render series sub-tabs
     renderSeriesTabs(brand);
+
+    // Populate model jump dropdown
+    populateModelJump(brand);
   });
 });
 
@@ -948,15 +1009,21 @@ function openWheelModal(wheelId) {
       <div class="spec-value">${wheel.series}</div>
     </div>
     <div class="spec-group">
-      <div class="spec-label">Price Range</div>
-      <div class="spec-value" style="color: var(--gold); font-weight: 600;">${wheel.priceRange}</div>
+      <div class="spec-label">Price</div>
+      <div class="spec-value" style="color: var(--gold); font-weight: 600;">${wheel.priceRange} <span class="free-ship-badge">Free Shipping</span></div>
     </div>
     <div class="spec-group">
       <div class="spec-label">Select Size</div>
-      <div class="spec-chips" id="sizeSelector">
-        ${sizes.map((s, i) =>
-          `<button class="spec-chip spec-chip--selectable${i === 0 ? ' spec-chip--active' : ''}" data-size="${s}" data-wheel="${wheelId}">${s}</button>`
-        ).join('')}
+      <select class="size-select" id="sizeSelect">
+        ${sizes.map(s => `<option value="${s}">${s}</option>`).join('')}
+      </select>
+    </div>
+    <div class="spec-group">
+      <div class="spec-label">Quantity (Sets)</div>
+      <div class="qty-stepper">
+        <button class="qty-btn" id="qtyMinus">−</button>
+        <span class="qty-value" id="qtyValue">1</span>
+        <button class="qty-btn" id="qtyPlus">+</button>
       </div>
     </div>
     <div id="dynamicSpecs"></div>
@@ -966,16 +1033,29 @@ function openWheelModal(wheelId) {
     </div>
   `;
 
-  // Attach size selector click handlers
-  document.querySelectorAll('#sizeSelector .spec-chip--selectable').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('#sizeSelector .spec-chip--selectable').forEach(b => b.classList.remove('spec-chip--active'));
-      btn.classList.add('spec-chip--active');
-      updateModalVariant(btn.dataset.wheel, btn.dataset.size);
-    });
+  // Size select handler
+  document.getElementById('sizeSelect').addEventListener('change', (e) => {
+    updateModalVariant(wheelId, e.target.value);
+  });
+
+  // Quantity stepper
+  let qty = 1;
+  document.getElementById('qtyMinus').addEventListener('click', () => {
+    if (qty > 1) { qty--; document.getElementById('qtyValue').textContent = qty; }
+  });
+  document.getElementById('qtyPlus').addEventListener('click', () => {
+    qty++;
+    document.getElementById('qtyValue').textContent = qty;
   });
 
   updateModalVariant(wheelId, defaultSize);
+
+  // Store current wheel/qty for quote button
+  modalQuoteBtn.dataset.wheel = wheelId;
+  modalQuoteBtn.dataset.size = defaultSize;
+  document.getElementById('sizeSelect').addEventListener('change', (e) => {
+    modalQuoteBtn.dataset.size = e.target.value;
+  });
 
   wheelModal.classList.add('active');
   document.body.style.overflow = 'hidden';
