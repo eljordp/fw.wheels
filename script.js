@@ -80,8 +80,10 @@ function renderSeriesTabs(brand) {
     seriesTabsContainer.innerHTML = '';
     return;
   }
-  seriesTabsContainer.innerHTML = series.map((s, i) =>
-    `<button class="series-tab${i === 0 ? ' active' : ''}" data-series="${s.id}" data-brand="${brand}">${s.label}</button>`
+  // Skip the "All Series" tab — user picks a specific series to expand
+  const specificSeries = series.filter(s => s.id !== 'all');
+  seriesTabsContainer.innerHTML = specificSeries.map(s =>
+    `<button class="series-tab" data-series="${s.id}" data-brand="${brand}">${s.label}</button>`
   ).join('');
 
   // Attach click handlers
@@ -153,11 +155,13 @@ brandTabs.forEach(tab => {
     brandSections.forEach(section => {
       if (brand === 'all') {
         section.classList.remove('hidden');
+        // Show all series groups when viewing all brands
+        section.querySelectorAll('.series-group[data-series]').forEach(g => g.classList.remove('series-hidden'));
       } else {
         section.classList.toggle('hidden', section.dataset.brand !== brand);
+        // Hide all series groups — user must pick a series first
+        section.querySelectorAll('.series-group[data-series]').forEach(g => g.classList.add('series-hidden'));
       }
-      // Reset series visibility when switching brands
-      section.querySelectorAll('.series-group[data-series]').forEach(g => g.classList.remove('series-hidden'));
     });
 
     // Render series sub-tabs
