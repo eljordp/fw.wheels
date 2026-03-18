@@ -1505,6 +1505,16 @@ document.querySelectorAll('.wheel-card').forEach(card => {
     more.textContent = '+' + (arr.length - maxShow);
     swatchEl.appendChild(more);
   }
+
+  // Auto-activate first swatch and sync card image to its color
+  const firstSwatch = swatchEl.querySelector('.wheel-swatch');
+  if (firstSwatch) {
+    firstSwatch.classList.add('active');
+    const firstFinish = arr[0];
+    if (cardImg && finishImgMap[firstFinish]) {
+      cardImg.src = finishImgMap[firstFinish].replace('width=800', 'width=400');
+    }
+  }
 });
 
 // ===== SCROLL ANIMATIONS =====
