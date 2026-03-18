@@ -270,13 +270,13 @@ const wheelData = {
     centerBore: '73.1mm',
     priceRange: '$224 – $249 /wheel',
     images: [
-      'https://www.aodhanwheels.com/cdn/shop/products/AH06_1790_BRZ_03_ed0915fe-14b1-4289-8a92-cfb5977428dc.jpg?v=1749494698&width=800',
+      'https://www.aodhanwheels.com/cdn/shop/products/AH06_1890_MS_01.jpg?width=800',
       'https://www.aodhanwheels.com/cdn/shop/products/AH06_1890_BRZ_03_0b441f17-3a38-44d3-96bb-b8ddf4fc1635.jpg?v=1749494698&width=800'
     ],
     variants: {
-      '17x9': { finishes: ['Matte Black', 'Matte Gray', 'Textured Bronze'], boltPatterns: ['5x100', '5x114.3'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH06_1790_GB_03.jpg?width=800'},
-      '18x10': { finishes: ['Matte Black', 'Matte Gray', 'Textured Bronze'], boltPatterns: ['5x114.3'], offsets: ['+25'], image: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH06_1810_GB_03.jpg?width=800'},
-      '18x9': { finishes: ['Matte Black', 'Matte Gray', 'Textured Bronze'], boltPatterns: ['5x100', '5x114.3'], offsets: ['+30'], image: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH06_1890_GB_03.jpg?width=800'}
+      '17x9': { finishes: ['Machined Silver', 'Matte Black', 'Matte Gray', 'Textured Bronze'], boltPatterns: ['5x100', '5x114.3'], offsets: ['+35'], image: 'https://www.aodhanwheels.com/cdn/shop/products/AH06_1790_MS_01.jpg?width=800'},
+      '18x10': { finishes: ['Machined Silver', 'Matte Black', 'Matte Gray', 'Textured Bronze'], boltPatterns: ['5x114.3'], offsets: ['+25'], image: 'https://www.aodhanwheels.com/cdn/shop/products/AH06_1810_MS_01.jpg?width=800'},
+      '18x9': { finishes: ['Machined Silver', 'Matte Black', 'Matte Gray', 'Textured Bronze'], boltPatterns: ['5x100', '5x114.3'], offsets: ['+30'], image: 'https://www.aodhanwheels.com/cdn/shop/products/AH06_1890_MS_01.jpg?width=800'}
     }
   },
   ah07: {
@@ -1253,6 +1253,7 @@ const finishImages = {
     'Silver Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH05_1885_SMF_01.jpg?width=800'
   },
   ah06: {
+    'Machined Silver': 'https://www.aodhanwheels.com/cdn/shop/products/AH06_1890_MS_01.jpg?width=800',
     'Textured Bronze': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH06_1890_BRZ_01_e5e62626-4a73-4759-afe0-b0e77bb4ac07.jpg?width=800',
     'Matte Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH06_1890_GB_01.jpg?width=800',
     'Matte Gray': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH06_1890_MG_01.jpg?width=800'
