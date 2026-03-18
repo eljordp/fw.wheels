@@ -1618,7 +1618,7 @@ function buildNavBrands() {
   menu.appendChild(allLi);
 
   brands.forEach(brand => {
-    const keys = Object.keys(wheelData).filter(brand.test);
+    const seriesList = (brandSeriesMap[brand.id] || []).filter(s => s.id !== 'all');
 
     const li = document.createElement('li');
     li.classList.add('nav-brand-item');
@@ -1648,19 +1648,22 @@ function buildNavBrands() {
     const modelMenu = document.createElement('ul');
     modelMenu.className = 'nav-model-menu';
 
-    keys.forEach(id => {
-      const shortName = (wheelData[id]?.name || id).replace(/^(AODHAN|MFLOW RACING|MFLOW|VORS)\s+/i, '');
+    seriesList.forEach(s => {
       const mLi = document.createElement('li');
       const mLink = document.createElement('a');
       mLink.href = '#brands';
       mLink.className = 'nav-model-link';
-      mLink.textContent = shortName;
+      mLink.textContent = s.label;
       mLink.addEventListener('click', (e) => {
         e.preventDefault();
         document.querySelector(`.brand-tab[data-brand="${brand.id}"]`).click();
         closeMobileMenu();
         document.getElementById('brands').scrollIntoView({ behavior: 'smooth' });
-        setTimeout(() => openWheelModal(id), 350);
+        // Activate the series tab after brand renders
+        setTimeout(() => {
+          const seriesTab = document.querySelector(`.series-tab[data-series="${s.id}"]`);
+          if (seriesTab) seriesTab.click();
+        }, 200);
       });
       mLi.appendChild(mLink);
       modelMenu.appendChild(mLi);
