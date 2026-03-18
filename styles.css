@@ -151,6 +151,8 @@ img {
 /* ===== NAV DROPDOWN (Desktop hover + Mobile accordion) ===== */
 .nav-has-sub {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .nav-brand-row {
