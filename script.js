@@ -1196,9 +1196,9 @@ function getFinishColor(finish) {
 const finishImages = {
   // AH Series
   ah02: {
+    'Silver w/ Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH02_1895_SML_01.jpg?width=800',
     'Gloss Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH02_1895_GB_01.jpg?width=800',
-    'Hyper Black w/ Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH02_1895_HB_01.jpg?width=800',
-    'Silver w/ Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH02_1895_SML_01.jpg?width=800'
+    'Hyper Black w/ Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH02_1895_HB_01.jpg?width=800'
   },
   ah03: {
     'Gloss Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH03_1895_GB_01_64ca1671-71d7-446e-b1f1-8b8a097421e2.jpg?width=800',
