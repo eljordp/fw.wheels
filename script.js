@@ -1506,14 +1506,20 @@ document.querySelectorAll('.wheel-card').forEach(card => {
     swatchEl.appendChild(more);
   }
 
-  // Auto-activate first swatch and sync card image to its color
-  const firstSwatch = swatchEl.querySelector('.wheel-swatch');
-  if (firstSwatch) {
-    firstSwatch.classList.add('active');
-    const firstFinish = arr[0];
-    if (cardImg && finishImgMap[firstFinish]) {
-      cardImg.src = finishImgMap[firstFinish].replace('width=800', 'width=400');
+  // Activate the swatch that matches the current card image color (don't override the image)
+  const currentSrc = cardImg ? cardImg.src.toLowerCase() : '';
+  const guessedFinishes = guessFinishFromUrl(currentSrc);
+  let activatedSwatch = false;
+  swatchEl.querySelectorAll('.wheel-swatch').forEach((dot, i) => {
+    if (!activatedSwatch && guessedFinishes.includes(arr[i])) {
+      dot.classList.add('active');
+      activatedSwatch = true;
     }
+  });
+  // Fallback: activate first swatch without changing image
+  if (!activatedSwatch) {
+    const firstDot = swatchEl.querySelector('.wheel-swatch');
+    if (firstDot) firstDot.classList.add('active');
   }
 });
 
