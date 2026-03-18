@@ -45,19 +45,7 @@ navSubToggle.addEventListener('click', (e) => {
   navSubToggle.classList.toggle('open', !isOpen);
 });
 
-// Nav brand sub-links — filter brands section and close menu
-document.querySelectorAll('.nav-sub-link[data-brand-filter]').forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    const brand = link.dataset.brandFilter;
-    // Trigger the brand tab for that brand
-    const targetTab = document.querySelector(`.brand-tab[data-brand="${brand}"]`);
-    if (targetTab) targetTab.click();
-    closeMobileMenu();
-    // Scroll to brands section
-    document.getElementById('brands').scrollIntoView({ behavior: 'smooth' });
-  });
-});
+// Nav brand sub-links — built dynamically after wheelData loads (see buildNavBrands below)
 
 // ===== BRAND FILTER TABS =====
 const brandTabs = document.querySelectorAll('.brand-tab');
@@ -1540,4 +1528,116 @@ document.querySelectorAll('.brand-section, .gallery-item, .about-point, .contact
   el.style.transform = 'translateY(20px)';
   el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
   observer.observe(el);
+});
+
+// ===== BUILD 3-LEVEL NAV BRANDS ACCORDION =====
+function buildNavBrands() {
+  const brands = [
+    { id: 'aodhan', label: 'Aodhan', test: (id) => id.startsWith('ah') || id.startsWith('ds') || id.startsWith('aff') },
+    { id: 'mflow', label: 'MFlow Racing', test: (id) => id.startsWith('mf') },
+    { id: 'vors', label: 'Vors', test: (id) => id.startsWith('vors-') }
+  ];
+
+  const menu = document.getElementById('navSubMenu');
+  menu.innerHTML = '';
+
+  // "All Brands" top-level item
+  const allLi = document.createElement('li');
+  allLi.innerHTML = `<a href="#brands" class="nav-sub-link">All Brands</a>`;
+  allLi.querySelector('a').addEventListener('click', (e) => {
+    e.preventDefault();
+    document.querySelector('.brand-tab[data-brand="all"]').click();
+    closeMobileMenu();
+    document.getElementById('brands').scrollIntoView({ behavior: 'smooth' });
+  });
+  menu.appendChild(allLi);
+
+  brands.forEach(brand => {
+    const keys = Object.keys(wheelData).filter(brand.test);
+
+    const li = document.createElement('li');
+    li.classList.add('nav-brand-item');
+
+    const row = document.createElement('div');
+    row.className = 'nav-brand-sub-row';
+
+    const brandLink = document.createElement('a');
+    brandLink.href = '#brands';
+    brandLink.className = 'nav-sub-brand-link';
+    brandLink.textContent = brand.label;
+    brandLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.querySelector(`.brand-tab[data-brand="${brand.id}"]`).click();
+      closeMobileMenu();
+      document.getElementById('brands').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    const toggle = document.createElement('button');
+    toggle.className = 'nav-sub-sub-toggle';
+    toggle.setAttribute('aria-label', `Expand ${brand.label}`);
+    toggle.innerHTML = `<svg width="8" height="5" viewBox="0 0 8 5" fill="none"><path d="M1 1L4 4L7 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+
+    row.appendChild(brandLink);
+    row.appendChild(toggle);
+
+    const modelMenu = document.createElement('ul');
+    modelMenu.className = 'nav-model-menu';
+
+    keys.forEach(id => {
+      const shortName = (wheelData[id]?.name || id).replace(/^(AODHAN|MFLOW RACING|MFLOW|VORS)\s+/i, '');
+      const mLi = document.createElement('li');
+      const mLink = document.createElement('a');
+      mLink.href = '#brands';
+      mLink.className = 'nav-model-link';
+      mLink.textContent = shortName;
+      mLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelector(`.brand-tab[data-brand="${brand.id}"]`).click();
+        closeMobileMenu();
+        document.getElementById('brands').scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => openWheelModal(id), 350);
+      });
+      mLi.appendChild(mLink);
+      modelMenu.appendChild(mLi);
+    });
+
+    toggle.addEventListener('click', () => {
+      modelMenu.classList.toggle('open');
+      toggle.classList.toggle('open');
+    });
+
+    li.appendChild(row);
+    li.appendChild(modelMenu);
+    menu.appendChild(li);
+  });
+}
+
+buildNavBrands();
+
+// ===== SORT WHEEL CARDS: 5-lug first, then 4-lug =====
+function getMinLugCount(wheelId) {
+  const wheel = wheelData[wheelId];
+  if (!wheel || !wheel.variants) return 99;
+  // Find the highest lug count across all variants
+  let maxLugs = 0;
+  Object.values(wheel.variants).forEach(v => {
+    (v.boltPatterns || []).forEach(bp => {
+      const match = bp.match(/^(\d+)x/);
+      if (match) {
+        const lugs = parseInt(match[1]);
+        if (lugs > maxLugs) maxLugs = lugs;
+      }
+    });
+  });
+  return maxLugs;
+}
+
+document.querySelectorAll('.wheel-grid').forEach(grid => {
+  const cards = Array.from(grid.querySelectorAll('.wheel-card[data-wheel]'));
+  cards.sort((a, b) => {
+    const aLugs = getMinLugCount(a.dataset.wheel);
+    const bLugs = getMinLugCount(b.dataset.wheel);
+    return bLugs - aLugs; // higher lug count first (5 before 4)
+  });
+  cards.forEach(card => grid.appendChild(card));
 });
