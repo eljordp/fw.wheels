@@ -443,7 +443,7 @@ img {
   justify-content: center;
   text-align: center;
   overflow: hidden;
-  background: #0a0a0a url('https://wheel-wizard-magic.lovable.app/src/assets/hero-wheel.jpg') center/cover no-repeat;
+  background: #0a0a0a url('images/hero.jpg') center/cover no-repeat;
   margin-top: 56px;
 }
 
