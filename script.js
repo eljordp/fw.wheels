@@ -1684,6 +1684,30 @@ function buildNavBrands() {
 
 buildNavBrands();
 
+// ===== COMPUTE + INJECT BRAND SET PRICE RANGES =====
+(function updateBrandSetPrices() {
+  const brandTests = {
+    aodhan: (id) => id.startsWith('ah') || id.startsWith('ds') || id.startsWith('aff'),
+    mflow:  (id) => id.startsWith('mf'),
+    vors:   (id) => id.startsWith('vors-')
+  };
+
+  Object.entries(brandTests).forEach(([brand, test]) => {
+    const keys = Object.keys(wheelData).filter(test);
+    const allPrices = keys.flatMap(id => {
+      const pr = wheelData[id]?.priceRange || '';
+      return [...pr.matchAll(/\$(\d[\d,]*)/g)].map(m => parseInt(m[1].replace(',','')));
+    }).filter(Boolean);
+    if (!allPrices.length) return;
+
+    const minSet = Math.round(Math.min(...allPrices) * 4 * (1 - SET_OF_4_DISCOUNT));
+    const maxSet = Math.round(Math.max(...allPrices) * 4 * (1 - SET_OF_4_DISCOUNT));
+
+    const el = document.querySelector(`.brand-section[data-brand="${brand}"] .brand-price`);
+    if (el) el.innerHTML = `$${minSet.toLocaleString()} – $${maxSet.toLocaleString()} <span>per set</span>`;
+  });
+})();
+
 // ===== SORT WHEEL CARDS: 5-lug first, then 4-lug =====
 function getMinLugCount(wheelId) {
   const wheel = wheelData[wheelId];
