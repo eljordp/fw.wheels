@@ -437,7 +437,7 @@ img {
 /* ===== HERO (Compact Banner) ===== */
 .hero {
   position: relative;
-  min-height: 44vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
