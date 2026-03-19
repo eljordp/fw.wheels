@@ -1008,13 +1008,15 @@ function openWheelModal(wheelId) {
       <div class="spec-value" style="color: var(--gold); font-weight: 600;">
         ${wheel.priceRange} <span class="free-ship-badge">Free Shipping</span>
         ${(() => {
-          const m = wheel.priceRange.match(/\$(\d[\d,]*)/);
-          const perWheel = m ? parseInt(m[1].replace(',','')) : null;
-          if (!perWheel) return '';
-          const setFull = perWheel * 4;
-          const setDisc = Math.round(setFull * (1 - SET_OF_4_DISCOUNT));
-          const save = setFull - setDisc;
-          return `<div class="set-price">Set of 4: <strong>$${setDisc.toLocaleString()}</strong> <span class="set-save">save $${save}</span></div>`;
+          const prices = [...wheel.priceRange.matchAll(/\$(\d[\d,]*)/g)].map(m => parseInt(m[1].replace(',','')));
+          if (!prices.length) return '';
+          const loSet = Math.round(prices[0] * 4 * (1 - SET_OF_4_DISCOUNT));
+          if (prices.length === 1) {
+            const save = prices[0] * 4 - loSet;
+            return `<div class="set-price">Set of 4: <strong>$${loSet.toLocaleString()}</strong> <span class="set-save">save $${save}</span></div>`;
+          }
+          const hiSet = Math.round(prices[prices.length - 1] * 4 * (1 - SET_OF_4_DISCOUNT));
+          return `<div class="set-price">Set of 4: <strong>$${loSet.toLocaleString()} – $${hiSet.toLocaleString()}</strong></div>`;
         })()}
       </div>
     </div>
