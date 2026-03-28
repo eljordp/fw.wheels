@@ -87,7 +87,7 @@ img {
 }
 
 .logo span {
-  color: #b0b0b0;
+  color: var(--accent);
 }
 
 .nav-links {
