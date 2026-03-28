@@ -545,8 +545,8 @@ const wheelData = {
     centerBore: '73.1mm (72.6 for 5x120)',
     priceRange: '$362 /wheel',
     images: [
-      'https://www.aodhanwheels.com/cdn/shop/products/AFF03_2090_MS_03.jpg?v=1749494576&width=800',
-      'https://www.aodhanwheels.com/cdn/shop/products/AFF03_20105_MS_03.jpg?v=1749494576&width=800'
+      'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF03_2090_MS_03.jpg?width=800',
+      'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF03_20105_MS_03.jpg?width=800'
     ],
     variants: {
       '20x10.5': { finishes: ['Matte Black', 'Matte Bronze', 'Silver Machined Face'], boltPatterns: ['5x114.3', '5x120'], offsets: ['+35', '+45'], image: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF03_20105_MS_03.jpg?width=800'},
