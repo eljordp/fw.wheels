@@ -981,6 +981,20 @@ function getVariantData(wheel, size) {
   };
 }
 
+// Get exact per-wheel price for a given size
+function getWheelPrice(wheel, size) {
+  if (!wheel.priceRange) return null;
+  const prices = [...wheel.priceRange.matchAll(/\$(\d[\d,]*(?:\.\d+)?)/g)].map(m => parseFloat(m[1].replace(',', '')));
+  if (!prices.length) return null;
+  if (prices.length === 1) return prices[0];
+  // Range: interpolate based on size position
+  const sizes = getWheelSizes(wheel);
+  const idx = sizes.indexOf(size);
+  if (idx === -1 || sizes.length <= 1) return prices[0];
+  const t = idx / (sizes.length - 1);
+  return Math.round(prices[0] + t * (prices[prices.length - 1] - prices[0]));
+}
+
 // ===== WHEEL MODAL =====
 const wheelModal = document.getElementById('wheelModal');
 const modalClose = document.getElementById('modalClose');
@@ -998,27 +1012,12 @@ function openWheelModal(wheelId) {
   const sizes = getWheelSizes(wheel);
   const defaultSize = sizes[0];
 
+  const perWheelPrice = getWheelPrice(wheel, defaultSize);
+
   modalSpecs.innerHTML = `
     <div class="spec-group">
       <div class="spec-label">Series</div>
       <div class="spec-value">${wheel.series}</div>
-    </div>
-    <div class="spec-group">
-      <div class="spec-label">Price</div>
-      <div class="spec-value" style="color: var(--gold); font-weight: 600;">
-        ${wheel.priceRange} <span class="free-ship-badge">Free Shipping</span>
-        ${(() => {
-          const prices = [...wheel.priceRange.matchAll(/\$(\d[\d,]*)/g)].map(m => parseInt(m[1].replace(',','')));
-          if (!prices.length) return '';
-          const loSet = Math.round(prices[0] * 4 * (1 - SET_OF_4_DISCOUNT));
-          if (prices.length === 1) {
-            const save = prices[0] * 4 - loSet;
-            return `<div class="set-price">Set of 4: <strong>$${loSet.toLocaleString()}</strong> <span class="set-save">save $${save}</span></div>`;
-          }
-          const hiSet = Math.round(prices[prices.length - 1] * 4 * (1 - SET_OF_4_DISCOUNT));
-          return `<div class="set-price">Set of 4: <strong>$${loSet.toLocaleString()} – $${hiSet.toLocaleString()}</strong></div>`;
-        })()}
-      </div>
     </div>
     <div class="spec-group">
       <div class="spec-label">Select Size</div>
@@ -1027,11 +1026,20 @@ function openWheelModal(wheelId) {
       </select>
     </div>
     <div class="spec-group">
-      <div class="spec-label">Quantity (Sets)</div>
-      <div class="qty-stepper">
-        <button class="qty-btn" id="qtyMinus">−</button>
-        <span class="qty-value" id="qtyValue">1</span>
-        <button class="qty-btn" id="qtyPlus">+</button>
+      <div class="spec-label">Price</div>
+      <div class="spec-value" style="color: var(--gold); font-weight: 600;">
+        <span id="perWheelPrice">${perWheelPrice ? '$' + perWheelPrice.toLocaleString() : wheel.priceRange}</span> /wheel <span class="free-ship-badge">Free Shipping</span>
+      </div>
+    </div>
+    <div class="spec-group">
+      <div class="spec-label">Quantity (Wheels)</div>
+      <div class="qty-row">
+        <div class="qty-stepper">
+          <button class="qty-btn" id="qtyMinus">−</button>
+          <span class="qty-value" id="qtyValue">4</span>
+          <button class="qty-btn" id="qtyPlus">+</button>
+        </div>
+        <div class="qty-total" id="qtyTotal">${perWheelPrice ? 'Total: <strong>$' + (perWheelPrice * 4).toLocaleString() + '</strong>' : ''}</div>
       </div>
     </div>
     <div id="dynamicSpecs"></div>
@@ -1039,26 +1047,46 @@ function openWheelModal(wheelId) {
       <div class="spec-label">Center Bore</div>
       <div class="spec-value">${wheel.centerBore}</div>
     </div>
+    <div id="similarWheels"></div>
   `;
+
+  // Price update helper
+  function updatePriceDisplay() {
+    const currentSize = document.getElementById('sizeSelect').value;
+    const price = getWheelPrice(wheel, currentSize);
+    const qtyEl = document.getElementById('qtyValue');
+    const q = parseInt(qtyEl.textContent);
+    const priceEl = document.getElementById('perWheelPrice');
+    const totalEl = document.getElementById('qtyTotal');
+    if (price) {
+      priceEl.textContent = '$' + price.toLocaleString();
+      totalEl.innerHTML = 'Total: <strong>$' + (price * q).toLocaleString() + '</strong>';
+    }
+  }
 
   // Size select handler
   document.getElementById('sizeSelect').addEventListener('change', (e) => {
     updateModalVariant(wheelId, e.target.value);
+    updatePriceDisplay();
   });
 
-  // Quantity stepper
-  let qty = 1;
+  // Quantity stepper — default to 4 wheels
+  let qty = 4;
   document.getElementById('qtyMinus').addEventListener('click', () => {
-    if (qty > 1) { qty--; document.getElementById('qtyValue').textContent = qty; }
+    if (qty > 1) { qty--; document.getElementById('qtyValue').textContent = qty; updatePriceDisplay(); }
   });
   document.getElementById('qtyPlus').addEventListener('click', () => {
     qty++;
     document.getElementById('qtyValue').textContent = qty;
+    updatePriceDisplay();
   });
 
   updateModalVariant(wheelId, defaultSize);
 
-  // Store current wheel/qty for quote button
+  // Build similar wheels
+  buildSimilarWheels(wheelId, wheel);
+
+  // Store current wheel/qty for contact button
   modalQuoteBtn.dataset.wheel = wheelId;
   modalQuoteBtn.dataset.size = defaultSize;
   document.getElementById('sizeSelect').addEventListener('change', (e) => {
@@ -1095,8 +1123,8 @@ function updateModalVariant(wheelId, size) {
     </div>
     <div class="spec-group">
       <div class="spec-label">Offset</div>
-      <div class="spec-chips">
-        ${variant.offsets.map(o => `<span class="spec-chip">${o}</span>`).join('')}
+      <div class="spec-chips" id="offsetChips">
+        ${variant.offsets.map((o, i) => `<span class="spec-chip spec-chip--selectable${i === 0 ? ' spec-chip--active' : ''}" data-offset="${o}">${o}</span>`).join('')}
       </div>
     </div>
   `;
@@ -1113,12 +1141,21 @@ function updateModalVariant(wheelId, size) {
     });
   });
 
-  // Bolt pattern chip click → mark selected (for quote context)
+  // Bolt pattern chip click → mark selected
   dynamicSpecs.querySelectorAll('#boltChips .spec-chip--selectable').forEach(chip => {
     chip.addEventListener('click', () => {
       dynamicSpecs.querySelectorAll('#boltChips .spec-chip--selectable').forEach(c => c.classList.remove('spec-chip--active'));
       chip.classList.add('spec-chip--active');
       modalQuoteBtn.dataset.bolt = chip.dataset.bolt;
+    });
+  });
+
+  // Offset chip click → mark selected
+  dynamicSpecs.querySelectorAll('#offsetChips .spec-chip--selectable').forEach(chip => {
+    chip.addEventListener('click', () => {
+      dynamicSpecs.querySelectorAll('#offsetChips .spec-chip--selectable').forEach(c => c.classList.remove('spec-chip--active'));
+      chip.classList.add('spec-chip--active');
+      modalQuoteBtn.dataset.offset = chip.dataset.offset;
     });
   });
 
@@ -1130,6 +1167,55 @@ function updateModalVariant(wheelId, size) {
       `<img decoding="async" src="${src}" alt="${wheel.name}" loading="lazy">`
     ).join('');
   }
+}
+
+// Build "Similar Options" section in modal
+function buildSimilarWheels(currentId, currentWheel) {
+  const container = document.getElementById('similarWheels');
+  if (!container) return;
+
+  // Find wheels in the same series
+  const similar = Object.entries(wheelData).filter(([id, w]) =>
+    id !== currentId && w.series === currentWheel.series
+  );
+
+  // If not enough in same series, add same brand
+  if (similar.length < 3) {
+    const prefix = currentId.replace(/\d+$/, '');
+    Object.entries(wheelData).forEach(([id, w]) => {
+      if (id !== currentId && !similar.find(s => s[0] === id) && id.startsWith(prefix)) {
+        similar.push([id, w]);
+      }
+    });
+  }
+
+  if (!similar.length) { container.innerHTML = ''; return; }
+
+  const show = similar.slice(0, 4);
+  container.innerHTML = `
+    <div class="spec-group similar-section">
+      <div class="spec-label">Similar Options</div>
+      <div class="similar-grid">
+        ${show.map(([id, w]) => {
+          const img = w.images?.[0] || '';
+          const m = w.priceRange?.match(/\$[\d,]+/);
+          const price = m ? 'From ' + m[0] : '';
+          return `<div class="similar-card" data-wheel="${id}">
+            <div class="similar-img"><img src="${img.replace('width=800', 'width=200')}" alt="${w.name}" loading="lazy"></div>
+            <div class="similar-name">${w.name}</div>
+            <div class="similar-price">${price}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  `;
+
+  // Click to switch modal to that wheel
+  container.querySelectorAll('.similar-card').forEach(card => {
+    card.addEventListener('click', () => {
+      openWheelModal(card.dataset.wheel);
+    });
+  });
 }
 
 function closeWheelModal() {
@@ -1156,39 +1242,6 @@ document.addEventListener('keydown', (e) => {
 // Close modal + scroll to contact on quote button
 modalQuoteBtn.addEventListener('click', () => {
   closeWheelModal();
-});
-
-// ===== QUOTE FORM =====
-const quoteForm = document.getElementById('quoteForm');
-quoteForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-
-  const formData = new FormData(quoteForm);
-  const data = Object.fromEntries(formData);
-
-  // Build mailto link as a simple email solution
-  const subject = encodeURIComponent(`FW Wheels Quote Request - ${data.vehicle || 'New Inquiry'}`);
-  const body = encodeURIComponent(
-    `Name: ${data.name}\n` +
-    `Email: ${data.email}\n` +
-    `Phone: ${data.phone || 'Not provided'}\n` +
-    `Vehicle: ${data.vehicle}\n` +
-    `Brand Interest: ${data.brand || 'Not specified'}\n\n` +
-    `Message:\n${data.message || 'No additional details'}`
-  );
-
-  window.location.href = `mailto:fwwheelsllc@gmail.com?subject=${subject}&body=${body}`;
-
-  // Show confirmation
-  const btn = quoteForm.querySelector('button[type="submit"]');
-  const originalText = btn.textContent;
-  btn.textContent = 'Opening Email...';
-  btn.style.background = '#22c55e';
-
-  setTimeout(() => {
-    btn.textContent = originalText;
-    btn.style.background = '';
-  }, 3000);
 });
 
 // ===== CARD PRICES & SWATCHES =====
@@ -1590,7 +1643,7 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Animate sections on scroll
-document.querySelectorAll('.brand-section, .gallery-item, .about-point, .contact-card').forEach(el => {
+document.querySelectorAll('.brand-section, .gallery-item, .about-point, .contact-social-card').forEach(el => {
   el.style.opacity = '0';
   el.style.transform = 'translateY(20px)';
   el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
