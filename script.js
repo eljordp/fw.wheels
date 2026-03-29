@@ -545,12 +545,12 @@ const wheelData = {
     centerBore: '73.1mm (72.6 for 5x120)',
     priceRange: '$362 /wheel',
     images: [
-      'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF03_2090_MS_03.jpg?width=800',
-      'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF03_20105_MS_03.jpg?width=800'
+      'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AFF03_2090_MS_03.jpg?width=800',
+      'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AFF03_20105_MS_03.jpg?width=800'
     ],
     variants: {
-      '20x10.5': { finishes: ['Matte Black', 'Matte Bronze', 'Silver Machined Face'], boltPatterns: ['5x114.3', '5x120'], offsets: ['+35', '+45'], image: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF03_20105_MS_03.jpg?width=800'},
-      '20x9': { finishes: ['Matte Black', 'Matte Bronze', 'Silver Machined Face'], boltPatterns: ['5x114.3', '5x120'], offsets: ['+30', '+32'], image: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF03_2090_MS_03.jpg?width=800'}
+      '20x10.5': { finishes: ['Matte Black', 'Matte Bronze', 'Silver Machined Face'], boltPatterns: ['5x114.3', '5x120'], offsets: ['+35', '+45'], image: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AFF03_20105_MS_03.jpg?width=800'},
+      '20x9': { finishes: ['Matte Black', 'Matte Bronze', 'Silver Machined Face'], boltPatterns: ['5x114.3', '5x120'], offsets: ['+30', '+32'], image: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AFF03_2090_MS_03.jpg?width=800'}
     }
   },
   aff7: {
