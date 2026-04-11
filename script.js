@@ -901,13 +901,13 @@ const wheelData = {
     centerBore: '73.1mm',
     priceRange: '$210 – $285 /wheel',
     images: [
-      'https://www.vorswheels.com/cdn/shop/files/AR5_17X9_BR_1.jpg?width=800',
-      'https://www.vorswheels.com/cdn/shop/files/AR05_18X85_SILVER_STD.jpg?width=800'
+      'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR5_17X9_BK_1.jpg?width=800',
+      'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR05_18X95_SILVER_STD.jpg?width=800'
     ],
     variants: {
       '17x8': { finishes: ['Black', 'Bronze', 'Silver Machined'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR5_17X8_BK_1.jpg?width=800'},
       '17x9': { finishes: ['Black', 'Bronze', 'Silver Machined'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+30'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR5_17X9_BK_1.jpg?width=800'},
-      '18x8.5': { finishes: ['Black', 'Bronze', 'Silver Machined'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR05_18X85_SILVER_STD.jpg?width=800'},
+      '18x8.5': { finishes: ['Black', 'Bronze', 'Silver Machined'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR05_18X95_SILVER_STD.jpg?width=800'},
       '18x9.5': { finishes: ['Black', 'Bronze', 'Silver Machined'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+30'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR05_18x95_SILVER_STD_400179be-62a3-4ca6-9796-4f0ec060c171.jpg?width=800'},
       '19x8.5': { finishes: ['Black', 'Bronze', 'Silver Machined'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR5_19X85_BK_1.jpg?width=800'},
       '19x9.5': { finishes: ['Black', 'Bronze', 'Silver Machined'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR5_19X95_BK_1.jpg?width=800'}
@@ -1524,7 +1524,7 @@ const finishImages = {
     'Gloss Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/VR8_20X85_GB_1_5ae9b9d4-fd34-4dde-97bc-008bfe2aa565.jpg?width=800'
   },
   'vors-ar5': {
-    'Silver Machined': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR05_18X85_SILVER_STD.jpg?width=800',
+    'Silver Machined': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR05_18X95_SILVER_STD.jpg?width=800',
     'Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR5_17X8_BK_1.jpg?width=800'
   },
   'vors-sp1': {
