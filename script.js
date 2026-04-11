@@ -209,7 +209,7 @@ const wheelData = {
       '18x9.5': { finishes: ['Gloss Black', 'Hyper Black w/ Machined Lip', 'Silver w/ Machined Lip'], boltPatterns: ['5x100', '5x114.3', '5x120'], offsets: ['+30', '+35'], image: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH02_1895_SML_03.jpg?width=800'},
       '19x11': { finishes: ['Gloss Black', 'Hyper Black w/ Machined Lip', 'Silver w/ Machined Lip'], boltPatterns: ['5x114.3'], offsets: ['+15', '+22'], image: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH02_1911_SML_03.jpg?width=800'},
       '19x8.5': { finishes: ['Gloss Black', 'Hyper Black w/ Machined Lip', 'Silver w/ Machined Lip'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+32', '+35'] },
-      '19x9.5': { finishes: ['Gloss Black', 'Hyper Black w/ Machined Lip', 'Silver w/ Machined Lip'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+12', '+22', '+30', '+35'], image: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH02_1995_SML_03.jpg?width=800'}
+      '19x9.5': { finishes: ['Gloss Black', 'Hyper Black w/ Machined Lip', 'Silver w/ Machined Lip'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+12', '+22', '+30', '+35'], boltOffsets: { '5x112': ['+12', '+22', '+30'], '5x114.3': ['+12', '+22', '+30'], '5x120': ['+35'] }, image: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH02_1995_SML_03.jpg?width=800'}
     }
   },
   ah03: {
@@ -1097,10 +1097,36 @@ function openWheelModal(wheelId) {
   document.body.style.overflow = 'hidden';
 }
 
+// Get filtered offsets based on selected bolt pattern (if boltOffsets map exists)
+function getFilteredOffsets(variant, selectedBolt) {
+  if (variant.boltOffsets && selectedBolt && variant.boltOffsets[selectedBolt]) {
+    return variant.boltOffsets[selectedBolt];
+  }
+  return variant.offsets;
+}
+
+// Render and wire up offset chips with optional bolt-pattern filtering
+function renderOffsetChips(dynamicSpecs, variant, selectedBolt) {
+  const offsets = getFilteredOffsets(variant, selectedBolt);
+  const container = dynamicSpecs.querySelector('#offsetChips');
+  if (!container) return;
+  container.innerHTML = offsets.map((o, i) =>
+    `<span class="spec-chip spec-chip--selectable${i === 0 ? ' spec-chip--active' : ''}" data-offset="${o}">${o}</span>`
+  ).join('');
+  container.querySelectorAll('.spec-chip--selectable').forEach(chip => {
+    chip.addEventListener('click', () => {
+      container.querySelectorAll('.spec-chip--selectable').forEach(c => c.classList.remove('spec-chip--active'));
+      chip.classList.add('spec-chip--active');
+      modalQuoteBtn.dataset.offset = chip.dataset.offset;
+    });
+  });
+}
+
 function updateModalVariant(wheelId, size) {
   const wheel = wheelData[wheelId];
   const variant = getVariantData(wheel, size);
   const finishImgMap = buildFinishImageMap(wheel, wheelId);
+  const defaultBolt = variant.boltPatterns[0];
 
   const dynamicSpecs = document.getElementById('dynamicSpecs');
   dynamicSpecs.innerHTML = `
@@ -1124,7 +1150,9 @@ function updateModalVariant(wheelId, size) {
     <div class="spec-group">
       <div class="spec-label">Offset</div>
       <div class="spec-chips" id="offsetChips">
-        ${variant.offsets.map((o, i) => `<span class="spec-chip spec-chip--selectable${i === 0 ? ' spec-chip--active' : ''}" data-offset="${o}">${o}</span>`).join('')}
+        ${getFilteredOffsets(variant, defaultBolt).map((o, i) =>
+          `<span class="spec-chip spec-chip--selectable${i === 0 ? ' spec-chip--active' : ''}" data-offset="${o}">${o}</span>`
+        ).join('')}
       </div>
     </div>
   `;
@@ -1141,23 +1169,19 @@ function updateModalVariant(wheelId, size) {
     });
   });
 
-  // Bolt pattern chip click → mark selected
+  // Bolt pattern chip click → re-filter offsets
   dynamicSpecs.querySelectorAll('#boltChips .spec-chip--selectable').forEach(chip => {
     chip.addEventListener('click', () => {
       dynamicSpecs.querySelectorAll('#boltChips .spec-chip--selectable').forEach(c => c.classList.remove('spec-chip--active'));
       chip.classList.add('spec-chip--active');
       modalQuoteBtn.dataset.bolt = chip.dataset.bolt;
+      // Re-render offsets filtered to this bolt pattern
+      renderOffsetChips(dynamicSpecs, variant, chip.dataset.bolt);
     });
   });
 
-  // Offset chip click → mark selected
-  dynamicSpecs.querySelectorAll('#offsetChips .spec-chip--selectable').forEach(chip => {
-    chip.addEventListener('click', () => {
-      dynamicSpecs.querySelectorAll('#offsetChips .spec-chip--selectable').forEach(c => c.classList.remove('spec-chip--active'));
-      chip.classList.add('spec-chip--active');
-      modalQuoteBtn.dataset.offset = chip.dataset.offset;
-    });
-  });
+  // Initial offset chips with default bolt pattern
+  renderOffsetChips(dynamicSpecs, variant, defaultBolt);
 
   // Update image for selected size
   if (variant.image) {
@@ -1239,9 +1263,35 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeWheelModal();
 });
 
-// Close modal + scroll to contact on quote button
+// ===== DON'T FORGET POPUP =====
+const dontForgetModal = document.getElementById('dontForgetModal');
+const dontForgetClose = document.getElementById('dontForgetClose');
+const dontForgetCta = document.getElementById('dontForgetCta');
+
+function openDontForget() {
+  dontForgetModal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDontForget() {
+  dontForgetModal.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+dontForgetClose.addEventListener('click', closeDontForget);
+dontForgetModal.addEventListener('click', (e) => {
+  if (e.target === dontForgetModal) closeDontForget();
+});
+dontForgetCta.addEventListener('click', () => {
+  closeDontForget();
+});
+
+// "Contact Us to Order" → close wheel modal, show Don't Forget popup, then go to contact
 modalQuoteBtn.addEventListener('click', () => {
   closeWheelModal();
+  setTimeout(() => {
+    openDontForget();
+  }, 300);
 });
 
 // ===== CARD PRICES & SWATCHES =====
@@ -1650,87 +1700,31 @@ document.querySelectorAll('.brand-section, .gallery-item, .about-point, .contact
   observer.observe(el);
 });
 
-// ===== BUILD 3-LEVEL NAV BRANDS ACCORDION =====
+// ===== BUILD NAV BRANDS DROPDOWN (alphabetical, no accordion) =====
 function buildNavBrands() {
+  // Alphabetical brand list
   const brands = [
-    { id: 'aodhan', label: 'Aodhan', test: (id) => id.startsWith('ah') || id.startsWith('ds') || id.startsWith('aff') },
-    { id: 'mflow', label: 'MFlow Racing', test: (id) => id.startsWith('mf') },
-    { id: 'vors', label: 'Vors', test: (id) => id.startsWith('vors-') }
+    { id: 'aodhan', label: 'Aodhan' },
+    { id: 'mflow',  label: 'MFlow Racing' },
+    { id: 'vors',   label: 'Vors' }
   ];
 
   const menu = document.getElementById('navSubMenu');
   menu.innerHTML = '';
 
-  // "All Brands" top-level item
-  const allLi = document.createElement('li');
-  allLi.innerHTML = `<a href="#brands" class="nav-sub-link">All Brands</a>`;
-  allLi.querySelector('a').addEventListener('click', (e) => {
-    e.preventDefault();
-    document.querySelector('.brand-tab[data-brand="all"]').click();
-    closeMobileMenu();
-    document.getElementById('brands').scrollIntoView({ behavior: 'smooth' });
-  });
-  menu.appendChild(allLi);
-
   brands.forEach(brand => {
-    const seriesList = (brandSeriesMap[brand.id] || []).filter(s => s.id !== 'all');
-
     const li = document.createElement('li');
-    li.classList.add('nav-brand-item');
-
-    const row = document.createElement('div');
-    row.className = 'nav-brand-sub-row';
-
-    const brandLink = document.createElement('a');
-    brandLink.href = '#brands';
-    brandLink.className = 'nav-sub-brand-link';
-    brandLink.textContent = brand.label;
-    brandLink.addEventListener('click', (e) => {
+    const a = document.createElement('a');
+    a.href = '#brands';
+    a.className = 'nav-sub-link';
+    a.textContent = brand.label;
+    a.addEventListener('click', (e) => {
       e.preventDefault();
       document.querySelector(`.brand-tab[data-brand="${brand.id}"]`).click();
       closeMobileMenu();
       document.getElementById('brands').scrollIntoView({ behavior: 'smooth' });
     });
-
-    const toggle = document.createElement('button');
-    toggle.className = 'nav-sub-sub-toggle';
-    toggle.setAttribute('aria-label', `Expand ${brand.label}`);
-    toggle.innerHTML = `<svg width="8" height="5" viewBox="0 0 8 5" fill="none"><path d="M1 1L4 4L7 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`;
-
-    row.appendChild(brandLink);
-    row.appendChild(toggle);
-
-    const modelMenu = document.createElement('ul');
-    modelMenu.className = 'nav-model-menu';
-
-    seriesList.forEach(s => {
-      const mLi = document.createElement('li');
-      const mLink = document.createElement('a');
-      mLink.href = '#brands';
-      mLink.className = 'nav-model-link';
-      mLink.textContent = s.label;
-      mLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        document.querySelector(`.brand-tab[data-brand="${brand.id}"]`).click();
-        closeMobileMenu();
-        document.getElementById('brands').scrollIntoView({ behavior: 'smooth' });
-        // Activate the series tab after brand renders
-        setTimeout(() => {
-          const seriesTab = document.querySelector(`.series-tab[data-series="${s.id}"]`);
-          if (seriesTab) seriesTab.click();
-        }, 200);
-      });
-      mLi.appendChild(mLink);
-      modelMenu.appendChild(mLi);
-    });
-
-    toggle.addEventListener('click', () => {
-      modelMenu.classList.toggle('open');
-      toggle.classList.toggle('open');
-    });
-
-    li.appendChild(row);
-    li.appendChild(modelMenu);
+    li.appendChild(a);
     menu.appendChild(li);
   });
 }

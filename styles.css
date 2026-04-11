@@ -889,9 +889,9 @@ img {
   background: #fff;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  max-width: 800px;
-  width: 100%;
-  max-height: 90vh;
+  max-width: 1060px;
+  width: 95%;
+  max-height: 92vh;
   overflow-y: auto;
   position: relative;
   transform: translateY(20px) scale(0.97);
@@ -928,19 +928,28 @@ img {
 
 .modal-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.4fr 1fr;
 }
 
 .modal-images {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  background: var(--surface);
+  background: #f5f5f5;
+  min-height: 480px;
+  position: sticky;
+  top: 0;
+  align-self: start;
 }
 
 .modal-images img {
   width: 100%;
+  height: 100%;
+  min-height: 480px;
+  object-fit: contain;
   display: block;
+  padding: 12px;
+  box-sizing: border-box;
 }
 
 .modal-info {
@@ -1130,6 +1139,160 @@ img {
   justify-content: center;
   color: var(--text-muted);
   font-size: 0.9rem;
+}
+
+/* ===== ACCESSORIES ===== */
+.accessories {
+  padding: 80px 0;
+  background: #fff;
+}
+
+.accessories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 16px;
+}
+
+.accessory-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface);
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.accessory-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-3px);
+}
+
+.accessory-img {
+  aspect-ratio: 1;
+  background: #f5f5f5;
+  overflow: hidden;
+}
+
+.accessory-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.accessory-info {
+  padding: 16px;
+}
+
+.accessory-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.accessory-desc {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.accessory-price {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+/* ===== DON'T FORGET POPUP ===== */
+.dont-forget-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.dont-forget-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.dont-forget-modal {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 40px;
+  max-width: 760px;
+  width: 95%;
+  max-height: 88vh;
+  overflow-y: auto;
+  position: relative;
+  text-align: center;
+  transform: translateY(20px);
+  transition: transform 0.3s;
+}
+
+.dont-forget-overlay.active .dont-forget-modal {
+  transform: translateY(0);
+}
+
+.dont-forget-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.dont-forget-sub {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 28px;
+}
+
+.dont-forget-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.df-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 8px;
+  background: var(--surface);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.df-card:hover {
+  border-color: var(--gold);
+}
+
+.df-card img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+.df-card p {
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.df-card span {
+  font-size: 0.78rem;
+  color: var(--gold);
+  font-weight: 700;
 }
 
 /* ===== CONTACT ===== */
@@ -1522,19 +1685,23 @@ img {
   }
 
   .modal-images {
-    max-height: 250px;
+    max-height: 340px;
+    min-height: 0;
     overflow-x: auto;
     overflow-y: hidden;
     flex-direction: row;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
+    position: static;
   }
 
   .modal-images img {
     min-width: 100%;
-    height: 250px;
-    object-fit: cover;
+    height: 340px;
+    min-height: 0;
+    object-fit: contain;
     scroll-snap-align: start;
+    padding: 8px;
   }
 
   .modal-info {
@@ -1584,6 +1751,16 @@ img {
 
   .section-title.left {
     text-align: center;
+  }
+
+  /* Accessories */
+  .accessories-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .dont-forget-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   /* Contact */
@@ -1733,11 +1910,11 @@ img {
   }
 
   .modal-images {
-    max-height: 200px;
+    max-height: 260px;
   }
 
   .modal-images img {
-    height: 200px;
+    height: 260px;
   }
 
   .modal-title {
