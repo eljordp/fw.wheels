@@ -920,8 +920,8 @@ const wheelData = {
     centerBore: '73.1mm',
     priceRange: '$165 – $280 /wheel',
     images: [
-      'https://www.vorswheels.com/cdn/shop/files/SP1_18X9_HB_ML.jpg?width=800',
-      'https://www.vorswheels.com/cdn/shop/files/SP1_18X9_WHITE_1.jpg?width=800'
+      'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/SP1_18X9_SILVER_2KPX.jpg?width=800',
+      'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/SP1_18X8_HB.jpg?width=800'
     ],
     variants: {
       '15x7': { finishes: ['Hyper Black', 'Matte Black', 'Silver Machined', 'White'], boltPatterns: ['4x100', '4x108'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/SP1_15X7_HB_1.jpg?width=800'},
