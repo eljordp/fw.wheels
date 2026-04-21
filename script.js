@@ -600,9 +600,9 @@ const wheelData = {
       '18x8.5': { finishes: ['Hyper Black', 'Matte Black', 'Matte Bronze'], boltPatterns: ['5x100', '5x112', '5x114.3'], offsets: ['+35'] },
       '18x9.5': { finishes: ['Hyper Black', 'Matte Black', 'Matte Bronze'], boltPatterns: ['5x100', '5x112', '5x114.3'], offsets: ['+35'] },
       '19x8.5': { finishes: ['Hyper Black', 'Matte Black', 'Matte Bronze'], boltPatterns: ['5x112', '5x114.3'], offsets: ['+35'] },
-      '19x9.5': { finishes: ['Hyper Black', 'Matte Black', 'Matte Bronze'], boltPatterns: ['5x112', '5x114.3'], offsets: ['+35', '+38'] },
+      '19x9.5': { finishes: ['Hyper Black', 'Matte Black', 'Matte Bronze'], boltPatterns: ['5x112', '5x114.3'], offsets: ['+35', '+38'], boltOffsets: { '5x114.3': ['+35'], '5x112': ['+38'] } },
       '20x8.5': { finishes: ['Hyper Black', 'Matte Black', 'Matte Bronze'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+35'] },
-      '20x9.5': { finishes: ['Hyper Black', 'Matte Black', 'Matte Bronze'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+35', '+38'] }
+      '20x9.5': { finishes: ['Hyper Black', 'Matte Black', 'Matte Bronze'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+35', '+38'], boltOffsets: { '5x114.3': ['+35'], '5x112': ['+38'], '5x120': ['+38'] } }
     }
   },
   mfr2: {
@@ -617,9 +617,9 @@ const wheelData = {
     variants: {
       '18x8.5': { finishes: ['Matte Black', 'Matte Bronze'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+35'] },
       '19x8.5': { finishes: ['Matte Black', 'Matte Bronze'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+35'] },
-      '19x9.5': { finishes: ['Matte Black', 'Matte Bronze'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+35', '+38'] },
+      '19x9.5': { finishes: ['Matte Black', 'Matte Bronze'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+35', '+38'], boltOffsets: { '5x114.3': ['+35'], '5x112': ['+38'], '5x120': ['+38'] } },
       '20x8.5': { finishes: ['Matte Black', 'Matte Bronze'], boltPatterns: ['5x112', '5x114.3'], offsets: ['+35'] },
-      '20x9.5': { finishes: ['Matte Black', 'Matte Bronze'], boltPatterns: ['5x112', '5x114.3'], offsets: ['+35', '+38'] }
+      '20x9.5': { finishes: ['Matte Black', 'Matte Bronze'], boltPatterns: ['5x112', '5x114.3'], offsets: ['+35', '+38'], boltOffsets: { '5x114.3': ['+35'], '5x112': ['+38'] } }
     }
   },
   mfr3: {
@@ -651,7 +651,7 @@ const wheelData = {
     variants: {
       '18x8.5': { finishes: ['Matte Black Machine Lip'], boltPatterns: ['5x100', '5x112', '5x114.3', '5x120'], offsets: ['+35'] },
       '19x8.5': { finishes: ['Matte Black Machine Lip', 'Matte Bronze Machined Lip'], boltPatterns: ['5x100', '5x112', '5x114.3', '5x120'], offsets: ['+35'] },
-      '19x9.5': { finishes: ['Matte Black Machine Lip', 'Matte Bronze Machined Lip'], boltPatterns: ['5x100', '5x112', '5x114.3', '5x120'], offsets: ['+35', '+38'] }
+      '19x9.5': { finishes: ['Matte Black Machine Lip', 'Matte Bronze Machined Lip'], boltPatterns: ['5x100', '5x112', '5x114.3', '5x120'], offsets: ['+35', '+38'], boltOffsets: { '5x100': ['+35'], '5x114.3': ['+35'], '5x112': ['+38'], '5x120': ['+38'] } }
     }
   },
   // MFL Series
@@ -669,9 +669,9 @@ const wheelData = {
       '18x8.5': { finishes: ['Chrome', 'Matte Black Machined Lip', 'Matte Bronze Machined Lip'], boltPatterns: ['5x100', '5x114.3'], offsets: ['+35'] },
       '18x9.5': { finishes: ['Chrome', 'Matte Black Machined Lip', 'Matte Bronze Machined Lip'], boltPatterns: ['5x100', '5x114.3'], offsets: ['+35'] },
       '19x8.5': { finishes: ['Chrome', 'Matte Black Machined Lip', 'Matte Bronze Machined Lip'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+35'] },
-      '19x9.5': { finishes: ['Chrome', 'Matte Black Machined Lip', 'Matte Bronze Machined Lip'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+30', '+35', '+38'] },
+      '19x9.5': { finishes: ['Chrome', 'Matte Black Machined Lip', 'Matte Bronze Machined Lip'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+30', '+35', '+38'], boltOffsets: { '5x114.3': ['+30', '+35'], '5x112': ['+38'], '5x120': ['+38'] } },
       '20x8.5': { finishes: ['Chrome', 'Matte Black Machined Lip', 'Matte Bronze Machined Lip'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+35'] },
-      '20x9.5': { finishes: ['Chrome', 'Matte Black Machined Lip', 'Matte Bronze Machined Lip'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+35', '+38'] }
+      '20x9.5': { finishes: ['Chrome', 'Matte Black Machined Lip', 'Matte Bronze Machined Lip'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+35', '+38'], boltOffsets: { '5x114.3': ['+35'], '5x112': ['+38'], '5x120': ['+38'] } }
     }
   },
   mfl2: {
@@ -687,9 +687,9 @@ const wheelData = {
       '18x8.5': { finishes: ['Chrome', 'Matte Black Machined Lip', 'Matte Bronze Machined Lip'], boltPatterns: ['5x100', '5x114.3'], offsets: ['+35'] },
       '18x9.5': { finishes: ['Chrome', 'Matte Black Machined Lip', 'Matte Bronze Machined Lip'], boltPatterns: ['5x100', '5x114.3'], offsets: ['+30', '+35'] },
       '19x8.5': { finishes: ['Chrome', 'Matte Black Machined Lip', 'Matte Bronze Machined Lip'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+35'] },
-      '19x9.5': { finishes: ['Chrome', 'Matte Black Machined Lip', 'Matte Bronze Machined Lip'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+30', '+38'] },
+      '19x9.5': { finishes: ['Chrome', 'Matte Black Machined Lip', 'Matte Bronze Machined Lip'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+30', '+38'], boltOffsets: { '5x114.3': ['+30'], '5x112': ['+38'], '5x120': ['+38'] } },
       '20x8.5': { finishes: ['Chrome', 'Matte Black Machined Lip', 'Matte Bronze Machined Lip'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+35'] },
-      '20x9.5': { finishes: ['Chrome', 'Matte Black Machined Lip', 'Matte Bronze Machined Lip'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+35', '+38'] }
+      '20x9.5': { finishes: ['Chrome', 'Matte Black Machined Lip', 'Matte Bronze Machined Lip'], boltPatterns: ['5x112', '5x114.3', '5x120'], offsets: ['+35', '+38'], boltOffsets: { '5x114.3': ['+35'], '5x112': ['+38'], '5x120': ['+38'] } }
     }
   },
   // MF Series (Offroad)
@@ -783,10 +783,10 @@ const wheelData = {
       '17x9': { finishes: ['Black', 'Bronze', 'Hyper Black', 'Silver Machined', 'White'], boltPatterns: ['5x100', '5x114.3'], offsets: ['+30'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_17X9_HB_1.jpg?width=800'},
       '18x10.5': { finishes: ['Black', 'Hyper Black', 'White'], boltPatterns: ['5x114.3'], offsets: ['+22'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_18X105_BK_1.jpg?width=800'},
       '18x8.5': { finishes: ['Black', 'Bronze', 'Hyper Black', 'Silver Machined', 'White'], boltPatterns: ['5x100', '5x114.3'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_18X85_HB.jpg?width=800'},
-      '18x9.5': { finishes: ['Black', 'Bronze', 'Hyper Black', 'Silver Machined', 'White'], boltPatterns: ['5x100', '5x114.3'], offsets: ['+22', '+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_18X95_HB_8446ef59-62df-4edc-b33d-6f6db88dfbaa.jpg?width=800'},
+      '18x9.5': { finishes: ['Black', 'Bronze', 'Hyper Black', 'Silver Machined', 'White'], boltPatterns: ['5x100', '5x114.3'], offsets: ['+22', '+35'], boltOffsets: { '5x100': ['+35'], '5x114.3': ['+22', '+35'] }, image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_18X95_HB_8446ef59-62df-4edc-b33d-6f6db88dfbaa.jpg?width=800'},
       '19x10.5': { finishes: ['Black', 'Hyper Black', 'Silver Machined', 'White'], boltPatterns: ['5x114.3'], offsets: ['+22'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_19X105_GLOSS_BLACK_bb0d763c-2c8d-4e6c-8822-de430178cce8.jpg?width=800'},
       '19x8.5': { finishes: ['Black', 'Bronze', 'Hyper Black', 'Silver Machined', 'White'], boltPatterns: ['5x114.3'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_19X85_BK_1.jpg?width=800'},
-      '19x9.5': { finishes: ['Black', 'Bronze', 'Hyper Black', 'Silver Machined', 'White'], boltPatterns: ['5x114.3'], offsets: ['+22', '+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_19X95_HB_1.jpg?width=800'},
+      '19x9.5': { finishes: ['Black', 'Bronze', 'Hyper Black', 'Silver Machined', 'White'], boltPatterns: ['5x114.3'], offsets: ['+22', '+35'], boltOffsets: { '5x114.3': ['+22', '+35'] }, image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_19X95_HB_1.jpg?width=800'},
       '20x8.5': { finishes: ['Black', 'Hyper Black', 'Silver Machined', 'White'], boltPatterns: ['5x114.3'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_20X85_HB_1.jpg?width=800'},
       '20x9.5': { finishes: ['Black', 'Hyper Black', 'Silver Machined', 'White'], boltPatterns: ['5x114.3'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_20X95_HB_1.jpg?width=800'}
     }
@@ -837,9 +837,9 @@ const wheelData = {
       '17x8': { finishes: ['Black', 'Bronze', 'Hyper Black', 'Silver Machined', 'White'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_17X8_BR_1.jpg?width=800'},
       '17x9': { finishes: ['Black', 'Bronze', 'Hyper Black', 'Silver Machined', 'White'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+30'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_17X9_W_1.jpg?width=800'},
       '18x8.5': { finishes: ['Black', 'Bronze', 'Hyper Black', 'Silver Machined', 'White'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_18X85_HB.jpg?width=800'},
-      '18x9.5': { finishes: ['Black', 'Bronze', 'Hyper Black', 'Silver Machined', 'White'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+22', '+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_18X95_HB.jpg?width=800'},
+      '18x9.5': { finishes: ['Black', 'Bronze', 'Hyper Black', 'Silver Machined', 'White'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+22', '+35'], boltOffsets: { '5x114.3': ['+22', '+35'], '5x108': ['+35'], '5x110': ['+35'], '5x112': ['+35'], '5x115': ['+35'], '5x120': ['+35'] }, image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_18X95_HB.jpg?width=800'},
       '19x8.5': { finishes: ['Black', 'Bronze', 'Hyper Black', 'Silver Machined', 'White'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_19X85_W_1.jpg?width=800'},
-      '19x9.5': { finishes: ['Black', 'Bronze', 'Hyper Black', 'Silver Machined', 'White'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+22', '+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_19X95_BR_1.jpg?width=800'}
+      '19x9.5': { finishes: ['Black', 'Bronze', 'Hyper Black', 'Silver Machined', 'White'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+22', '+35'], boltOffsets: { '5x114.3': ['+22', '+35'], '5x108': ['+35'], '5x110': ['+35'], '5x112': ['+35'], '5x115': ['+35'], '5x120': ['+35'] }, image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_19X95_BR_1.jpg?width=800'}
     }
   },
   'vors-tr88': {
@@ -875,7 +875,7 @@ const wheelData = {
       '18x8': { finishes: ['Gloss Black', 'Hyper Black', 'Silver'], boltPatterns: ['5x100', '5x105', '5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/VR8_18X8_HB_ML_CR.jpg?width=800'},
       '18x9': { finishes: ['Gloss Black', 'Hyper Black', 'Silver'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/VR8_18X9_HB_CR_MAIN.jpg?width=800'},
       '19x8.5': { finishes: ['Gloss Black', 'Hyper Black', 'Silver'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/VR8_19X85_HB_1.jpg?width=800'},
-      '19x9.5': { finishes: ['Gloss Black', 'Hyper Black', 'Silver'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+22', '+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/VR8_19X95_S_1.jpg?width=800'},
+      '19x9.5': { finishes: ['Gloss Black', 'Hyper Black', 'Silver'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+22', '+35'], boltOffsets: { '5x114.3': ['+22', '+35'], '5x108': ['+35'], '5x110': ['+35'], '5x112': ['+35'], '5x115': ['+35'], '5x120': ['+35'] }, image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/VR8_19X95_S_1.jpg?width=800'},
       '20x8.5': { finishes: ['Gloss Black', 'Hyper Black', 'Silver'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/VR8_20X85_GB_1_5ae9b9d4-fd34-4dde-97bc-008bfe2aa565.jpg?width=800'},
       '20x9.5': { finishes: ['Gloss Black', 'Hyper Black', 'Silver'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/VR8_20X95_S_1.jpg?width=800'}
     }
@@ -908,7 +908,7 @@ const wheelData = {
       '17x8': { finishes: ['Black', 'Bronze', 'Silver Machined'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR5_17X8_BK_1.jpg?width=800'},
       '17x9': { finishes: ['Black', 'Bronze', 'Silver Machined'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+30'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR5_17X9_BK_1.jpg?width=800'},
       '18x8.5': { finishes: ['Black', 'Bronze', 'Silver Machined'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR05_18X95_SILVER_STD.jpg?width=800'},
-      '18x9.5': { finishes: ['Black', 'Bronze', 'Silver Machined'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+30'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR05_18x95_SILVER_STD_400179be-62a3-4ca6-9796-4f0ec060c171.jpg?width=800'},
+      '18x9.5': { finishes: ['Black', 'Bronze', 'Silver Machined'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+30', '+35'], boltOffsets: { '5x114.3': ['+30', '+35'], '5x108': ['+30'], '5x110': ['+30'], '5x112': ['+30'], '5x115': ['+30'], '5x120': ['+30'] }, image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR05_18x95_SILVER_STD_400179be-62a3-4ca6-9796-4f0ec060c171.jpg?width=800'},
       '19x8.5': { finishes: ['Black', 'Bronze', 'Silver Machined'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR5_19X85_BK_1.jpg?width=800'},
       '19x9.5': { finishes: ['Black', 'Bronze', 'Silver Machined'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR5_19X95_BK_1.jpg?width=800'}
     }
@@ -928,7 +928,7 @@ const wheelData = {
       '15x8': { finishes: ['Hyper Black', 'Matte Black', 'Silver Machined', 'White'], boltPatterns: ['4x100/114.3', '4x108'], offsets: ['+20'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/SP1_15X8_HB_ML.jpg?width=800'},
       '16x7': { finishes: ['Hyper Black', 'Matte Black', 'Silver Machined', 'White'], boltPatterns: ['4x100/114.3', '4x108'], offsets: ['+38'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/SP1_16X7_HB_1.jpg?width=800'},
       '16x8': { finishes: ['Hyper Black', 'Matte Black', 'Silver Machined', 'White'], boltPatterns: ['4x100/114.3', '4x108'], offsets: ['+20'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/SP1_16X8_WHITE_1.jpg?width=800'},
-      '17x8': { finishes: ['Hyper Black', 'Matte Black', 'Silver Machined', 'White'], boltPatterns: ['4x100/114.3', '4x108', '5x100/114.3', '5x105', '5x108', '5x110', '5x112', '5x115', '5x120'], offsets: ['+30', '+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/SP1_17X8_8H_HBML_1.jpg?width=800'},
+      '17x8': { finishes: ['Hyper Black', 'Matte Black', 'Silver Machined', 'White'], boltPatterns: ['4x100/114.3', '4x108', '5x100/114.3', '5x105', '5x108', '5x110', '5x112', '5x115', '5x120'], offsets: ['+30', '+35'], boltOffsets: { '4x100/114.3': ['+35'], '4x108': ['+35'], '5x100/114.3': ['+30', '+35'], '5x105': ['+30', '+35'], '5x108': ['+30', '+35'], '5x110': ['+30', '+35'], '5x112': ['+30', '+35'], '5x115': ['+30', '+35'], '5x120': ['+30', '+35'] }, image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/SP1_17X8_8H_HBML_1.jpg?width=800'},
       '17x9': { finishes: ['Hyper Black', 'Matte Black', 'Silver Machined'], boltPatterns: ['5x100/114.3', '5x105', '5x108', '5x110', '5x112', '5x115', '5x120'], offsets: ['+30'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/SP1_17X9_10H_SILVER_1.jpg?width=800'},
       '18x8': { finishes: ['Hyper Black', 'Matte Black', 'Silver Machined', 'White'], boltPatterns: ['5x100/114.3', '5x105', '5x108', '5x110', '5x112', '5x115', '5x120'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/SP1_18X8_HB.jpg?width=800'},
       '18x9': { finishes: ['Hyper Black', 'Matte Black', 'Silver Machined', 'White'], boltPatterns: ['5x100/114.3', '5x105', '5x108', '5x110', '5x112', '5x115', '5x120'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/SP1_18X9_SILVER_2KPX.jpg?width=800'},
@@ -960,7 +960,7 @@ const wheelData = {
     ],
     variants: {
       '19x8.5': { finishes: ['Black', 'Hyper Silver'], boltPatterns: ['5x108', '5x110', '5x112', '5x114.3', '5x115', '5x120'], offsets: ['+35'] },
-      '19x9.5': { finishes: ['Black', 'Hyper Silver'], boltPatterns: ['5x114.3'], offsets: ['+40'] }
+      '19x9.5': { finishes: ['Black', 'Hyper Silver'], boltPatterns: ['5x114.3'], offsets: ['+35', '+40'] }
     }
   }
 };
