@@ -965,6 +965,198 @@ const wheelData = {
   }
 };
 
+// ===== WEIGHT & LIP DATA (from manufacturer sites) =====
+// Format: { 'wheelId': { 'size': { weight: lbs, lip: inches } } }
+const wheelSpecs = {
+  ah02: {
+    '17x8':   { weight: 19.8, lip: '2.02"' },
+    '18x8.5': { weight: 21.1, lip: '2"' },
+    '18x9.5': { weight: 21.7, lip: '2.69"' },
+    '19x8.5': { weight: 23.6, lip: '2"' },
+    '19x9.5': { weight: 24.2, lip: '2.99"' },
+    '19x11':  { weight: 25.6, lip: '3.9"' }
+  },
+  ah03: {
+    '15x8':   { weight: 16.7, lip: '2.75"' },
+    '16x8':   { weight: 17.9, lip: '2.9"' },
+    '17x9':   { weight: 23.6, lip: '3"' },
+    '18x9.5': { weight: 25.9, lip: '3"' },
+    '19x9.5': { weight: 27.5, lip: '3"' },
+    '19x11':  { weight: 28.2, lip: '3.9"' }
+  },
+  ah04: {
+    '15x8':   { weight: 17.2, lip: '2"' },
+    '16x8':   { weight: 18.1, lip: '2"' },
+    '17x9':   { weight: 21.9, lip: '1.9"' },
+    '18x9.5': { weight: 24.5, lip: '2"' }
+  },
+  ah05: {
+    '15x8':   { weight: 16.7, lip: '2.5"' },
+    '16x8':   { weight: 18.5, lip: '2.5"' },
+    '17x9':   { weight: 22.5, lip: '2.25"' },
+    '18x8.5': { weight: 25.6, lip: '2"' },
+    '18x9.5': { weight: 26, lip: '2.5"' }
+  },
+  ah06: {
+    '17x9':   { weight: 17.8, lip: '2.38"' },
+    '18x9':   { weight: 19.2, lip: '2.37"' },
+    '18x10':  { weight: 20.1, lip: '2.9"' }
+  },
+  ah07: {
+    '18x8.5': { weight: 19.6, lip: '1.67"' },
+    '18x9.5': { weight: 20.4, lip: '1.73"' }
+  },
+  ah08: {
+    '18x8.5': { weight: 19.6, lip: '2.03"' },
+    '18x9.5': { weight: 20.9, lip: '2.03"' }
+  },
+  ah09: {
+    '18x8.5': { weight: 19.3, lip: '1.57"' },
+    '18x9.5': { weight: 19.9, lip: '2.26"' }
+  },
+  ahx: {
+    '18x8.5': { weight: 20.3, lip: '1.88"' },
+    '18x9.5': { weight: 20.9, lip: '2.38"' },
+    '19x8.5': { weight: 22.9, lip: '1.88"' },
+    '19x9.5': { weight: 22.9, lip: '2.38"' }
+  },
+  ah11: {
+    '18x8.5': { weight: 18.8, lip: '1.83"' },
+    '18x9.5': { weight: 19.4, lip: '2.31"' },
+    '19x8.5': { weight: 21.6, lip: '1.85"' },
+    '19x9.5': { weight: 21.7, lip: '2.33"' }
+  },
+  ds01: {
+    '18x8.5':  { weight: 24, lip: '2.15"' },
+    '18x9.5':  { weight: 25.7, lip: '2.5"' },
+    '18x10.5': { weight: 25.5, lip: '3.5"' },
+    '19x9.5':  { weight: 28, lip: '2.6"' },
+    '19x10.5': { weight: 27.5, lip: '3.7"' }
+  },
+  ds02: {
+    '18x8.5':  { weight: 23.6, lip: '2.04"' },
+    '18x9.5':  { weight: 23.8, lip: '2.63"' },
+    '18x10.5': { weight: 25.1, lip: '3.5"' },
+    '19x8.5':  { weight: 24.8, lip: '2.04"' },
+    '19x9.5':  { weight: 25.6, lip: '2.5"' },
+    '19x11':   { weight: 28.6, lip: '3.5"' }
+  },
+  ds03: {
+    '18x9.5': { weight: 26.2, lip: '2.95"' }
+  },
+  ds05: {
+    '18x8.5':  { weight: null, lip: '2.09"' },
+    '18x9.5':  { weight: null, lip: '2.28"' },
+    '18x10.5': { weight: null, lip: '3.07"' },
+    '19x9.5':  { weight: null, lip: '2.28"' },
+    '19x11':   { weight: null, lip: '3.27"' }
+  },
+  ds06: {
+    '18x8.5':  { weight: null, lip: '2.08"' },
+    '18x9.5':  { weight: null, lip: '2.28"' },
+    '18x10.5': { weight: null, lip: '3.07"' },
+    '19x9.5':  { weight: null, lip: '2.28"' },
+    '19x11':   { weight: null, lip: '3.27"' }
+  },
+  ds07: {
+    '18x8.5':  { weight: null, lip: '2.08"' },
+    '18x9.5':  { weight: null, lip: '2.44"' },
+    '18x10.5': { weight: null, lip: '3.34"' },
+    '19x8.5':  { weight: null, lip: '2.08"' },
+    '19x9.5':  { weight: null, lip: '2.56"' },
+    '19x11':   { weight: null, lip: '3.46"' }
+  },
+  ds08: {
+    '18x8.5':  { weight: 21.3, lip: '2.16"' },
+    '18x9.5':  { weight: 22.6, lip: '2.56"' },
+    '18x10.5': { weight: 22.7, lip: '3.07"' },
+    '19x8.5':  { weight: 22.4, lip: '2.16"' },
+    '19x9.5':  { weight: 24.1, lip: '2.5"' },
+    '19x11':   { weight: 24.6, lip: '3.32"' }
+  },
+  ds09: {
+    '18x8.5':  { weight: 21.3, lip: '2.16"' },
+    '18x9.5':  { weight: 22, lip: '2.56"' },
+    '18x10.5': { weight: 23.1, lip: '3.07"' },
+    '19x8.5':  { weight: 23.1, lip: '2.16"' },
+    '19x9.5':  { weight: 24.9, lip: '2.5"' },
+    '19x11':   { weight: 25.7, lip: '3.32"' }
+  },
+  dsx: {
+    '18x8.5':  { weight: 20.9, lip: '2.16"' },
+    '18x9.5':  { weight: 22.5, lip: '2.56"' },
+    '18x10.5': { weight: 23.1, lip: '3.07"' },
+    '19x8.5':  { weight: 23.9, lip: '2.16"' },
+    '19x9.5':  { weight: 25, lip: '2.5"' },
+    '19x11':   { weight: 25.4, lip: '3.32"' }
+  },
+  aff1: {
+    '20x9':    { weight: 26.2, lip: '1.8"' },
+    '20x10.5': { weight: 26.4, lip: '2.7"' }
+  },
+  aff2: {
+    '19x8.5':  { weight: null, lip: null },
+    '19x9.5':  { weight: null, lip: null },
+    '20x9':    { weight: 25.2, lip: '1.97"' },
+    '20x10.5': { weight: 25.7, lip: '2.8"' }
+  },
+  aff3: {
+    '20x9':    { weight: 25.9, lip: '1.18"' },
+    '20x10.5': { weight: 25.1, lip: '2.63"' }
+  },
+  aff7: {
+    '18x8.5':  { weight: 19.6, lip: '1.68"' },
+    '18x9.5':  { weight: 19.7, lip: '2.4"' },
+    '19x8.5':  { weight: 20.6, lip: '1.79"' },
+    '19x9.5':  { weight: 20.7, lip: '2.48"' },
+    '20x9':    { weight: 23.8, lip: '2.26"' },
+    '20x10.5': { weight: 23.9, lip: '2.8"' }
+  },
+  aff9: {
+    '20x9':    { weight: 24.5, lip: '2.4"' },
+    '20x10.5': { weight: 25.6, lip: '2.95"' }
+  }
+};
+
+// Build spec chart HTML from wheel variants + wheelSpecs data
+function buildSpecChart(wheelId, wheel) {
+  if (!wheel.variants) return '';
+  const specs = wheelSpecs[wheelId] || {};
+  const sizes = Object.keys(wheel.variants);
+  const hasWeight = sizes.some(s => specs[s]?.weight);
+  const hasLip = sizes.some(s => specs[s]?.lip);
+
+  let rows = sizes.map(size => {
+    const v = wheel.variants[size];
+    const s = specs[size] || {};
+    return `<tr>
+      <td>${size}</td>
+      <td>${v.boltPatterns.join(', ')}</td>
+      <td>${v.offsets.join(', ')}</td>
+      ${hasWeight ? `<td>${s.weight ? s.weight + ' lbs' : '—'}</td>` : ''}
+      ${hasLip ? `<td>${s.lip || '—'}</td>` : ''}
+    </tr>`;
+  }).join('');
+
+  return `
+    <div class="spec-group spec-chart-wrap">
+      <div class="spec-label spec-chart-toggle" id="specChartToggle">
+        Sizing Chart <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="spec-chart" id="specChart">
+        <table>
+          <thead><tr>
+            <th>Size</th><th>Bolt Pattern</th><th>Offset</th>
+            ${hasWeight ? '<th>Weight</th>' : ''}
+            ${hasLip ? '<th>Lip</th>' : ''}
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
 // ===== WHEEL HELPERS =====
 function getWheelSizes(wheel) {
   if (wheel.variants) return Object.keys(wheel.variants);
@@ -1047,6 +1239,7 @@ function openWheelModal(wheelId) {
       <div class="spec-label">Center Bore</div>
       <div class="spec-value">${wheel.centerBore}</div>
     </div>
+    ${buildSpecChart(wheelId, wheel)}
     <div id="similarWheels"></div>
   `;
 
@@ -1082,6 +1275,16 @@ function openWheelModal(wheelId) {
   });
 
   updateModalVariant(wheelId, defaultSize);
+
+  // Spec chart toggle
+  const specToggle = document.getElementById('specChartToggle');
+  const specChart = document.getElementById('specChart');
+  if (specToggle && specChart) {
+    specToggle.addEventListener('click', () => {
+      specChart.classList.toggle('open');
+      specToggle.classList.toggle('open');
+    });
+  }
 
   // Build similar wheels
   buildSimilarWheels(wheelId, wheel);
@@ -1693,7 +1896,7 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Animate sections on scroll
-document.querySelectorAll('.brand-section, .gallery-item, .about-point, .contact-social-card').forEach(el => {
+document.querySelectorAll('.brand-section, .gallery-item, .about-point, .review-card, .accessory-card, .contact-social-card').forEach(el => {
   el.style.opacity = '0';
   el.style.transform = 'translateY(20px)';
   el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
