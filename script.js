@@ -591,7 +591,7 @@ const wheelData = {
     name: 'MFLOW MFR1',
     series: 'MFR Series — Flow Form',
     centerBore: '73.1mm',
-    priceRange: '$212 – $274 /wheel',
+    priceRange: '$237 /wheel',
     images: [
       'https://unleashedwheels.com/cdn/shop/files/mflow-racing-mfr1-hyper-black-unleashedwheels.jpg?v=1724878850&width=800',
       'https://unleashedwheels.com/cdn/shop/files/mflow-racing-mfr1-matte-bronze-unleashedwheels.jpg?v=1724879474&width=800'
@@ -609,7 +609,7 @@ const wheelData = {
     name: 'MFLOW MFR2',
     series: 'MFR Series — Flow Form',
     centerBore: '73.1mm',
-    priceRange: '$212 – $274 /wheel',
+    priceRange: '$237 /wheel',
     images: [
       'https://unleashedwheels.com/cdn/shop/files/mflow-mfr2-matte-black-unleashedwheels.jpg?v=1724881053&width=800',
       'https://unleashedwheels.com/cdn/shop/files/mflow-mfr2-matte-bronze-unleashedwheels.jpg?v=1724884011&width=800'
@@ -626,7 +626,7 @@ const wheelData = {
     name: 'MFLOW MFR3',
     series: 'MFR Series — Flow Form',
     centerBore: '73.1mm',
-    priceRange: '$212 – $237 /wheel',
+    priceRange: '$237 /wheel',
     images: [
       'https://unleashedwheels.com/cdn/shop/files/mflow-mfr3-gloss-black-unleashedwheels.jpg?v=1724886960&width=800',
       'https://unleashedwheels.com/cdn/shop/files/mflow-mfr3-hyper-silver-unleashedwheels.jpg?v=1724884908&width=800',
@@ -643,7 +643,7 @@ const wheelData = {
     name: 'MFLOW MFR4',
     series: 'MFR Series — Flow Form',
     centerBore: '73.1mm',
-    priceRange: '$212 – $274 /wheel',
+    priceRange: '$224 /wheel',
     images: [
       'https://unleashedwheels.com/cdn/shop/files/mflow-racing-mfr4-matte-black-unleashedwheels.jpg?v=1743713898&width=800',
       'https://unleashedwheels.com/cdn/shop/files/mflow-racing-mfr4-matte-bronze-unleashedwheels.jpg?v=1743711412&width=800'
@@ -659,7 +659,7 @@ const wheelData = {
     name: 'MFLOW MFL1',
     series: 'MFL Series — Flow Forming',
     centerBore: '73.1mm',
-    priceRange: '$212 – $324 /wheel',
+    priceRange: '$237 /wheel',
     images: [
       'https://unleashedwheels.com/cdn/shop/files/mflow-mfl1-chrome-unleashedwheels.jpg?v=1725407132&width=800',
       'https://unleashedwheels.com/cdn/shop/files/mflow-mfl1-matte-black-machined-lip.jpg?v=1725060775&width=800',
@@ -678,7 +678,7 @@ const wheelData = {
     name: 'MFLOW MFL2',
     series: 'MFL Series — Flow Forming',
     centerBore: '73.1mm',
-    priceRange: '$212 – $324 /wheel',
+    priceRange: '$237 /wheel',
     images: [
       'https://unleashedwheels.com/cdn/shop/files/mflow-mfl2-chrome-unleashedwheels.jpg?v=1725491264&width=800',
       'https://unleashedwheels.com/cdn/shop/files/mflow-mfl2-matte-bronze-unleashedwheels.jpg?v=1725490367&width=800'
@@ -697,74 +697,74 @@ const wheelData = {
     name: 'MFLOW MF01',
     series: 'MF Series — Offroad',
     centerBore: '71.5mm',
-    priceRange: '$199 /wheel',
+    priceRange: '$224 /wheel',
     images: [
       'https://wheelplususa.com/cdn/shop/files/ML1-Matte-Bronze-Wheels-Rims_3ad8bf49-f08a-49bb-9302-06533e4b7df0.jpg?v=1760723096&width=800'
     ],
     variants: {
-      '17x9': { finishes: ['Matte Black', 'Matte Bronze'], boltPatterns: ['5x127'], offsets: ['-12', '+12'] }
+      '17x9': { finishes: ['Matte Black', 'Matte Bronze', 'Machined Silver'], boltPatterns: ['5x127'], offsets: ['-12', '+12'] }
     }
   },
   mf02: {
     name: 'MFLOW MF02',
     series: 'MF Series — Offroad',
     centerBore: '106.1mm',
-    priceRange: '$199 /wheel',
+    priceRange: '$224 /wheel',
     images: [
       'https://wheelplususa.com/cdn/shop/files/ML2-Matte-Bronze-Wheels-Rims_fb68a9cd-c705-430c-8528-82482fadc791.jpg?v=1760723100&width=800'
     ],
     variants: {
-      '17x9': { finishes: ['Matte Black', 'Matte Bronze'], boltPatterns: ['5x127', '6x135', '6x139.7'], offsets: ['-12', '+0', '+12'] }
+      '17x9': { finishes: ['Matte Black', 'Matte Bronze', 'Machined Silver'], boltPatterns: ['5x127', '6x135', '6x139.7'], offsets: ['-12', '+0', '+12'] }
     }
   },
   mf03: {
     name: 'MFLOW MF03',
     series: 'MF Series — Offroad',
     centerBore: '106.1mm',
-    priceRange: '$199 /wheel',
+    priceRange: '$224 /wheel',
     images: [
       'https://wheelplususa.com/cdn/shop/files/ML3-Matte-Bronze-Wheels-Rims_cbb74392-f31f-4e29-a763-a3baa6144e46.jpg?v=1760723105&width=800'
     ],
     variants: {
-      '17x9': { finishes: ['Matte Black', 'Matte Bronze'], boltPatterns: ['6x135', '6x139.7'], offsets: ['-12', '+0'] }
+      '17x9': { finishes: ['Matte Black', 'Matte Bronze', 'Machined Silver'], boltPatterns: ['6x135', '6x139.7'], offsets: ['-12', '+0'] }
     }
   },
   mf04: {
     name: 'MFLOW MF04',
     series: 'MF Series — Offroad',
     centerBore: '106.1mm',
-    priceRange: '$199 /wheel',
+    priceRange: '$224 /wheel',
     images: [
       'https://wheelplususa.com/cdn/shop/files/ML4-Matte-Bronze-Wheels-Rims_11ea4bd5-2319-4dac-99cf-e21577708852.jpg?v=1760723110&width=800'
     ],
     variants: {
-      '17x9': { finishes: ['Matte Black', 'Matte Bronze'], boltPatterns: ['5x127', '6x127', '6x135', '6x139.7'], offsets: ['-12', '+0', '+12'] }
+      '17x9': { finishes: ['Matte Black', 'Matte Bronze', 'Machined Silver'], boltPatterns: ['5x127', '6x135', '6x139.7'], offsets: ['-12', '+0', '+12'] }
     }
   },
   mf05: {
     name: 'MFLOW MF05',
     series: 'MF Series — Offroad',
     centerBore: '106.1mm',
-    priceRange: '$199 /wheel',
+    priceRange: '$224 /wheel',
     images: [
       'https://wheelplususa.com/cdn/shop/files/ML5-Matte-Bronze-Wheels-Rims_1169e107-97e2-4715-aa91-370bbd559acc.jpg?v=1760723116&width=800'
     ],
     variants: {
-      '17x8.5': { finishes: ['Matte Black', 'Matte Bronze'], boltPatterns: ['6x139.7'], offsets: ['+0', '+5', '+25'] },
-      '17x9': { finishes: ['Matte Black', 'Matte Bronze'], boltPatterns: ['5x127', '6x135', '6x139.7'], offsets: ['-12', '+12'] }
+      '17x8.5': { finishes: ['Matte Black', 'Matte Bronze', 'Machined Silver'], boltPatterns: ['6x139.7'], offsets: ['+5', '+25'] },
+      '17x9': { finishes: ['Matte Black', 'Matte Bronze', 'Machined Silver'], boltPatterns: ['5x127', '6x135', '6x139.7'], offsets: ['-12', '+0', '+12'] }
     }
   },
   mf06: {
     name: 'MFLOW MF06',
     series: 'MF Series — Offroad',
     centerBore: '106.1mm',
-    priceRange: '$199 /wheel',
+    priceRange: '$224 /wheel',
     images: [
       'https://wheelplususa.com/cdn/shop/files/ML6-Matte-Bronze-Wheels-Rims_703504bc-3243-4c2f-9474-de40328a625c.jpg?v=1760723123&width=800'
     ],
     variants: {
-      '17x8.5': { finishes: ['Matte Black', 'Matte Bronze'], boltPatterns: ['6x139.7'], offsets: ['+0', '+5', '+25'] },
-      '17x9': { finishes: ['Matte Black', 'Matte Bronze'], boltPatterns: ['6x135', '6x139.7'], offsets: ['-12'] }
+      '17x8.5': { finishes: ['Matte Black', 'Matte Bronze', 'Machined Silver'], boltPatterns: ['6x139.7'], offsets: ['+5', '+25'] },
+      '17x9': { finishes: ['Matte Black', 'Matte Bronze', 'Machined Silver'], boltPatterns: ['6x135', '6x139.7'], offsets: ['-12', '+0'] }
     }
   },
   // ===== VORS =====
@@ -1115,6 +1115,95 @@ const wheelSpecs = {
   aff9: {
     '20x9':    { weight: 24.5, lip: '2.4"' },
     '20x10.5': { weight: 25.6, lip: '2.95"' }
+  },
+  // MFlow Racing
+  mfr1: {
+    '18x8.5': { weight: 21.2, lip: null },
+    '18x9.5': { weight: 21.8, lip: null },
+    '19x8.5': { weight: 23.4, lip: null },
+    '19x9.5': { weight: 23.8, lip: null },
+    '20x8.5': { weight: 24.9, lip: null },
+    '20x9.5': { weight: 26.5, lip: null }
+  },
+  mfr2: {
+    '18x8.5': { weight: 20.1, lip: null },
+    '19x8.5': { weight: 22.7, lip: null },
+    '19x9.5': { weight: 22.7, lip: null },
+    '20x8.5': { weight: 24.5, lip: null },
+    '20x9.5': { weight: 25.1, lip: null }
+  },
+  mfr3: {
+    '18x8.5': { weight: 20.7, lip: null },
+    '18x9.5': { weight: 21.2, lip: null },
+    '19x8.5': { weight: 22, lip: null },
+    '19x9.5': { weight: 22.9, lip: null }
+  },
+  mfr4: {
+    '18x8.5': { weight: 20, lip: null },
+    '19x8.5': { weight: 20, lip: null },
+    '19x9.5': { weight: 20, lip: null }
+  },
+  mf01: {
+    '17x9': { weight: 21.8, lip: null }
+  },
+  mf02: {
+    '17x9': { weight: 20.5, lip: null }
+  },
+  mf03: {
+    '17x9': { weight: 20.7, lip: null }
+  },
+  mf04: {
+    '17x9': { weight: 19.5, lip: null }
+  },
+  mf05: {
+    '17x8.5': { weight: 19.5, lip: null },
+    '17x9': { weight: 20.3, lip: null }
+  },
+  mf06: {
+    '17x8.5': { weight: 19.5, lip: null },
+    '17x9': { weight: 19.5, lip: null }
+  },
+  // Vors
+  'vors-tr4': {
+    '17x8':    { weight: 21.5, lip: '2.3"' },
+    '17x9':    { weight: 22.7, lip: '3.2"' },
+    '18x8.5':  { weight: 21.7, lip: '2.5"' },
+    '18x9.5':  { weight: 24.3, lip: '2.96"' },
+    '18x10.5': { weight: 26.4, lip: '3.9"' },
+    '19x8.5':  { weight: 23.8, lip: '2.4"' },
+    '19x9.5':  { weight: 25.5, lip: '3.03"' },
+    '19x10.5': { weight: 27.4, lip: '3.9"' },
+    '20x8.5':  { weight: 28, lip: '2.48"' },
+    '20x9.5':  { weight: 30, lip: '2.84"' }
+  },
+  'vors-tr37': {
+    '17x8':   { weight: 19, lip: '1.33"' },
+    '17x9':   { weight: 20.2, lip: '1.34"' },
+    '18x8.5': { weight: 20.2, lip: '1.8"' },
+    '18x9.5': { weight: 22, lip: '1.91"' },
+    '19x8.5': { weight: 25.8, lip: '1.8"' },
+    '19x9.5': { weight: 26.4, lip: '1.91"' }
+  },
+  'vors-vr8': {
+    '17x8':   { weight: 19.6, lip: '1.77"' },
+    '18x8':   { weight: 22.5, lip: '1.64"' },
+    '18x9':   { weight: 22.5, lip: '2.59"' },
+    '19x8.5': { weight: 24.5, lip: '1.83"' },
+    '19x9.5': { weight: 25, lip: '2.79"' },
+    '20x8.5': { weight: 27.2, lip: '1.83"' },
+    '20x9.5': { weight: 28.2, lip: '2.4"' }
+  },
+  'vors-sp1': {
+    '15x7':   { weight: 12.8, lip: '1.43"' },
+    '15x8':   { weight: 12.5, lip: '2.53"' },
+    '16x7':   { weight: 14.5, lip: '1.43"' },
+    '16x8':   { weight: 17, lip: '2.68"' },
+    '17x8':   { weight: 20.6, lip: '1.97"' },
+    '17x9':   { weight: 20.8, lip: '2.68"' },
+    '18x8':   { weight: 21.2, lip: '2"' },
+    '18x9':   { weight: 21.4, lip: '2.94"' },
+    '19x8.5': { weight: 23.6, lip: '2.26"' },
+    '19x9.5': { weight: 24.4, lip: '2.76"' }
   }
 };
 
