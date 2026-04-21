@@ -1207,6 +1207,83 @@ const wheelSpecs = {
   }
 };
 
+// ===== EXACT PRICING (from manufacturer inventory spreadsheets) =====
+// Base price per size. If all colors cost the same, just the size→price map.
+const wheelPrices = {
+  // Aodhan AH Series
+  ah01: { '15x8': 162, '16x8': 175, '17x9': 212, '18x9.5': 237 },
+  ah02: { '17x8': 237, '18x8.5': 262, '18x9.5': 262, '19x8.5': 300, '19x9.5': 300, '19x11': 300 },
+  ah03: { '15x8': 162, '16x8': 175, '17x9': 212, '18x9.5': 237, '18x10.5': 237, '19x9.5': 275, '19x11': 275 },
+  ah04: { '15x8': 162, '16x8': 175, '17x9': 212, '18x9.5': 237 },
+  ah05: { '15x8': 162, '16x8': 175, '17x9': 212, '18x8.5': 237, '18x9.5': 237 },
+  ah06: { '17x9': 225, '18x9': 250, '18x10': 255 },
+  ah07: { '18x8.5': 250, '18x9.5': 250 },
+  ah08: { '18x8.5': 250, '18x9.5': 250 },
+  ah09: { '18x8.5': 250, '18x9.5': 250 },
+  ahx:  { '18x8.5': 250, '18x9.5': 250, '19x8.5': 300, '19x9.5': 300 },
+  ah11: { '18x8.5': 250, '18x9.5': 250, '19x8.5': 300, '19x9.5': 300 },
+  // Aodhan DS Series
+  ds01: { '18x8.5': 250, '18x9.5': 250, '18x10.5': 250, '19x9.5': 287, '19x10.5': 287 },
+  ds02: { '18x8.5': 250, '18x9.5': 250, '18x10.5': 250, '19x8.5': 287, '19x9.5': 287, '19x11': 287 },
+  ds03: { '18x9.5': 250 },
+  ds05: { '18x8.5': 250, '18x9.5': 250, '18x10.5': 250, '19x9.5': 287, '19x11': 287 },
+  ds06: { '18x8.5': 250, '18x9.5': 250, '18x10.5': 250, '19x9.5': 287, '19x11': 287 },
+  ds07: { '18x8.5': 250, '18x9.5': 250, '18x10.5': 250, '19x8.5': 287, '19x9.5': 287, '19x11': 287 },
+  ds08: { '18x8.5': 275, '18x9.5': 275, '18x10.5': 275, '19x8.5': 300, '19x9.5': 300, '19x11': 300 },
+  ds09: { '18x8.5': 275, '18x9.5': 275, '18x10.5': 275, '19x8.5': 300, '19x9.5': 300, '19x11': 300 },
+  dsx:  { '18x8.5': 275, '18x9.5': 275, '18x10.5': 275, '19x8.5': 300, '19x9.5': 300, '19x11': 300 },
+  // Aodhan AFF Series
+  aff1: { '20x9': 362, '20x10.5': 362 },
+  aff2: { '19x8.5': 300, '19x9.5': 300, '20x9': 362, '20x10.5': 362 },
+  aff3: { '20x9': 362, '20x10.5': 362 },
+  aff7: { '18x8.5': 275, '18x9.5': 275, '19x8.5': 300, '19x9.5': 300, '20x9': 362, '20x10.5': 362 },
+  aff9: { '20x9': 362, '20x10.5': 362 },
+  // MFlow Racing (flat price per wheel from mflowracing.com)
+  mfr1: { '18x8.5': 237, '18x9.5': 237, '19x8.5': 237, '19x9.5': 237, '20x8.5': 237, '20x9.5': 237 },
+  mfr2: { '18x8.5': 237, '19x8.5': 237, '19x9.5': 237, '20x8.5': 237, '20x9.5': 237 },
+  mfr3: { '18x8.5': 237, '18x9.5': 237, '19x8.5': 237, '19x9.5': 237 },
+  mfr4: { '18x8.5': 225, '19x8.5': 225, '19x9.5': 225 },
+  mfl1: { '18x8.5': 237, '18x9.5': 237, '19x8.5': 237, '19x9.5': 237, '20x8.5': 237, '20x9.5': 237 },
+  mfl2: { '18x8.5': 237, '18x9.5': 237, '19x8.5': 237, '19x9.5': 237, '20x8.5': 237, '20x9.5': 237 },
+  mf01: { '17x9': 225 },
+  mf02: { '17x9': 225 },
+  mf03: { '17x9': 225 },
+  mf04: { '17x9': 225 },
+  mf05: { '17x8.5': 225, '17x9': 225 },
+  mf06: { '17x8.5': 225, '17x9': 225 },
+  // Vors (from inventory spreadsheet MAP prices)
+  'vors-tr4':  { '17x8': 210, '17x9': 210, '18x8.5': 235, '18x9.5': 235, '18x10.5': 255, '19x8.5': 260, '19x9.5': 260, '19x10.5': 280, '20x8.5': 310, '20x9.5': 310 },
+  'vors-tr10': { '17x8': 210, '17x9': 210, '18x8.5': 235, '18x9.5': 235, '19x8.5': 260, '19x9.5': 260 },
+  'vors-tr14': { '18x8': 235, '18x9': 235, '19x8.5': 260 },
+  'vors-tr37': { '17x8': 210, '17x9': 210, '18x8.5': 235, '18x9.5': 235, '19x8.5': 260, '19x9.5': 260 },
+  'vors-tr88': { '18x8.5': 235, '18x9.5': 235, '19x8.5': 260, '19x9.5': 260, '20x9': 310, '20x10.5': 310 },
+  'vors-vr8':  { '17x8': 210, '18x8': 265, '18x9': 235, '19x8.5': 260, '19x9.5': 260, '20x8.5': 335, '20x9.5': 335 },
+  'vors-ar1':  { '17x8.5': 210, '18x8.5': 235, '18x9.5': 235 },
+  'vors-ar5':  { '17x8': 210, '17x9': 210, '18x8.5': 235, '18x9.5': 235, '19x8.5': 260, '19x9.5': 260 },
+  'vors-sp1':  { '15x7': 165, '15x8': 165, '16x7': 195, '16x8': 195, '17x8': 210, '17x9': 210, '18x8': 235, '18x9': 235, '19x8.5': 260, '19x9.5': 260 },
+  'vors-lt53': { '18x8': 215, '18x9': 215 },
+  'vors-uo2':  { '19x8.5': 260, '19x9.5': 260 }
+};
+
+// Color-specific price overrides (PVD/Chrome finishes cost more)
+const colorPriceOverrides = {
+  ds01: {
+    'Black Vacuum (PVD)':    { '18x8.5': 300, '18x9.5': 300, '19x9.5': 337, '19x10.5': 337 },
+    'Vacuum Chrome (PVD)':   { '18x8.5': 300, '18x9.5': 300, '19x9.5': 337, '19x10.5': 337 },
+    'Gold Vacuum (PVD)':     { '18x8.5': 300, '18x9.5': 300, '19x9.5': 337, '19x10.5': 337 }
+  },
+  ds02: {
+    'Black Vacuum (PVD)':    { '18x9.5': 300, '18x10.5': 300, '19x9.5': 337, '19x11': 337 },
+    'Vacuum Chrome (PVD)':   { '18x8.5': 300, '18x9.5': 300, '18x10.5': 300, '19x8.5': 337, '19x9.5': 337, '19x11': 337 },
+    'Gold Vacuum (PVD)':     { '18x9.5': 300, '18x10.5': 300, '19x9.5': 337, '19x11': 337 }
+  },
+  ds03: {
+    'Black Vacuum':          { '18x9.5': 300 },
+    'Vacuum Chrome':         { '18x9.5': 300 },
+    'Gold Vacuum':           { '18x9.5': 300 }
+  }
+};
+
 // Build spec chart HTML from wheel variants + wheelSpecs data
 function buildSpecChart(wheelId, wheel) {
   if (!wheel.variants) return '';
@@ -1262,18 +1339,18 @@ function getVariantData(wheel, size) {
   };
 }
 
-// Get exact per-wheel price for a given size
-function getWheelPrice(wheel, size) {
-  if (!wheel.priceRange) return null;
-  const prices = [...wheel.priceRange.matchAll(/\$(\d[\d,]*(?:\.\d+)?)/g)].map(m => parseFloat(m[1].replace(',', '')));
-  if (!prices.length) return null;
-  if (prices.length === 1) return prices[0];
-  // Range: interpolate based on size position
-  const sizes = getWheelSizes(wheel);
-  const idx = sizes.indexOf(size);
-  if (idx === -1 || sizes.length <= 1) return prices[0];
-  const t = idx / (sizes.length - 1);
-  return Math.round(prices[0] + t * (prices[prices.length - 1] - prices[0]));
+// Get exact per-wheel price for a given size and optional color
+function getWheelPrice(wheelId, size, color) {
+  const priceMap = wheelPrices[wheelId];
+  if (!priceMap) return null;
+
+  // Check color-specific override first
+  if (color && colorPriceOverrides[wheelId] && colorPriceOverrides[wheelId][color]) {
+    const colorPrice = colorPriceOverrides[wheelId][color][size];
+    if (colorPrice) return colorPrice;
+  }
+
+  return priceMap[size] || null;
 }
 
 // ===== WHEEL MODAL =====
@@ -1293,7 +1370,7 @@ function openWheelModal(wheelId) {
   const sizes = getWheelSizes(wheel);
   const defaultSize = sizes[0];
 
-  const perWheelPrice = getWheelPrice(wheel, defaultSize);
+  const perWheelPrice = getWheelPrice(wheelId, defaultSize);
 
   modalSpecs.innerHTML = `
     <div class="spec-group">
@@ -1332,10 +1409,12 @@ function openWheelModal(wheelId) {
     <div id="similarWheels"></div>
   `;
 
-  // Price update helper
-  function updatePriceDisplay() {
+  // Price update helper — reads selected size + color (exposed globally for finish chip click)
+  window._fwUpdatePrice = function updatePriceDisplay() {
     const currentSize = document.getElementById('sizeSelect').value;
-    const price = getWheelPrice(wheel, currentSize);
+    const activeFinish = document.querySelector('#finishChips .spec-chip--active');
+    const color = activeFinish ? activeFinish.dataset.finish : null;
+    const price = getWheelPrice(wheelId, currentSize, color);
     const qtyEl = document.getElementById('qtyValue');
     const q = parseInt(qtyEl.textContent);
     const priceEl = document.getElementById('perWheelPrice');
@@ -1449,7 +1528,7 @@ function updateModalVariant(wheelId, size) {
     </div>
   `;
 
-  // Finish chip click → swap modal image
+  // Finish chip click → swap modal image + update price
   dynamicSpecs.querySelectorAll('#finishChips .spec-chip--selectable').forEach(chip => {
     chip.addEventListener('click', () => {
       dynamicSpecs.querySelectorAll('#finishChips .spec-chip--selectable').forEach(c => c.classList.remove('spec-chip--active'));
@@ -1458,6 +1537,8 @@ function updateModalVariant(wheelId, size) {
       if (finishImgMap[finish]) {
         modalImages.innerHTML = `<img decoding="async" src="${finishImgMap[finish]}" alt="${wheel.name} - ${finish}" loading="lazy">`;
       }
+      // Update price for color-dependent pricing
+      if (window._fwUpdatePrice) window._fwUpdatePrice();
     });
   });
 
