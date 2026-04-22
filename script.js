@@ -1284,6 +1284,163 @@ const colorPriceOverrides = {
   }
 };
 
+// ===== BOLT CONFIGS (from Enay's inventory — source of truth for bolt+offset+center bore) =====
+// Each config: { bolt, offset, cb } — replaces separate boltPatterns/offsets/boltOffsets
+const wheelBoltConfigs = {
+  ah01: {
+    '15x8': [{bolt:'4x100/114.3',offset:'+20',cb:'73.1'}],
+    '16x8': [{bolt:'4x100/114.3',offset:'+15',cb:'73.1'}],
+    '17x9': [{bolt:'5x100/114.3',offset:'+25',cb:'73.1'}],
+    '18x9.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+30',cb:'73.1'}]
+  },
+  ah02: {
+    '17x8': [{bolt:'4x100/114.3',offset:'+35',cb:'73.1'},{bolt:'5x100/114.3',offset:'+35',cb:'73.1'}],
+    '18x8.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '18x9.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+30',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '19x8.5': [{bolt:'5x112',offset:'+32',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '19x9.5': [{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+12',cb:'73.1'},{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+30',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '19x11': [{bolt:'5x114.3',offset:'+15',cb:'73.1'},{bolt:'5x114.3',offset:'+22',cb:'73.1'}]
+  },
+  ah03: {
+    '15x8': [{bolt:'4x100/114.3',offset:'+20',cb:'73.1'}],
+    '16x8': [{bolt:'4x100/114.3',offset:'+15',cb:'73.1'}],
+    '17x9': [{bolt:'5x100/114.3',offset:'+25',cb:'73.1'}],
+    '18x9.5': [{bolt:'5x114.3',offset:'+30',cb:'73.1'},{bolt:'5x100',offset:'+35',cb:'73.1'}],
+    '19x9.5': [{bolt:'5x114.3',offset:'+12',cb:'73.1'},{bolt:'5x114.3',offset:'+22',cb:'73.1'}],
+    '19x11': [{bolt:'5x114.3',offset:'+15',cb:'73.1'},{bolt:'5x114.3',offset:'+22',cb:'73.1'}]
+  },
+  ah04: {
+    '15x8': [{bolt:'4x100/114.3',offset:'+20',cb:'73.1'}],
+    '16x8': [{bolt:'4x100/114.3',offset:'+15',cb:'73.1'}],
+    '17x9': [{bolt:'5x100/114.3',offset:'+25',cb:'73.1'}],
+    '18x9.5': [{bolt:'5x114.3',offset:'+30',cb:'73.1'}]
+  },
+  ah05: {
+    '15x8': [{bolt:'4x100/114.3',offset:'+20',cb:'73.1'}],
+    '16x8': [{bolt:'4x100/114.3',offset:'+15',cb:'73.1'}],
+    '17x9': [{bolt:'5x100/114.3',offset:'+25',cb:'73.1'}],
+    '18x8.5': [{bolt:'5x114.3',offset:'+35',cb:'73.1'}],
+    '18x9.5': [{bolt:'5x114.3',offset:'+35',cb:'73.1'}]
+  },
+  ah06: {
+    '17x9': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'}],
+    '18x9': [{bolt:'5x100',offset:'+30',cb:'73.1'},{bolt:'5x114.3',offset:'+30',cb:'73.1'}],
+    '18x10': [{bolt:'5x114.3',offset:'+25',cb:'73.1'}]
+  },
+  ah07: {
+    '18x8.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'}],
+    '18x9.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+30',cb:'73.1'}]
+  },
+  ah08: {
+    '18x8.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'}],
+    '18x9.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+30',cb:'73.1'}]
+  },
+  ah09: {
+    '18x8.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x108',offset:'+35',cb:'73.1'},{bolt:'5x112',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'}],
+    '18x9.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x112',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'}]
+  },
+  ahx: {
+    '18x8.5': [{bolt:'5x112',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '18x9.5': [{bolt:'5x112',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '19x8.5': [{bolt:'5x112',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '19x9.5': [{bolt:'5x112',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}]
+  },
+  ah11: {
+    '18x8.5': [{bolt:'5x112',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '18x9.5': [{bolt:'5x112',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '19x8.5': [{bolt:'5x112',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '19x9.5': [{bolt:'5x112',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}]
+  },
+  ds01: {
+    '18x8.5': [{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x100',offset:'+35',cb:'73.1'}],
+    '18x9.5': [{bolt:'5x114.3',offset:'+30',cb:'73.1'},{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'},{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x120',offset:'+25',cb:'72.6'}],
+    '18x10.5': [{bolt:'5x114.3',offset:'+15',cb:'73.1'},{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x120',offset:'+25',cb:'72.6'}],
+    '19x9.5': [{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}],
+    '19x10.5': [{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}]
+  },
+  ds02: {
+    '18x8.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'}],
+    '18x9.5': [{bolt:'5x114.3',offset:'+15',cb:'73.1'},{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+30',cb:'73.1'},{bolt:'5x100',offset:'+35',cb:'73.1'}],
+    '18x10.5': [{bolt:'5x114.3',offset:'+15',cb:'73.1'},{bolt:'5x114.3',offset:'+22',cb:'73.1'}],
+    '19x8.5': [{bolt:'5x114.3',offset:'+35',cb:'73.1'}],
+    '19x9.5': [{bolt:'5x114.3',offset:'+15',cb:'73.1'},{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+30',cb:'73.1'}],
+    '19x11': [{bolt:'5x114.3',offset:'+15',cb:'73.1'},{bolt:'5x114.3',offset:'+22',cb:'73.1'}]
+  },
+  ds03: { '18x9.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+30',cb:'73.1'}] },
+  ds05: {
+    '18x8.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'}],
+    '18x9.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+30',cb:'73.1'},{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}],
+    '18x10.5': [{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}],
+    '19x9.5': [{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}],
+    '19x11': [{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}]
+  },
+  ds06: {
+    '18x8.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'}],
+    '18x9.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+30',cb:'73.1'},{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}],
+    '18x10.5': [{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}],
+    '19x9.5': [{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}],
+    '19x11': [{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}]
+  },
+  ds07: {
+    '18x8.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'}],
+    '18x9.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+30',cb:'73.1'},{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}],
+    '18x10.5': [{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}],
+    '19x8.5': [{bolt:'5x114.3',offset:'+35',cb:'73.1'}],
+    '19x9.5': [{bolt:'5x114.3',offset:'+30',cb:'73.1'},{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}],
+    '19x11': [{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}]
+  },
+  ds08: {
+    '18x8.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '18x9.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+30',cb:'73.1'},{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '18x10.5': [{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}],
+    '19x8.5': [{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '19x9.5': [{bolt:'5x114.3',offset:'+15',cb:'73.1'},{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+30',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '19x11': [{bolt:'5x114.3',offset:'+15',cb:'73.1'},{bolt:'5x114.3',offset:'+22',cb:'73.1'}]
+  },
+  ds09: {
+    '18x8.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'}],
+    '18x9.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+30',cb:'73.1'},{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}],
+    '18x10.5': [{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}],
+    '19x8.5': [{bolt:'5x114.3',offset:'+35',cb:'73.1'}],
+    '19x9.5': [{bolt:'5x114.3',offset:'+30',cb:'73.1'},{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}],
+    '19x11': [{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}]
+  },
+  dsx: {
+    '18x8.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'}],
+    '18x9.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+30',cb:'73.1'},{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}],
+    '18x10.5': [{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}],
+    '19x8.5': [{bolt:'5x114.3',offset:'+35',cb:'73.1'}],
+    '19x9.5': [{bolt:'5x114.3',offset:'+30',cb:'73.1'},{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}],
+    '19x11': [{bolt:'5x114.3',offset:'+22',cb:'73.1'},{bolt:'5x114.3',offset:'+15',cb:'73.1'}]
+  },
+  aff1: {
+    '20x9': [{bolt:'5x114.3',offset:'+32',cb:'73.1'},{bolt:'5x120',offset:'+30',cb:'72.6'}],
+    '20x10.5': [{bolt:'5x114.3',offset:'+45',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}]
+  },
+  aff2: {
+    '19x8.5': [{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '19x9.5': [{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '20x9': [{bolt:'5x112',offset:'+30',cb:'66.6'},{bolt:'5x114.3',offset:'+32',cb:'73.1'},{bolt:'5x120',offset:'+30',cb:'72.6'}],
+    '20x10.5': [{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+45',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}]
+  },
+  aff3: {
+    '20x9': [{bolt:'5x114.3',offset:'+32',cb:'73.1'},{bolt:'5x120',offset:'+30',cb:'72.6'}],
+    '20x10.5': [{bolt:'5x114.3',offset:'+45',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}]
+  },
+  aff7: {
+    '18x8.5': [{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '18x9.5': [{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '19x8.5': [{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '19x9.5': [{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '20x9': [{bolt:'5x112',offset:'+30',cb:'66.6'},{bolt:'5x114.3',offset:'+30',cb:'73.1'},{bolt:'5x120',offset:'+30',cb:'72.6'}],
+    '20x10.5': [{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}]
+  },
+  aff9: {
+    '20x9': [{bolt:'5x112',offset:'+30',cb:'66.6'},{bolt:'5x114.3',offset:'+30',cb:'73.1'},{bolt:'5x120',offset:'+30',cb:'72.6'}],
+    '20x10.5': [{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}]
+  }
+};
+
 // Build spec chart HTML from wheel variants + wheelSpecs data
 function buildSpecChart(wheelId, wheel) {
   if (!wheel.variants) return '';
@@ -1403,7 +1560,7 @@ function openWheelModal(wheelId) {
     <div id="dynamicSpecs"></div>
     <div class="spec-group">
       <div class="spec-label">Center Bore</div>
-      <div class="spec-value">${wheel.centerBore}</div>
+      <div class="spec-value" id="centerBoreDisplay">${wheel.centerBore}</div>
     </div>
     ${buildSpecChart(wheelId, wheel)}
     <div id="similarWheels"></div>
@@ -1497,9 +1654,47 @@ function updateModalVariant(wheelId, size) {
   const wheel = wheelData[wheelId];
   const variant = getVariantData(wheel, size);
   const finishImgMap = buildFinishImageMap(wheel, wheelId);
-  const defaultBolt = variant.boltPatterns[0];
+
+  // Get bolt configs from inventory data, fall back to variant data
+  const configs = (wheelBoltConfigs[wheelId] && wheelBoltConfigs[wheelId][size]) || null;
+  const hasBoltConfigs = configs && configs.length > 0;
 
   const dynamicSpecs = document.getElementById('dynamicSpecs');
+
+  // Build the bolt+offset section
+  let boltHtml = '';
+  if (hasBoltConfigs) {
+    // Combined bolt+offset chips from inventory
+    boltHtml = `
+      <div class="spec-group">
+        <div class="spec-label">Bolt Pattern / Offset</div>
+        <div class="spec-chips" id="boltConfigChips">
+          ${configs.map((c, i) => {
+            const label = c.bolt + ' ' + c.offset;
+            const dual = c.bolt.includes('/');
+            return `<span class="spec-chip spec-chip--selectable${i === 0 ? ' spec-chip--active' : ''}${dual ? ' spec-chip--dual' : ''}" data-bolt="${c.bolt}" data-offset="${c.offset}" data-cb="${c.cb}">${label}</span>`;
+          }).join('')}
+        </div>
+      </div>`;
+  } else {
+    // Fallback: separate bolt + offset rows (for Vors/MFlow without inventory data)
+    const defaultBolt = variant.boltPatterns[0];
+    boltHtml = `
+      <div class="spec-group">
+        <div class="spec-label">Bolt Pattern / Offset</div>
+        <div class="spec-chips" id="boltConfigChips">
+          ${variant.boltPatterns.flatMap(bolt => {
+            const offsets = (variant.boltOffsets && variant.boltOffsets[bolt]) || variant.offsets;
+            return offsets.map(off => {
+              const label = bolt + ' ' + off;
+              const dual = bolt.includes('/');
+              return `<span class="spec-chip spec-chip--selectable${dual ? ' spec-chip--dual' : ''}" data-bolt="${bolt}" data-offset="${off}">${label}</span>`;
+            });
+          }).map((html, i) => i === 0 ? html.replace('spec-chip--selectable', 'spec-chip--selectable spec-chip--active') : html).join('')}
+        </div>
+      </div>`;
+  }
+
   dynamicSpecs.innerHTML = `
     <div class="spec-group">
       <div class="spec-label">Finish</div>
@@ -1509,24 +1704,14 @@ function updateModalVariant(wheelId, size) {
         ).join('')}
       </div>
     </div>
-    <div class="spec-group">
-      <div class="spec-label">Bolt Pattern</div>
-      <div class="spec-chips" id="boltChips">
-        ${variant.boltPatterns.map((b, i) => {
-          const dual = b.includes('/');
-          return `<span class="spec-chip spec-chip--selectable${i === 0 ? ' spec-chip--active' : ''}${dual ? ' spec-chip--dual' : ''}" data-bolt="${b}">${b}</span>`;
-        }).join('')}
-      </div>
-    </div>
-    <div class="spec-group">
-      <div class="spec-label">Offset</div>
-      <div class="spec-chips" id="offsetChips">
-        ${getFilteredOffsets(variant, defaultBolt).map((o, i) =>
-          `<span class="spec-chip spec-chip--selectable${i === 0 ? ' spec-chip--active' : ''}" data-offset="${o}">${o}</span>`
-        ).join('')}
-      </div>
-    </div>
+    ${boltHtml}
   `;
+
+  // Update center bore from first config
+  const cbDisplay = document.getElementById('centerBoreDisplay');
+  if (cbDisplay && hasBoltConfigs) {
+    cbDisplay.textContent = configs[0].cb + 'mm';
+  }
 
   // Finish chip click → swap modal image + update price
   dynamicSpecs.querySelectorAll('#finishChips .spec-chip--selectable').forEach(chip => {
@@ -1537,24 +1722,23 @@ function updateModalVariant(wheelId, size) {
       if (finishImgMap[finish]) {
         modalImages.innerHTML = `<img decoding="async" src="${finishImgMap[finish]}" alt="${wheel.name} - ${finish}" loading="lazy">`;
       }
-      // Update price for color-dependent pricing
       if (window._fwUpdatePrice) window._fwUpdatePrice();
     });
   });
 
-  // Bolt pattern chip click → re-filter offsets
-  dynamicSpecs.querySelectorAll('#boltChips .spec-chip--selectable').forEach(chip => {
+  // Combined bolt+offset config chip click → update center bore
+  dynamicSpecs.querySelectorAll('#boltConfigChips .spec-chip--selectable').forEach(chip => {
     chip.addEventListener('click', () => {
-      dynamicSpecs.querySelectorAll('#boltChips .spec-chip--selectable').forEach(c => c.classList.remove('spec-chip--active'));
+      dynamicSpecs.querySelectorAll('#boltConfigChips .spec-chip--selectable').forEach(c => c.classList.remove('spec-chip--active'));
       chip.classList.add('spec-chip--active');
       modalQuoteBtn.dataset.bolt = chip.dataset.bolt;
-      // Re-render offsets filtered to this bolt pattern
-      renderOffsetChips(dynamicSpecs, variant, chip.dataset.bolt);
+      modalQuoteBtn.dataset.offset = chip.dataset.offset;
+      // Update center bore display
+      if (chip.dataset.cb && cbDisplay) {
+        cbDisplay.textContent = chip.dataset.cb + 'mm';
+      }
     });
   });
-
-  // Initial offset chips with default bolt pattern
-  renderOffsetChips(dynamicSpecs, variant, defaultBolt);
 
   // Update image for selected size
   if (variant.image) {
@@ -2066,7 +2250,7 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Animate sections on scroll
-document.querySelectorAll('.brand-section, .gallery-item, .about-point, .review-card, .accessory-card, .contact-social-card').forEach(el => {
+document.querySelectorAll('.brand-section, .gallery-carousel, .about-point, .review-card, .accessory-card, .contact-social-card').forEach(el => {
   el.style.opacity = '0';
   el.style.transform = 'translateY(20px)';
   el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
@@ -2155,3 +2339,70 @@ document.querySelectorAll('.wheel-grid').forEach(grid => {
   });
   cards.forEach(card => grid.appendChild(card));
 });
+
+// ===== GALLERY CAROUSEL =====
+(function initGalleryCarousel() {
+  const carousel = document.getElementById('galleryCarousel');
+  if (!carousel) return;
+
+  const track = carousel.querySelector('.carousel-track');
+  const slides = carousel.querySelectorAll('.carousel-slide');
+  const prevBtn = carousel.querySelector('.carousel-prev');
+  const nextBtn = carousel.querySelector('.carousel-next');
+  const total = slides.length;
+  let current = 0;
+  let autoTimer = null;
+  const AUTO_INTERVAL = 4000;
+
+  function goTo(index) {
+    current = ((index % total) + total) % total;
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+  }
+
+  function next() {
+    goTo(current + 1);
+  }
+
+  function prev() {
+    goTo(current - 1);
+  }
+
+  function startAuto() {
+    stopAuto();
+    autoTimer = setInterval(next, AUTO_INTERVAL);
+  }
+
+  function stopAuto() {
+    if (autoTimer) {
+      clearInterval(autoTimer);
+      autoTimer = null;
+    }
+  }
+
+  nextBtn.addEventListener('click', () => { next(); startAuto(); });
+  prevBtn.addEventListener('click', () => { prev(); startAuto(); });
+
+  carousel.addEventListener('mouseenter', stopAuto);
+  carousel.addEventListener('mouseleave', startAuto);
+
+  // Touch/swipe support
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  carousel.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    stopAuto();
+  }, { passive: true });
+
+  carousel.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) next();
+      else prev();
+    }
+    startAuto();
+  }, { passive: true });
+
+  startAuto();
+})();

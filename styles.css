@@ -1122,36 +1122,68 @@ img {
   background: var(--surface);
 }
 
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-
-.gallery-item {
-  border-radius: var(--radius-sm);
+.gallery-carousel {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
   overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.3s;
+  border-radius: var(--radius);
 }
 
-.gallery-item:hover {
-  transform: scale(1.02);
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
 }
 
-.gallery-item.large {
-  grid-column: span 2;
+.carousel-slide {
+  min-width: 100%;
+  flex-shrink: 0;
 }
 
-.gallery-item img {
+.carousel-slide img {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 4/3;
   object-fit: cover;
-  aspect-ratio: 1;
+  display: block;
+  border-radius: var(--radius);
 }
 
-.gallery-item.large img {
-  aspect-ratio: 2/1;
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.35);
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s, background 0.2s, color 0.2s;
+  z-index: 2;
+  backdrop-filter: blur(4px);
+}
+
+.gallery-carousel:hover .carousel-arrow {
+  opacity: 1;
+}
+
+.carousel-arrow:hover {
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+}
+
+.carousel-prev {
+  left: 16px;
+}
+
+.carousel-next {
+  right: 16px;
 }
 
 /* ===== ABOUT ===== */
@@ -1868,12 +1900,22 @@ img {
   }
 
   /* Gallery */
-  .gallery-grid {
-    grid-template-columns: 1fr 1fr;
+  .gallery-carousel {
+    border-radius: var(--radius-sm);
   }
 
-  .gallery-item.large {
-    grid-column: span 2;
+  .carousel-arrow {
+    opacity: 1;
+    width: 36px;
+    height: 36px;
+  }
+
+  .carousel-prev {
+    left: 10px;
+  }
+
+  .carousel-next {
+    right: 10px;
   }
 
   /* About */
@@ -2006,13 +2048,8 @@ img {
     grid-template-columns: 1fr;
   }
 
-  .gallery-grid {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .gallery-item.large {
-    grid-column: span 1;
+  .carousel-slide img {
+    aspect-ratio: 1;
   }
 
   .hero {
