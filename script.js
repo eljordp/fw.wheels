@@ -1238,19 +1238,19 @@ const wheelPrices = {
   aff3: { '20x9': 362, '20x10.5': 362 },
   aff7: { '18x8.5': 275, '18x9.5': 275, '19x8.5': 300, '19x9.5': 300, '20x9': 362, '20x10.5': 362 },
   aff9: { '20x9': 362, '20x10.5': 362 },
-  // MFlow Racing (flat price per wheel from mflowracing.com)
-  mfr1: { '18x8.5': 237, '18x9.5': 237, '19x8.5': 237, '19x9.5': 237, '20x8.5': 237, '20x9.5': 237 },
-  mfr2: { '18x8.5': 237, '19x8.5': 237, '19x9.5': 237, '20x8.5': 237, '20x9.5': 237 },
-  mfr3: { '18x8.5': 237, '18x9.5': 237, '19x8.5': 237, '19x9.5': 237 },
-  mfr4: { '18x8.5': 225, '19x8.5': 225, '19x9.5': 225 },
-  mfl1: { '18x8.5': 237, '18x9.5': 237, '19x8.5': 237, '19x9.5': 237, '20x8.5': 237, '20x9.5': 237 },
-  mfl2: { '18x8.5': 237, '18x9.5': 237, '19x8.5': 237, '19x9.5': 237, '20x8.5': 237, '20x9.5': 237 },
-  mf01: { '17x9': 225 },
-  mf02: { '17x9': 225 },
-  mf03: { '17x9': 225 },
-  mf04: { '17x9': 225 },
-  mf05: { '17x8.5': 225, '17x9': 225 },
-  mf06: { '17x8.5': 225, '17x9': 225 },
+  // MFlow Racing (from inventory spreadsheet MAP prices — per-size pricing)
+  mfr1: { '18x8.5': 212, '18x9.5': 212, '19x8.5': 237, '19x9.5': 237, '20x8.5': 274, '20x9.5': 274 },
+  mfr2: { '18x8.5': 212, '19x8.5': 237, '19x9.5': 237, '20x8.5': 274, '20x9.5': 274 },
+  mfr3: { '18x8.5': 212, '18x9.5': 212, '19x8.5': 237, '19x9.5': 237 },
+  mfr4: { '18x8.5': 212, '19x8.5': 237, '19x9.5': 237, '20x8.5': 274, '20x9.5': 274 },
+  mfl1: { '18x8.5': 212, '18x9.5': 212, '19x8.5': 237, '19x9.5': 237, '20x8.5': 274, '20x9.5': 274 },
+  mfl2: { '18x8.5': 212, '18x9.5': 212, '19x8.5': 237, '19x9.5': 237, '20x8.5': 274, '20x9.5': 274 },
+  mf01: { '17x9': 199 },
+  mf02: { '17x9': 199 },
+  mf03: { '17x9': 199 },
+  mf04: { '17x9': 199 },
+  mf05: { '17x8.5': 199, '17x9': 199 },
+  mf06: { '17x8.5': 199, '17x9': 199 },
   // Vors (from inventory spreadsheet MAP prices)
   'vors-tr4':  { '17x8': 210, '17x9': 210, '18x8.5': 235, '18x9.5': 235, '18x10.5': 255, '19x8.5': 260, '19x9.5': 260, '19x10.5': 280, '20x8.5': 310, '20x9.5': 310 },
   'vors-tr10': { '17x8': 210, '17x9': 210, '18x8.5': 235, '18x9.5': 235, '19x8.5': 260, '19x9.5': 260 },
@@ -1518,6 +1518,63 @@ const wheelBoltConfigs = {
   'vors-lt53': {
     '18x8': [{bolt:'5x108',offset:'+35',cb:'73.1'},{bolt:'5x110',offset:'+35',cb:'73.1'},{bolt:'5x112',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x115',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'73.1'}],
     '18x9': [{bolt:'5x108',offset:'+35',cb:'73.1'},{bolt:'5x110',offset:'+35',cb:'73.1'},{bolt:'5x112',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x115',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'73.1'}]
+  },
+  // ===== MFLOW (from inventory spreadsheet) =====
+  mfr1: {
+    '18x8.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '18x9.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x112',offset:'+38',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '19x8.5': [{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '19x9.5': [{bolt:'5x112',offset:'+38',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+38',cb:'72.6'}],
+    '20x8.5': [{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '20x9.5': [{bolt:'5x112',offset:'+38',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+38',cb:'72.6'}]
+  },
+  mfr2: {
+    '18x8.5': [{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '19x8.5': [{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '19x9.5': [{bolt:'5x112',offset:'+38',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+38',cb:'72.6'}],
+    '20x8.5': [{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'}],
+    '20x9.5': [{bolt:'5x112',offset:'+38',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'}]
+  },
+  mfr3: {
+    '18x8.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'}],
+    '18x9.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'}],
+    '19x8.5': [{bolt:'5x114.3',offset:'+35',cb:'73.1'}],
+    '19x9.5': [{bolt:'5x114.3',offset:'+35',cb:'73.1'}]
+  },
+  mfr4: {
+    '18x8.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '19x8.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '19x9.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x112',offset:'+38',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+38',cb:'72.6'}],
+    '20x8.5': [{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '20x9.5': [{bolt:'5x112',offset:'+38',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}]
+  },
+  mfl1: {
+    '18x8.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'}],
+    '18x9.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+30',cb:'73.1'}],
+    '19x8.5': [{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '19x9.5': [{bolt:'5x112',offset:'+38',cb:'66.6'},{bolt:'5x114.3',offset:'+30',cb:'73.1'},{bolt:'5x120',offset:'+38',cb:'72.6'}],
+    '20x8.5': [{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '20x9.5': [{bolt:'5x112',offset:'+38',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+38',cb:'72.6'}]
+  },
+  mfl2: {
+    '18x8.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+35',cb:'73.1'}],
+    '18x9.5': [{bolt:'5x100',offset:'+35',cb:'73.1'},{bolt:'5x114.3',offset:'+30',cb:'73.1'}],
+    '19x8.5': [{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '19x9.5': [{bolt:'5x112',offset:'+38',cb:'66.6'},{bolt:'5x114.3',offset:'+30',cb:'73.1'},{bolt:'5x120',offset:'+38',cb:'72.6'}],
+    '20x8.5': [{bolt:'5x112',offset:'+35',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+35',cb:'72.6'}],
+    '20x9.5': [{bolt:'5x112',offset:'+38',cb:'66.6'},{bolt:'5x114.3',offset:'+35',cb:'73.1'},{bolt:'5x120',offset:'+38',cb:'72.6'}]
+  },
+  mf01: { '17x9': [{bolt:'5x127',offset:'+12',cb:'71.5'}] },
+  mf02: { '17x9': [{bolt:'5x127',offset:'+12',cb:'71.5'},{bolt:'6x139.7',offset:'+0',cb:'106.1'}] },
+  mf03: { '17x9': [{bolt:'6x139.7',offset:'+0',cb:'106.1'}] },
+  mf04: { '17x9': [{bolt:'5x127',offset:'+12',cb:'71.5'},{bolt:'6x139.7',offset:'+0',cb:'106.1'}] },
+  mf05: {
+    '17x8.5': [{bolt:'6x139.7',offset:'+0',cb:'93.1'},{bolt:'6x139.7',offset:'+5',cb:'106.1'},{bolt:'6x139.7',offset:'+25',cb:'95.1'}],
+    '17x9': [{bolt:'5x127',offset:'+12',cb:'71.5'},{bolt:'6x139.7',offset:'+0',cb:'106.1'}]
+  },
+  mf06: {
+    '17x8.5': [{bolt:'6x139.7',offset:'+0',cb:'93.1'},{bolt:'6x139.7',offset:'+5',cb:'106.1'},{bolt:'6x139.7',offset:'+25',cb:'95.1'}],
+    '17x9': [{bolt:'6x139.7',offset:'+0',cb:'106.1'}]
   }
 };
 
@@ -1647,7 +1704,7 @@ function openWheelModal(wheelId) {
   `;
 
   // Price update helper — reads selected size + color (exposed globally for finish chip click)
-  window._fwUpdatePrice = function updatePriceDisplay() {
+  function updatePriceDisplay() {
     const currentSize = document.getElementById('sizeSelect').value;
     const activeFinish = document.querySelector('#finishChips .spec-chip--active');
     const color = activeFinish ? activeFinish.dataset.finish : null;
@@ -1661,6 +1718,7 @@ function openWheelModal(wheelId) {
       totalEl.innerHTML = 'Total: <strong>$' + (price * q).toLocaleString() + '</strong>';
     }
   }
+  window._fwUpdatePrice = updatePriceDisplay;
 
   // Size select handler
   document.getElementById('sizeSelect').addEventListener('change', (e) => {
@@ -1873,8 +1931,15 @@ function buildSimilarWheels(currentId, currentWheel) {
 
   // Click to switch modal to that wheel
   container.querySelectorAll('.similar-card').forEach(card => {
-    card.addEventListener('click', () => {
-      openWheelModal(card.dataset.wheel);
+    card.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const newId = card.dataset.wheel;
+      if (newId && wheelData[newId]) {
+        openWheelModal(newId);
+        // Scroll the modal back to top so user sees the new wheel
+        const modalEl = document.querySelector('.wheel-modal');
+        if (modalEl) modalEl.scrollTop = 0;
+      }
     });
   });
 }
@@ -2420,69 +2485,3 @@ document.querySelectorAll('.wheel-grid').forEach(grid => {
   cards.forEach(card => grid.appendChild(card));
 });
 
-// ===== GALLERY CAROUSEL =====
-(function initGalleryCarousel() {
-  const carousel = document.getElementById('galleryCarousel');
-  if (!carousel) return;
-
-  const track = carousel.querySelector('.carousel-track');
-  const slides = carousel.querySelectorAll('.carousel-slide');
-  const prevBtn = carousel.querySelector('.carousel-prev');
-  const nextBtn = carousel.querySelector('.carousel-next');
-  const total = slides.length;
-  let current = 0;
-  let autoTimer = null;
-  const AUTO_INTERVAL = 4000;
-
-  function goTo(index) {
-    current = ((index % total) + total) % total;
-    track.style.transform = 'translateX(-' + (current * 100) + '%)';
-  }
-
-  function next() {
-    goTo(current + 1);
-  }
-
-  function prev() {
-    goTo(current - 1);
-  }
-
-  function startAuto() {
-    stopAuto();
-    autoTimer = setInterval(next, AUTO_INTERVAL);
-  }
-
-  function stopAuto() {
-    if (autoTimer) {
-      clearInterval(autoTimer);
-      autoTimer = null;
-    }
-  }
-
-  nextBtn.addEventListener('click', () => { next(); startAuto(); });
-  prevBtn.addEventListener('click', () => { prev(); startAuto(); });
-
-  carousel.addEventListener('mouseenter', stopAuto);
-  carousel.addEventListener('mouseleave', startAuto);
-
-  // Touch/swipe support
-  let touchStartX = 0;
-  let touchEndX = 0;
-
-  carousel.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-    stopAuto();
-  }, { passive: true });
-
-  carousel.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    const diff = touchStartX - touchEndX;
-    if (Math.abs(diff) > 50) {
-      if (diff > 0) next();
-      else prev();
-    }
-    startAuto();
-  }, { passive: true });
-
-  startAuto();
-})();
