@@ -1647,6 +1647,174 @@ function getWheelPrice(wheelId, size, color) {
   return priceMap[size] || null;
 }
 
+// ===== CART STATE =====
+const CART_KEY = 'fwwheels_cart';
+
+function getCart() {
+  try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); }
+  catch { return []; }
+}
+
+function saveCart(cart) {
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  updateCartBadge();
+}
+
+function addToCart(item) {
+  const cart = getCart();
+  // Merge identical line items (same wheel, size, finish, bolt config)
+  const existing = cart.findIndex(c =>
+    c.wheelId === item.wheelId && c.size === item.size &&
+    c.finish === item.finish && c.boltConfig === item.boltConfig
+  );
+  if (existing > -1) {
+    cart[existing].qty += item.qty;
+  } else {
+    cart.push(item);
+  }
+  saveCart(cart);
+}
+
+function removeFromCart(idx) {
+  const cart = getCart();
+  cart.splice(idx, 1);
+  saveCart(cart);
+  renderCart();
+}
+
+function updateCartQty(idx, qty) {
+  const cart = getCart();
+  if (qty < 1) return;
+  cart[idx].qty = qty;
+  saveCart(cart);
+  renderCart();
+}
+
+function getCartTotal() {
+  return getCart().reduce((sum, item) => sum + (item.price * item.qty), 0);
+}
+
+function getCartCount() {
+  return getCart().reduce((sum, item) => sum + item.qty, 0);
+}
+
+function updateCartBadge() {
+  const badge = document.getElementById('cartBadge');
+  const count = getCartCount();
+  if (badge) {
+    badge.textContent = count;
+    badge.classList.toggle('visible', count > 0);
+  }
+}
+
+function openCart() {
+  renderCart();
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('cartBackdrop').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCart() {
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('cartBackdrop').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function renderCart() {
+  const cart = getCart();
+  const itemsEl = document.getElementById('cartItems');
+  const subtotalEl = document.getElementById('cartSubtotal');
+  const checkoutBtn = document.getElementById('cartCheckoutBtn');
+  const emptyEl = document.getElementById('cartEmpty');
+
+  if (!itemsEl) return;
+
+  if (!cart.length) {
+    itemsEl.innerHTML = '';
+    emptyEl.classList.add('visible');
+    checkoutBtn.disabled = true;
+    subtotalEl.textContent = '$0';
+    return;
+  }
+
+  emptyEl.classList.remove('visible');
+  checkoutBtn.disabled = false;
+
+  itemsEl.innerHTML = cart.map((item, idx) => `
+    <div class="cart-item">
+      <div class="cart-item-img"><img src="${item.image || ''}" alt="${item.name}" loading="lazy"></div>
+      <div class="cart-item-body">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-meta">${item.size} · ${item.finish}</div>
+        <div class="cart-item-meta">${item.boltConfig}${item.cb ? ' · ' + item.cb + 'mm CB' : ''}</div>
+        <div class="cart-item-row">
+          <div class="cart-qty">
+            <button class="cart-qty-btn" data-action="dec" data-idx="${idx}">−</button>
+            <span>${item.qty}</span>
+            <button class="cart-qty-btn" data-action="inc" data-idx="${idx}">+</button>
+          </div>
+          <div class="cart-item-price">$${(item.price * item.qty).toLocaleString()}</div>
+        </div>
+        <button class="cart-remove" data-idx="${idx}">Remove</button>
+      </div>
+    </div>
+  `).join('');
+
+  subtotalEl.textContent = '$' + getCartTotal().toLocaleString();
+
+  // Wire up qty + remove buttons
+  itemsEl.querySelectorAll('.cart-qty-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.idx);
+      const item = getCart()[idx];
+      const newQty = btn.dataset.action === 'inc' ? item.qty + 1 : item.qty - 1;
+      updateCartQty(idx, newQty);
+    });
+  });
+  itemsEl.querySelectorAll('.cart-remove').forEach(btn => {
+    btn.addEventListener('click', () => removeFromCart(parseInt(btn.dataset.idx)));
+  });
+}
+
+async function startCheckout() {
+  const btn = document.getElementById('cartCheckoutBtn');
+  const cart = getCart();
+  if (!cart.length) return;
+
+  btn.disabled = true;
+  btn.textContent = 'Loading...';
+
+  try {
+    const res = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: cart, origin: window.location.origin })
+    });
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      throw new Error(data.error || 'Checkout failed');
+    }
+  } catch (err) {
+    alert('Checkout error: ' + err.message + '\n\nIf payment isn\'t set up yet, message us on Instagram @fw.wheels or call (925) 905-6277 to place your order.');
+    btn.disabled = false;
+    btn.textContent = 'Checkout';
+  }
+}
+
+// Detect ?checkout=success on page load
+(function handleCheckoutReturn() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('checkout') === 'success') {
+    localStorage.removeItem(CART_KEY);
+    setTimeout(() => alert('Thanks for your order! We\'ll text you confirmation shortly.'), 200);
+    history.replaceState({}, '', window.location.pathname);
+  } else if (params.get('checkout') === 'canceled') {
+    history.replaceState({}, '', window.location.pathname);
+  }
+})();
+
 // ===== WHEEL MODAL =====
 const wheelModal = document.getElementById('wheelModal');
 const modalClose = document.getElementById('modalClose');
@@ -1988,8 +2156,38 @@ dontForgetCta.addEventListener('click', () => {
   closeDontForget();
 });
 
-// "Contact Us to Order" → close wheel modal, show Don't Forget popup, then go to contact
+// "Add to Cart" — gather current selections, add item, then show Don't Forget popup
 modalQuoteBtn.addEventListener('click', () => {
+  const wheelId = modalQuoteBtn.dataset.wheel;
+  if (!wheelId) return;
+  const wheel = wheelData[wheelId];
+  const size = document.getElementById('sizeSelect').value;
+  const qty = parseInt(document.getElementById('qtyValue').textContent) || 4;
+  const activeFinish = document.querySelector('#finishChips .spec-chip--active');
+  const finish = activeFinish ? activeFinish.dataset.finish : '';
+  const activeConfig = document.querySelector('#boltConfigChips .spec-chip--active');
+  const bolt = activeConfig ? activeConfig.dataset.bolt : '';
+  const offset = activeConfig ? activeConfig.dataset.offset : '';
+  const cb = activeConfig ? activeConfig.dataset.cb : '';
+  const price = getWheelPrice(wheelId, size, finish);
+  if (!price) return;
+
+  // Use the currently displayed modal image
+  const modalImg = modalImages.querySelector('img');
+  const image = modalImg ? modalImg.src : (wheel.images?.[0] || '');
+
+  addToCart({
+    wheelId,
+    name: wheel.name,
+    size,
+    finish,
+    boltConfig: bolt && offset ? `${bolt} ${offset}` : '',
+    cb,
+    price,
+    qty,
+    image
+  });
+
   closeWheelModal();
   setTimeout(() => {
     openDontForget();
@@ -2485,3 +2683,34 @@ document.querySelectorAll('.wheel-grid').forEach(grid => {
   cards.forEach(card => grid.appendChild(card));
 });
 
+
+
+// ===== CART WIRE-UP =====
+document.addEventListener('DOMContentLoaded', () => {
+  // Cart icon click
+  const cartBtn = document.getElementById('cartBtn');
+  if (cartBtn) cartBtn.addEventListener('click', openCart);
+
+  // Cart close
+  const cartClose = document.getElementById('cartClose');
+  if (cartClose) cartClose.addEventListener('click', closeCart);
+  const cartBackdrop = document.getElementById('cartBackdrop');
+  if (cartBackdrop) cartBackdrop.addEventListener('click', closeCart);
+
+  // Checkout button
+  const checkoutBtn = document.getElementById('cartCheckoutBtn');
+  if (checkoutBtn) checkoutBtn.addEventListener('click', startCheckout);
+
+  // Initial badge count
+  updateCartBadge();
+});
+
+// "Don't Forget" CTA → open cart instead of jumping to accessories anchor
+const dontForgetCtaBtn = document.getElementById('dontForgetCta');
+if (dontForgetCtaBtn) {
+  dontForgetCtaBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    closeDontForget();
+    setTimeout(openCart, 300);
+  });
+}
