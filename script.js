@@ -34,7 +34,20 @@ navBackdrop.addEventListener('click', closeMobileMenu);
 
 // Close menu when a link is clicked
 navLinks.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', closeMobileMenu);
+  link.addEventListener('click', (e) => {
+    const href = link.getAttribute('href') || '';
+    if (href.startsWith('#') && href.length > 1) {
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        closeMobileMenu();
+        setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+        history.pushState(null, '', href);
+        return;
+      }
+    }
+    closeMobileMenu();
+  });
 });
 
 // ===== NAV BRANDS ACCORDION (mobile) =====
@@ -317,8 +330,8 @@ const wheelData = {
       'https://www.aodhanwheels.com/cdn/shop/products/AH09_1895_MS_D_03.jpg?v=1749494596&width=800'
     ],
     variants: {
-      '18x8.5': { finishes: ['Hyper Black', 'Matte Black', 'Matte Bronze', 'Silver Machined Face'], boltPatterns: ['5x100', '5x108', '5x112', '5x114.3'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH09_1885_MS_D_03.jpg?width=800'},
-      '18x9.5': { finishes: ['Hyper Black', 'Matte Black', 'Matte Bronze', 'Silver Machined Face'], boltPatterns: ['5x100', '5x112', '5x114.3'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH09_1895_MS_D_03.jpg?width=800'}
+      '18x8.5': { finishes: ['Hyper Black', 'Matte Bronze', 'Silver Machined Face'], boltPatterns: ['5x100', '5x108', '5x112', '5x114.3'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH09_1885_MS_D_03.jpg?width=800'},
+      '18x9.5': { finishes: ['Hyper Black', 'Matte Bronze', 'Silver Machined Face'], boltPatterns: ['5x100', '5x112', '5x114.3'], offsets: ['+35'], image: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH09_1895_MS_D_03.jpg?width=800'}
     }
   },
   ahx: {
@@ -593,6 +606,7 @@ const wheelData = {
     centerBore: '73.1mm',
     priceRange: '$237 /wheel',
     images: [
+      'https://www.mflowracing.com/cdn/shop/files/MFR1-2085-MACHINEDSILVER1.jpg?v=1771531382&width=800',
       'https://unleashedwheels.com/cdn/shop/files/mflow-racing-mfr1-hyper-black-unleashedwheels.jpg?v=1724878850&width=800',
       'https://unleashedwheels.com/cdn/shop/files/mflow-racing-mfr1-matte-bronze-unleashedwheels.jpg?v=1724879474&width=800'
     ],
@@ -645,6 +659,7 @@ const wheelData = {
     centerBore: '73.1mm',
     priceRange: '$224 /wheel',
     images: [
+      'https://www.mflowracing.com/cdn/shop/files/MFR4HyperSilverMachinedTip.jpg?v=1771542352&width=800',
       'https://unleashedwheels.com/cdn/shop/files/mflow-racing-mfr4-matte-black-unleashedwheels.jpg?v=1743713898&width=800',
       'https://unleashedwheels.com/cdn/shop/files/mflow-racing-mfr4-matte-bronze-unleashedwheels.jpg?v=1743711412&width=800'
     ],
@@ -1647,6 +1662,297 @@ function getWheelPrice(wheelId, size, color) {
   return priceMap[size] || null;
 }
 
+// ===== ACCESSORY DATA =====
+const accessoryProducts = {
+  spl35: {
+    id: 'spl35',
+    category: 'lug-nuts',
+    name: 'Spline Lug Nuts (SPL35)',
+    pack: 'Set of 20',
+    price: 39.99,
+    image: 'https://www.aodhanwheels.com/cdn/shop/files/SPL35_1215_BLACK_01.jpg?v=1749494642',
+    description: 'Conical seat, 35mm overall size. 6-spline for 12x1.25, 12x1.5, and 1/2; 7-spline for 14x1.5.',
+    options: [
+      { id: 'threadPitch', label: 'Thread Pitch', required: true, values: ['12x1.5', '12x1.25', '1/2', '14x1.5'] },
+      { id: 'color', label: 'Color', required: true, values: ['Black', 'Blue', 'Chrome', 'Gold', 'Neo Chrome', 'Red'] }
+    ],
+    fitmentKind: 'lug-nut'
+  },
+  xt51: {
+    id: 'xt51',
+    category: 'lug-nuts',
+    name: 'Extended Lug Nuts (XT51)',
+    pack: 'Set of 20',
+    price: 34.99,
+    image: 'https://www.aodhanwheels.com/cdn/shop/files/XT51_Grey_01.jpg?v=1773946635',
+    description: 'Open end, conical seat, 51mm overall length.',
+    options: [
+      { id: 'threadPitch', label: 'Thread Pitch', required: true, values: ['12x1.25', '12x1.5', '14x1.5'] },
+      { id: 'color', label: 'Color', required: true, values: ['Neo Chrome', 'Gold', 'Red', 'Chrome', 'Blue', 'Black', 'Purple'] }
+    ],
+    fitmentKind: 'lug-nut'
+  },
+  xt92: {
+    id: 'xt92',
+    category: 'lug-nuts',
+    name: 'Spiked Extended Lug Nuts (XT92)',
+    pack: 'Set of 20',
+    price: 55.99,
+    image: 'https://www.aodhanwheels.com/cdn/shop/files/XT92_Black_01.jpg?v=1773952481',
+    description: 'Conical seat, 92mm overall length.',
+    options: [
+      { id: 'threadPitch', label: 'Thread Pitch', required: true, values: ['12x1.5', '12x1.25', '14x1.5'] },
+      { id: 'color', label: 'Color', required: true, values: ['Black', 'Blue', 'Chrome', 'Gold', 'Neo Chrome', 'Purple', 'Red'] }
+    ],
+    fitmentKind: 'lug-nut'
+  },
+  polyHubRings: {
+    id: 'polyHubRings',
+    category: 'hub-rings',
+    name: 'Polycarbonate Hub Ring Set',
+    pack: 'Set of 4',
+    price: 14.99,
+    image: 'https://www.aodhanwheels.com/cdn/shop/files/All.jpg?v=1749494624',
+    description: 'Polycarbonate rings to reduce vibration and center the wheel on the vehicle hub.',
+    options: [
+      {
+        id: 'ringSize',
+        label: 'Ring Size',
+        required: true,
+        values: [
+          'Wheel: 74.10mm | Hub: 72.60mm',
+          'Wheel: 72.62mm | Hub: 66.56mm',
+          'Wheel: 72.62mm | Hub: 57.10mm',
+          'Wheel: 72.62mm | Hub: 59.61mm',
+          'Wheel: 72.62mm | Hub: 60.06mm',
+          'Wheel: 72.62mm | Hub: 64.15mm',
+          'Wheel: 72.62mm | Hub: 66.06mm',
+          'Wheel: 72.62mm | Hub: 56.15mm',
+          'Wheel: 72.62mm | Hub: 67.06mm',
+          'Wheel: 72.62mm | Hub: 54.06mm',
+          'Wheel: 72.62mm | Hub: 70.10mm',
+          'Wheel: 73.00mm | Hub: 66.56mm',
+          'Wheel: 73.00mm | Hub: 57.10mm',
+          'Wheel: 73.00mm | Hub: 60.06mm',
+          'Wheel: 73.00mm | Hub: 64.15mm',
+          'Wheel: 73.00mm | Hub: 66.06mm',
+          'Wheel: 73.00mm | Hub: 56.15mm',
+          'Wheel: 73.00mm | Hub: 67.06mm',
+          'Wheel: 73.00mm | Hub: 54.06mm',
+          'Wheel: 73.00mm | Hub: 70.10mm',
+          'Wheel: 66.60mm | Hub: 57.10mm',
+          'Wheel: 67.10mm | Hub: 56.10mm',
+          'Wheel: 67.10mm | Hub: 54.10mm'
+        ]
+      }
+    ],
+    fitmentKind: 'hub-ring'
+  },
+  aluminumHubRings: {
+    id: 'aluminumHubRings',
+    category: 'hub-rings',
+    name: 'Aluminum Hub Ring Set',
+    pack: 'Set of 4',
+    price: 24.99,
+    image: 'https://www.aodhanwheels.com/cdn/shop/files/All_Aluminum.jpg?v=1749494622',
+    description: 'Aluminum rings for a durable hub-centric fit between the wheel center bore and vehicle hub.',
+    options: [
+      {
+        id: 'ringSize',
+        label: 'Ring Size',
+        required: true,
+        values: [
+          'Wheel: 74.10mm | Hub: 72.60mm',
+          'Wheel: 73.10mm | Hub: 54.06mm',
+          'Wheel: 73.10mm | Hub: 56.15mm',
+          'Wheel: 73.10mm | Hub: 57.10mm',
+          'Wheel: 73.10mm | Hub: 60.06mm',
+          'Wheel: 73.10mm | Hub: 66.06mm',
+          'Wheel: 73.10mm | Hub: 66.56mm',
+          'Wheel: 73.10mm | Hub: 67.06mm',
+          'Wheel: 73.10mm | Hub: 70.10mm'
+        ]
+      }
+    ],
+    fitmentKind: 'hub-ring'
+  },
+  v1ValveStems: {
+    id: 'v1ValveStems',
+    category: 'valve-stems',
+    name: 'Aluminum Valve Stems (V1)',
+    pack: 'Set of 4',
+    price: 13.99,
+    image: 'https://www.aodhanwheels.com/cdn/shop/files/V1_Silver_02.jpg',
+    description: 'Universal fitment for standard 0.453 inch stem holes, 1.89 inch long.',
+    options: [
+      { id: 'color', label: 'Color', required: true, values: ['Silver', 'Red', 'Blue', 'Black'] }
+    ],
+    fitmentKind: 'valve-stem'
+  },
+  v2ValveStems: {
+    id: 'v2ValveStems',
+    category: 'valve-stems',
+    name: 'Aluminum Valve Stems (V2)',
+    pack: 'Set of 4',
+    price: 19.99,
+    image: 'https://www.aodhanwheels.com/cdn/shop/files/V2_Red_02_1eacf0c5-68d8-42c8-85c3-75b6ef533fe0.jpg?v=1749494604',
+    description: 'Universal fitment for standard 0.453 inch stem holes, 1.8 inch long.',
+    options: [
+      { id: 'color', label: 'Color', required: true, values: ['Red', 'Blue'] }
+    ],
+    fitmentKind: 'valve-stem'
+  },
+  v3ValveStems: {
+    id: 'v3ValveStems',
+    category: 'valve-stems',
+    name: 'Aluminum Valve Stems (V3)',
+    pack: 'Set of 4',
+    price: 19.99,
+    image: 'https://www.aodhanwheels.com/cdn/shop/products/Aodhan_V3_Valve_Silver_1_a3fa2cf6-130a-4872-8c1a-af4f234f876a.jpg?v=1749494604',
+    description: 'Universal fitment for standard 0.453 inch stem holes, 1.45 inch long.',
+    options: [
+      { id: 'color', label: 'Color', required: true, values: ['Silver', 'Red', 'Blue', 'Black', 'Gold', 'Gray'] }
+    ],
+    fitmentKind: 'valve-stem'
+  },
+  lb55: {
+    id: 'lb55',
+    category: 'lug-bolts',
+    name: 'Lug Bolts (LB55)',
+    pack: 'Set of 20',
+    price: 59.99,
+    image: 'https://www.aodhanwheels.com/cdn/shop/files/LB55_Black_1.jpg?v=1749494604',
+    description: 'Conical seat lug bolts, 28mm shank and 55mm overall length.',
+    options: [
+      { id: 'threadPitch', label: 'Thread Pitch', required: true, values: ['12x1.25', '12x1.5', '14x1.25', '14x1.5'] },
+      { id: 'color', label: 'Color', required: true, values: ['Black', 'Gold', 'Neo Chrome'] }
+    ],
+    fitmentKind: 'lug-bolt'
+  },
+  lkb51: {
+    id: 'lkb51',
+    category: 'lug-bolts',
+    name: 'Locking Lug Bolts (LKB51)',
+    pack: 'Set',
+    price: 29.99,
+    image: 'https://www.aodhanwheels.com/cdn/shop/products/BLK-OG.jpg?v=1749494604',
+    description: 'Security locking lug bolts, conical seat, 51mm overall length.',
+    options: [
+      { id: 'threadPitch', label: 'Thread Pitch', required: true, values: ['12x1.25', '12x1.5', '14x1.25'] },
+      { id: 'color', label: 'Color', required: true, values: ['Black'] }
+    ],
+    fitmentKind: 'lug-bolt'
+  }
+};
+
+const accessoryVariantImages = {
+  spl35: {
+    '12x1.5 / Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/SPL35_1215_BLACK_01.jpg?v=1749494642',
+    '12x1.5 / Blue': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/SPL35_1215_BLUE_01.jpg?v=1749494643',
+    '12x1.5 / Chrome': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/SPL35_1215_CHROME_01.jpg?v=1749494643',
+    '12x1.5 / Gold': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/SPL35_1215_GOLD_01.jpg?v=1749494643',
+    '12x1.5 / Neo Chrome': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/SPL35_1215_NEO_CHROME_01.jpg?v=1749494643',
+    '12x1.5 / Red': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/SPL35_1215_RED_01.jpg?v=1749494643',
+    '12x1.25 / Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/SPL35_1215_BLACK_01.jpg?v=1749494642',
+    '12x1.25 / Blue': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/SPL35_12125_BLUE_01.jpg?v=1749494643',
+    '12x1.25 / Chrome': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/SPL35_12125_CHROME_01.jpg?v=1749494643',
+    '12x1.25 / Gold': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/SPL35_12125_GOLD_01.jpg?v=1749494643',
+    '12x1.25 / Neo Chrome': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/SPL35_12125_NEO_CHROME_01.jpg?v=1749494644',
+    '12x1.25 / Red': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/SPL35_12125_RED_01.jpg?v=1749494644',
+    '1/2 / Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/SPL35_1215_BLACK_01.jpg?v=1749494642',
+    '1/2 / Chrome': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/SPL35_1215_CHROME_01.jpg?v=1749494643',
+    '1/2 / Red': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/SPL35_1215_RED_01.jpg?v=1749494643',
+    '14x1.5 / Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/SPL35_1415_BLACK_01.jpg?v=1749494644',
+    '14x1.5 / Chrome': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/SPL35_1415_CHROME_01.jpg?v=1749494644',
+    '14x1.5 / Red': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/SPL35_1415_RED_01.jpg?v=1749494644'
+  },
+  xt51: {
+    '12x1.25 / Neo Chrome': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT51_NeoChrome_01.jpg?v=1773946529',
+    '12x1.25 / Gold': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT51_Gold_01.jpg?v=1773946529',
+    '12x1.25 / Red': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT51_Red_01.jpg?v=1773946529',
+    '12x1.25 / Chrome': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT51_Chrome_01.jpg?v=1773946529',
+    '12x1.25 / Blue': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT51_Blue_01.jpg?v=1773946529',
+    '12x1.25 / Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT51_Black_01.jpg?v=1773946529',
+    '12x1.25 / Purple': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT51_Purple_01.jpg?v=1773946529',
+    '12x1.5 / Neo Chrome': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT51_NeoChrome_01.jpg?v=1773946529',
+    '12x1.5 / Gold': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT51_Gold_01.jpg?v=1773946529',
+    '12x1.5 / Red': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT51_Red_01.jpg?v=1773946529',
+    '12x1.5 / Chrome': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT51_Chrome_01.jpg?v=1773946529',
+    '12x1.5 / Blue': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT51_Blue_01.jpg?v=1773946529',
+    '12x1.5 / Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT51_Black_01.jpg?v=1773946529',
+    '12x1.5 / Purple': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT51_Purple_01.jpg?v=1773946529',
+    '14x1.5 / Red': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT51_Red_01.jpg?v=1773946529',
+    '14x1.5 / Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT51_Black_01.jpg?v=1773946529'
+  },
+  xt92: {
+    '12x1.5 / Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT92_Black_01.jpg?v=1773952481',
+    '12x1.5 / Blue': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT92_Blue_01.jpg?v=1773952482',
+    '12x1.5 / Chrome': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT92_Chrome_01.jpg?v=1773952481',
+    '12x1.5 / Gold': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT92_Gold_01.jpg?v=1773952481',
+    '12x1.5 / Neo Chrome': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT92_NeoChrome_01.jpg?v=1773952481',
+    '12x1.5 / Purple': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT92_Purple_01.jpg?v=1773952481',
+    '12x1.5 / Red': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT92_Red_01.jpg?v=1773952481',
+    '12x1.25 / Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT92_Black_01.jpg?v=1773952481',
+    '12x1.25 / Blue': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT92_Blue_01.jpg?v=1773952482',
+    '12x1.25 / Gold': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT92_Gold_01.jpg?v=1773952481',
+    '12x1.25 / Grey': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT92_Grey_01.jpg?v=1773952481',
+    '12x1.25 / Neo Chrome': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT92_NeoChrome_01.jpg?v=1773952481',
+    '12x1.25 / Purple': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT92_Purple_01.jpg?v=1773952481',
+    '12x1.25 / Red': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT92_Red_01.jpg?v=1773952481',
+    '14x1.5 / Blue': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT92_Blue_01.jpg?v=1773952482',
+    '14x1.5 / Chrome': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/XT92_Chrome_01.jpg?v=1773952481'
+  },
+  lb55: {
+    '12x1.25 / Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/LB55_Black_1.jpg?v=1749494631',
+    '12x1.25 / Gold': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/LB55_Gold_1.jpg?v=1749494632',
+    '12x1.25 / Neo Chrome': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/LB55_NeoChrome_1.jpg?v=1749494632',
+    '12x1.5 / Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/LB55_Black_1.jpg?v=1749494631',
+    '12x1.5 / Chrome': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/LB55_Chrome_1.jpg?v=1749494632',
+    '12x1.5 / Gold': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/LB55_Gold_1.jpg?v=1749494632',
+    '14x1.25 / Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/LB55_Black_1.jpg?v=1749494631',
+    '14x1.25 / Chrome': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/LB55_Chrome_1.jpg?v=1749494632',
+    '14x1.5 / Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/LB55_Black_1.jpg?v=1749494631',
+    '14x1.5 / Chrome': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/LB55_Chrome_1.jpg?v=1749494632',
+    '14x1.5 / Gold': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/LB55_Gold_1.jpg?v=1749494632',
+    '14x1.5 / Neo Chrome': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/LB55_NeoChrome_1.jpg?v=1749494632'
+  },
+  v1ValveStems: {
+    Silver: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/V1_Silver_02_c78b0cb9-1e19-461f-83c0-322f6d1b855c.jpg?v=1776204641',
+    Red: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/V1_Red_02_61c1f233-0261-4f0c-a505-fb5de1ec4c82.jpg?v=1776204641',
+    Blue: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/V1_Blue_02_521e9105-55eb-46cc-a37a-e1b8e0ae9269.jpg?v=1776204641',
+    Black: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/V1_Black_03_ab598615-5299-4065-aacb-75a13b9be2fa.jpg?v=1776204641'
+  },
+  v2ValveStems: {
+    Red: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/V2_Red_02_1eacf0c5-68d8-42c8-85c3-75b6ef533fe0.jpg?v=1776204643',
+    Blue: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/V2_Blue_02_b69cf959-09b6-496f-a5e6-e1a066049612.jpg?v=1776204643'
+  },
+  v3ValveStems: {
+    Silver: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/Aodhan_V3_Valve_Silver_1_a3fa2cf6-130a-4872-8c1a-af4f234f876a.jpg?v=1749494604',
+    Red: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/Aodhan_V3_Valve_Red_1_f40f786d-a11f-4966-b77a-51c58080245c.jpg?v=1749494604',
+    Blue: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/Aodhan_V3_Valve_Blue_1_ee46a185-85a0-4392-bd1d-7c9e403a801d.jpg?v=1749494604',
+    Black: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/Aodhan_V3_Valve_Black_1_22fb3186-fa5d-4e1a-ba6a-64b162495e61.jpg?v=1749494604',
+    Gold: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/Aodhan_V3_Valve_Gold_1_2a2a2d64-313b-4db9-a12e-ea09827d6808.jpg?v=1749494604',
+    Gray: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/Aodhan_V3_Valve_Gray_1_324b091c-62ee-4993-bccc-8bb53c761f9f.jpg?v=1749494605'
+  }
+};
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[char]));
+}
+
+function formatMoney(value) {
+  return '$' + Number(value).toLocaleString(undefined, {
+    minimumFractionDigits: Number(value) % 1 ? 2 : 0,
+    maximumFractionDigits: 2
+  });
+}
+
 // ===== CART STATE =====
 const CART_KEY = 'fwwheels_cart';
 
@@ -1662,10 +1968,14 @@ function saveCart(cart) {
 
 function addToCart(item) {
   const cart = getCart();
-  // Merge identical line items (same wheel, size, finish, bolt config)
+  // Merge identical configured line items.
   const existing = cart.findIndex(c =>
-    c.wheelId === item.wheelId && c.size === item.size &&
-    c.finish === item.finish && c.boltConfig === item.boltConfig
+    (c.cartKey && item.cartKey && c.cartKey === item.cartKey) ||
+    (
+      !c.cartKey && !item.cartKey &&
+      c.wheelId === item.wheelId && c.size === item.size &&
+      c.finish === item.finish && c.boltConfig === item.boltConfig
+    )
   );
   if (existing > -1) {
     cart[existing].qty += item.qty;
@@ -1740,13 +2050,18 @@ function renderCart() {
   emptyEl.classList.remove('visible');
   checkoutBtn.disabled = false;
 
-  itemsEl.innerHTML = cart.map((item, idx) => `
-    <div class="cart-item">
-      <div class="cart-item-img"><img src="${item.image || ''}" alt="${item.name}" loading="lazy"></div>
+  itemsEl.innerHTML = cart.map((item, idx) => {
+    const metaLines = item.metaLines || [
+      [item.size, item.finish].filter(Boolean).join(' · '),
+      [item.boltConfig, item.cb ? item.cb + 'mm CB' : ''].filter(Boolean).join(' · ')
+    ].filter(Boolean);
+
+    return `
+    <div class="cart-item" data-type="${escapeHtml(item.productType || 'wheel')}">
+      <div class="cart-item-img"><img src="${escapeHtml(item.image || '')}" alt="${escapeHtml(item.name)}" loading="lazy"></div>
       <div class="cart-item-body">
-        <div class="cart-item-name">${item.name}</div>
-        <div class="cart-item-meta">${item.size} · ${item.finish}</div>
-        <div class="cart-item-meta">${item.boltConfig}${item.cb ? ' · ' + item.cb + 'mm CB' : ''}</div>
+        <div class="cart-item-name">${escapeHtml(item.name)}</div>
+        ${metaLines.map(line => `<div class="cart-item-meta">${escapeHtml(line)}</div>`).join('')}
         <div class="cart-item-row">
           <div class="cart-qty">
             <button class="cart-qty-btn" data-action="dec" data-idx="${idx}">−</button>
@@ -1758,7 +2073,8 @@ function renderCart() {
         <button class="cart-remove" data-idx="${idx}">Remove</button>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 
   subtotalEl.textContent = '$' + getCartTotal().toLocaleString();
 
@@ -1823,14 +2139,14 @@ const modalTitle = document.getElementById('modalTitle');
 const modalSpecs = document.getElementById('modalSpecs');
 const modalQuoteBtn = document.getElementById('modalQuoteBtn');
 
-function openWheelModal(wheelId) {
+function openWheelModal(wheelId, preferred = {}) {
   const wheel = wheelData[wheelId];
   if (!wheel) return;
 
   modalTitle.textContent = wheel.name;
 
   const sizes = getWheelSizes(wheel);
-  const defaultSize = sizes[0];
+  const defaultSize = sizes.includes(preferred.size) ? preferred.size : sizes[0];
 
   const perWheelPrice = getWheelPrice(wheelId, defaultSize);
 
@@ -1842,7 +2158,7 @@ function openWheelModal(wheelId) {
     <div class="spec-group">
       <div class="spec-label">Select Size</div>
       <select class="size-select" id="sizeSelect">
-        ${sizes.map(s => `<option value="${s}">${s}</option>`).join('')}
+        ${sizes.map(s => `<option value="${s}" ${s === defaultSize ? 'selected' : ''}>${s}</option>`).join('')}
       </select>
     </div>
     <div class="spec-group">
@@ -1905,7 +2221,8 @@ function openWheelModal(wheelId) {
     updatePriceDisplay();
   });
 
-  updateModalVariant(wheelId, defaultSize);
+  updateModalVariant(wheelId, defaultSize, preferred);
+  updatePriceDisplay();
 
   // Spec chart toggle
   const specToggle = document.getElementById('specChartToggle');
@@ -1956,14 +2273,31 @@ function renderOffsetChips(dynamicSpecs, variant, selectedBolt) {
   });
 }
 
-function updateModalVariant(wheelId, size) {
+function updateModalVariant(wheelId, size, preferred = {}) {
   const wheel = wheelData[wheelId];
   const variant = getVariantData(wheel, size);
   const finishImgMap = buildFinishImageMap(wheel, wheelId);
+  const variantFinishes = (variant.finishes || []).map(canonicalFinishName);
+  const finishOptions = [
+    ...new Set([
+      ...variantFinishes,
+      ...Object.keys(finishImgMap).map(canonicalFinishName)
+    ])
+  ];
+  const preferredFinish = preferred.finish ? canonicalFinishName(preferred.finish) : '';
+  const selectedFinish = preferredFinish && finishOptions.includes(preferredFinish)
+    ? preferredFinish
+    : pickCardDefaultFinish(wheelId, finishOptions, finishImgMap);
 
   // Get bolt configs from inventory data, fall back to variant data
   const configs = (wheelBoltConfigs[wheelId] && wheelBoltConfigs[wheelId][size]) || null;
   const hasBoltConfigs = configs && configs.length > 0;
+  const configMatchesPreferred = config =>
+    (!preferred.bolt || config.bolt === preferred.bolt) &&
+    (!preferred.offset || config.offset === preferred.offset) &&
+    (!preferred.cb || String(config.cb) === String(preferred.cb));
+  const preferredConfigIndex = hasBoltConfigs ? configs.findIndex(configMatchesPreferred) : -1;
+  const activeConfigIndex = preferredConfigIndex > -1 ? preferredConfigIndex : 0;
 
   const dynamicSpecs = document.getElementById('dynamicSpecs');
 
@@ -1978,7 +2312,7 @@ function updateModalVariant(wheelId, size) {
           ${configs.map((c, i) => {
             const label = c.bolt + ' ' + c.offset;
             const dual = c.bolt.includes('/');
-            return `<span class="spec-chip spec-chip--selectable${i === 0 ? ' spec-chip--active' : ''}${dual ? ' spec-chip--dual' : ''}" data-bolt="${c.bolt}" data-offset="${c.offset}" data-cb="${c.cb}">${label}</span>`;
+            return `<span class="spec-chip spec-chip--selectable${i === activeConfigIndex ? ' spec-chip--active' : ''}${dual ? ' spec-chip--dual' : ''}" data-bolt="${c.bolt}" data-offset="${c.offset}" data-cb="${c.cb}">${label}</span>`;
           }).join('')}
         </div>
       </div>`;
@@ -2005,8 +2339,8 @@ function updateModalVariant(wheelId, size) {
     <div class="spec-group">
       <div class="spec-label">Finish</div>
       <div class="spec-chips" id="finishChips">
-        ${variant.finishes.map((f, i) =>
-          `<span class="spec-chip spec-chip--selectable${i === 0 ? ' spec-chip--active' : ''}" data-finish="${f}">${f}</span>`
+        ${finishOptions.map(f =>
+          `<span class="spec-chip spec-chip--selectable${f === selectedFinish ? ' spec-chip--active' : ''}" data-finish="${f}">${f}</span>`
         ).join('')}
       </div>
     </div>
@@ -2016,7 +2350,7 @@ function updateModalVariant(wheelId, size) {
   // Update center bore from first config
   const cbDisplay = document.getElementById('centerBoreDisplay');
   if (cbDisplay && hasBoltConfigs) {
-    cbDisplay.textContent = configs[0].cb + 'mm';
+    cbDisplay.textContent = configs[activeConfigIndex].cb + 'mm';
   }
 
   // Finish chip click → swap modal image + update price
@@ -2025,9 +2359,8 @@ function updateModalVariant(wheelId, size) {
       dynamicSpecs.querySelectorAll('#finishChips .spec-chip--selectable').forEach(c => c.classList.remove('spec-chip--active'));
       chip.classList.add('spec-chip--active');
       const finish = chip.dataset.finish;
-      if (finishImgMap[finish]) {
-        modalImages.innerHTML = `<img decoding="async" src="${finishImgMap[finish]}" alt="${wheel.name} - ${finish}" loading="lazy">`;
-      }
+      const image = getWheelDisplayImage(wheel, wheelId, size, finish);
+      if (image) modalImages.innerHTML = `<img decoding="async" src="${image}" alt="${wheel.name} - ${finish}" loading="lazy">`;
       if (window._fwUpdatePrice) window._fwUpdatePrice();
     });
   });
@@ -2046,9 +2379,10 @@ function updateModalVariant(wheelId, size) {
     });
   });
 
-  // Update image for selected size
-  if (variant.image) {
-    modalImages.innerHTML = `<img decoding="async" src="${variant.image}" alt="${wheel.name} ${size}" loading="lazy">`;
+  // Update image for the active finish, not just the selected size.
+  const selectedImage = getWheelDisplayImage(wheel, wheelId, size, selectedFinish);
+  if (selectedImage) {
+    modalImages.innerHTML = `<img decoding="async" src="${selectedImage}" alt="${wheel.name} - ${selectedFinish}" loading="lazy">`;
   } else if (wheel.images) {
     modalImages.innerHTML = wheel.images.map(src =>
       `<img decoding="async" src="${src}" alt="${wheel.name}" loading="lazy">`
@@ -2084,7 +2418,9 @@ function buildSimilarWheels(currentId, currentWheel) {
       <div class="spec-label">Similar Options</div>
       <div class="similar-grid">
         ${show.map(([id, w]) => {
-          const img = w.images?.[0] || '';
+          const firstSize = getWheelSizes(w)[0];
+          const firstFinish = getVariantData(w, firstSize).finishes?.[0] || '';
+          const img = getWheelDisplayImage(w, id, firstSize, firstFinish);
           const m = w.priceRange?.match(/\$[\d,]+/);
           const price = m ? 'From ' + m[0] : '';
           return `<div class="similar-card" data-wheel="${id}">
@@ -2131,6 +2467,7 @@ wheelModal.addEventListener('click', (e) => {
 });
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeWheelModal();
+  if (e.key === 'Escape') closeAccessoryModal();
 });
 
 // ===== DON'T FORGET POPUP =====
@@ -2156,6 +2493,14 @@ dontForgetCta.addEventListener('click', () => {
   closeDontForget();
 });
 
+document.querySelectorAll('.df-card[data-accessory]').forEach(card => {
+  card.addEventListener('click', () => {
+    const productId = card.dataset.accessory;
+    closeDontForget();
+    setTimeout(() => openAccessoryModal(productId), 250);
+  });
+});
+
 // "Add to Cart" — gather current selections, add item, then show Don't Forget popup
 modalQuoteBtn.addEventListener('click', () => {
   const wheelId = modalQuoteBtn.dataset.wheel;
@@ -2176,8 +2521,19 @@ modalQuoteBtn.addEventListener('click', () => {
   const modalImg = modalImages.querySelector('img');
   const image = modalImg ? modalImg.src : (wheel.images?.[0] || '');
 
+  finderState.lastWheelSelection = {
+    wheelId,
+    name: wheel.name,
+    size,
+    bolt,
+    cb,
+    thread: finderState.lastVehicleSpecs?.thread || ''
+  };
+  updateAccessoryFitmentNote();
+
   addToCart({
     wheelId,
+    productType: 'wheel',
     name: wheel.name,
     size,
     finish,
@@ -2194,26 +2550,384 @@ modalQuoteBtn.addEventListener('click', () => {
   }, 300);
 });
 
+// ===== ACCESSORIES =====
+const accessorySection = document.getElementById('accessories');
+const accessoriesGrid = document.getElementById('accessoriesGrid');
+const accessoryTabs = document.getElementById('accessoryTabs');
+const accessoryFitmentNote = document.getElementById('accessoryFitmentNote');
+const accessoryModal = document.getElementById('accessoryModal');
+const accessoryModalClose = document.getElementById('accessoryModalClose');
+const accessoryModalImages = document.getElementById('accessoryModalImages');
+const accessoryModalTitle = document.getElementById('accessoryModalTitle');
+const accessoryModalSpecs = document.getElementById('accessoryModalSpecs');
+const accessoryAddBtn = document.getElementById('accessoryAddBtn');
+
+function positionAccessoriesSection() {
+  const finder = document.getElementById('vehicle-finder');
+  if (accessorySection && finder && finder.nextElementSibling !== accessorySection) {
+    finder.insertAdjacentElement('afterend', accessorySection);
+  }
+}
+
+function normalizeMm(value) {
+  const num = parseNumber(value);
+  return num === null ? '' : num.toFixed(2);
+}
+
+function mmNearlyEqual(a, b, tolerance = 0.16) {
+  const left = parseNumber(a);
+  const right = parseNumber(b);
+  return left !== null && right !== null && Math.abs(left - right) <= tolerance;
+}
+
+function getRingMeasurements(optionValue) {
+  return {
+    wheel: parseNumber(String(optionValue).match(/Wheel:\s*([\d.]+)/i)?.[1]),
+    hub: parseNumber(String(optionValue).match(/Hub:\s*([\d.]+)/i)?.[1])
+  };
+}
+
+function findHubRingOption(product, wheelCb, vehicleCb) {
+  const ringOption = product.options.find(option => option.id === 'ringSize');
+  if (!ringOption || !wheelCb || !vehicleCb) return '';
+
+  const exact = ringOption.values.find(value => {
+    const ring = getRingMeasurements(value);
+    return normalizeMm(ring.wheel) === normalizeMm(wheelCb) &&
+      normalizeMm(ring.hub) === normalizeMm(vehicleCb);
+  });
+  if (exact) return exact;
+
+  return ringOption.values.find(value => {
+    const ring = getRingMeasurements(value);
+    return mmNearlyEqual(ring.wheel, wheelCb) && mmNearlyEqual(ring.hub, vehicleCb);
+  }) || '';
+}
+
+function normalizeThreadPitch(value) {
+  const raw = String(value || '').trim().toLowerCase();
+  if (!raw) return '';
+  if (raw.includes('1/2')) return '1/2';
+  const match = raw.replace(/m/g, '').match(/(\d+)\s*x?\s*(\d+(?:\.\d+)?)/);
+  return match ? `${match[1]}x${match[2]}` : raw.replace(/\s+/g, '');
+}
+
+function getAccessoryRecommendation(product) {
+  const vehicle = finderState.lastVehicleSpecs;
+  const wheel = finderState.lastWheelSelection;
+
+  if (product.fitmentKind === 'lug-nut' || product.fitmentKind === 'lug-bolt') {
+    const thread = normalizeThreadPitch(vehicle?.thread || wheel?.thread || '');
+    const threadOption = product.options
+      .find(opt => opt.id === 'threadPitch')
+      ?.values.find(value => normalizeThreadPitch(value) === thread);
+    if (threadOption) return { threadPitch: threadOption };
+  }
+
+  if (product.fitmentKind === 'hub-ring' && vehicle?.centerBore && wheel?.cb) {
+    const ringOption = findHubRingOption(product, wheel.cb, vehicle.centerBore);
+    if (ringOption) return { ringSize: ringOption };
+  }
+
+  return {};
+}
+
+function updateAccessoryFitmentNote() {
+  if (!accessoryFitmentNote) return;
+  const vehicle = finderState.lastVehicleSpecs;
+  const wheel = finderState.lastWheelSelection;
+
+  if (vehicle && wheel) {
+    accessoryFitmentNote.innerHTML = `
+      <strong>Fitment context:</strong>
+      ${escapeHtml(vehicle.label || 'Selected vehicle')} uses ${escapeHtml(vehicle.thread || 'unknown thread pitch')};
+      selected wheel center bore is ${escapeHtml(wheel.cb || 'unknown')}mm.
+      Matching options are preselected when available.
+    `;
+  } else if (vehicle) {
+    accessoryFitmentNote.innerHTML = `
+      <strong>Vehicle context:</strong>
+      ${escapeHtml(vehicle.label || 'Selected vehicle')} uses ${escapeHtml(vehicle.thread || 'unknown thread pitch')}.
+      Select a wheel before hub rings can be matched.
+    `;
+  } else {
+    accessoryFitmentNote.textContent = 'Use the vehicle finder first and we can recommend hardware based on thread pitch, center bore, and selected wheel specs.';
+  }
+}
+
+function renderAccessoryCards(category = 'all') {
+  if (!accessoriesGrid) return;
+  const products = Object.values(accessoryProducts)
+    .filter(product => category === 'all' || product.category === category);
+
+  accessoriesGrid.innerHTML = products.map(product => `
+    <button class="accessory-card" data-accessory="${escapeHtml(product.id)}" type="button">
+      <div class="accessory-img"><img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" loading="lazy"></div>
+      <div class="accessory-info">
+        <p class="accessory-name">${escapeHtml(product.name)} - ${escapeHtml(product.pack)}</p>
+        <p class="accessory-desc">${escapeHtml(product.description)}</p>
+        <p class="accessory-price">${formatMoney(product.price)}</p>
+      </div>
+    </button>
+  `).join('');
+
+  accessoriesGrid.querySelectorAll('.accessory-card[data-accessory]').forEach(card => {
+    card.addEventListener('click', () => openAccessoryModal(card.dataset.accessory));
+  });
+}
+
+function initAccessoryTabs() {
+  if (!accessoryTabs) return;
+  accessoryTabs.querySelectorAll('.accessory-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      accessoryTabs.querySelectorAll('.accessory-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      renderAccessoryCards(tab.dataset.category || 'all');
+    });
+  });
+}
+
+function renderAccessoryOptions(product) {
+  const recommended = getAccessoryRecommendation(product);
+
+  return product.options.map(option => {
+    const recommendedValue = recommended[option.id] || '';
+    return `
+      <label class="spec-group accessory-option" for="accessory-${escapeHtml(option.id)}">
+        <div class="spec-label">${escapeHtml(option.label)}${option.required ? ' *' : ''}</div>
+        <select class="size-select accessory-select" id="accessory-${escapeHtml(option.id)}" data-option="${escapeHtml(option.id)}" ${option.required ? 'required' : ''}>
+          <option value="">Select ${escapeHtml(option.label.toLowerCase())}</option>
+          ${option.values.map(value =>
+            `<option value="${escapeHtml(value)}" ${value === recommendedValue ? 'selected' : ''}>${escapeHtml(value)}${value === recommendedValue ? ' - recommended' : ''}</option>`
+          ).join('')}
+        </select>
+      </label>
+    `;
+  }).join('');
+}
+
+function getAccessorySelections(product) {
+  const selections = {};
+  product.options.forEach(option => {
+    const input = accessoryModalSpecs.querySelector(`[data-option="${CSS.escape(option.id)}"]`);
+    selections[option.id] = input?.value || '';
+  });
+  return selections;
+}
+
+function getAccessoryImageKey(product, selections = {}) {
+  const imageMap = accessoryVariantImages[product.id];
+  if (!imageMap) return '';
+
+  const threadPitch = selections.threadPitch || '';
+  const color = selections.color || '';
+  const exactKey = [threadPitch, color].filter(Boolean).join(' / ');
+
+  if (exactKey && imageMap[exactKey]) return exactKey;
+  if (color && imageMap[color]) return color;
+  if (threadPitch) {
+    const threadKey = Object.keys(imageMap).find(key => key.startsWith(`${threadPitch} / `));
+    if (threadKey) return threadKey;
+  }
+  if (color) {
+    const colorKey = Object.keys(imageMap).find(key => key.endsWith(` / ${color}`));
+    if (colorKey) return colorKey;
+  }
+
+  return '';
+}
+
+function getAccessoryImage(product, selections = {}) {
+  const imageMap = accessoryVariantImages[product.id];
+  const key = getAccessoryImageKey(product, selections);
+  return (imageMap && key && imageMap[key]) || product.image;
+}
+
+function getAvailableAccessoryColors(product, threadPitch = '') {
+  const colorOption = product.options.find(option => option.id === 'color');
+  const imageMap = accessoryVariantImages[product.id];
+  if (!colorOption || !imageMap) return colorOption?.values || [];
+
+  if (threadPitch) {
+    const prefix = `${threadPitch} / `;
+    const colorsForThread = Object.keys(imageMap)
+      .filter(key => key.startsWith(prefix))
+      .map(key => key.slice(prefix.length));
+
+    if (colorsForThread.length) {
+      return colorOption.values.filter(color => colorsForThread.includes(color));
+    }
+  }
+
+  return colorOption.values.filter(color =>
+    imageMap[color] || Object.keys(imageMap).some(key => key.endsWith(` / ${color}`))
+  );
+}
+
+function syncAccessoryColorOptions(product) {
+  const threadSelect = accessoryModalSpecs.querySelector('[data-option="threadPitch"]');
+  const colorSelect = accessoryModalSpecs.querySelector('[data-option="color"]');
+  if (!colorSelect) return;
+
+  const currentColor = colorSelect.value;
+  const colors = getAvailableAccessoryColors(product, threadSelect?.value || '');
+  if (!colors.length) return;
+
+  colorSelect.innerHTML = `
+    <option value="">Select color</option>
+    ${colors.map(color =>
+      `<option value="${escapeHtml(color)}" ${color === currentColor ? 'selected' : ''}>${escapeHtml(color)}</option>`
+    ).join('')}
+  `;
+
+  if (currentColor && !colors.includes(currentColor)) {
+    colorSelect.value = '';
+  }
+}
+
+function updateAccessoryModalImage(product) {
+  if (!accessoryModalImages) return;
+  const selections = getAccessorySelections(product);
+  const image = getAccessoryImage(product, selections);
+  accessoryModalImages.innerHTML = `<img decoding="async" src="${escapeHtml(image)}" alt="${escapeHtml(product.name)}" loading="lazy">`;
+}
+
+function validateAccessorySelection(product) {
+  const selections = getAccessorySelections(product);
+  const missing = product.options.filter(option => option.required && !selections[option.id]);
+  if (accessoryAddBtn) {
+    accessoryAddBtn.disabled = missing.length > 0;
+    accessoryAddBtn.textContent = missing.length ? 'Select Options' : 'Add to Cart';
+  }
+}
+
+function openAccessoryModal(productId) {
+  const product = accessoryProducts[productId];
+  if (!product || !accessoryModal) return;
+
+  accessoryModalTitle.textContent = `${product.name} - ${product.pack}`;
+  accessoryModalImages.innerHTML = `<img decoding="async" src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" loading="lazy">`;
+  accessoryModalSpecs.innerHTML = `
+    <div class="spec-group">
+      <div class="spec-label">Price</div>
+      <div class="spec-value accessory-modal-price">${formatMoney(product.price)} <span>${escapeHtml(product.pack)}</span></div>
+    </div>
+    <div class="spec-group">
+      <div class="spec-label">Details</div>
+      <div class="spec-value">${escapeHtml(product.description)}</div>
+    </div>
+    ${renderAccessoryOptions(product)}
+    <p class="accessory-modal-note">Hardware fitment depends on vehicle thread pitch, wheel seat type, center bore, and selected wheel specs. Text us before ordering if anything is not listed.</p>
+  `;
+
+  accessoryAddBtn.dataset.accessory = productId;
+  accessoryModalSpecs.querySelectorAll('.accessory-select').forEach(select => {
+    select.addEventListener('change', () => {
+      syncAccessoryColorOptions(product);
+      updateAccessoryModalImage(product);
+      validateAccessorySelection(product);
+    });
+  });
+  syncAccessoryColorOptions(product);
+  updateAccessoryModalImage(product);
+  validateAccessorySelection(product);
+
+  accessoryModal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAccessoryModal() {
+  if (!accessoryModal) return;
+  accessoryModal.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function addSelectedAccessoryToCart() {
+  const productId = accessoryAddBtn?.dataset.accessory;
+  const product = accessoryProducts[productId];
+  if (!product) return;
+
+  const selections = getAccessorySelections(product);
+  const missing = product.options.filter(option => option.required && !selections[option.id]);
+  if (missing.length) {
+    validateAccessorySelection(product);
+    return;
+  }
+
+  const optionLines = product.options
+    .map(option => selections[option.id] ? `${option.label}: ${selections[option.id]}` : '')
+    .filter(Boolean);
+
+  addToCart({
+    cartKey: `accessory:${product.id}:${optionLines.join('|')}`,
+    productType: 'accessory',
+    accessoryId: product.id,
+    name: `${product.name} - ${product.pack}`,
+    size: optionLines.join(' / '),
+    finish: '',
+    boltConfig: '',
+    cb: '',
+    metaLines: optionLines,
+    price: product.price,
+    qty: 1,
+    image: getAccessoryImage(product, selections),
+    options: selections
+  });
+
+  closeAccessoryModal();
+  openCart();
+}
+
+function initAccessories() {
+  positionAccessoriesSection();
+  initAccessoryTabs();
+  renderAccessoryCards('all');
+  updateAccessoryFitmentNote();
+
+  if (accessoryModalClose) accessoryModalClose.addEventListener('click', closeAccessoryModal);
+  if (accessoryModal) {
+    accessoryModal.addEventListener('click', (e) => {
+      if (e.target === accessoryModal) closeAccessoryModal();
+    });
+  }
+  if (accessoryAddBtn) accessoryAddBtn.addEventListener('click', addSelectedAccessoryToCart);
+}
+
 // ===== CARD PRICES & SWATCHES =====
 const finishColors = {
   'Silver Machined Face': '#c0c0c0',
+  'Silver w/Machined Face': '#c0c0c0',
+  'Silver W/Machined Face': '#c0c0c0',
+  'Silver w/Machined Lip': '#c8c8c8',
+  'Silver w/ Machined Lip': '#c8c8c8',
   'Machined Silver': '#b8b8b8',
   'Silver Machined Lip': '#c8c8c8',
+  'Gloss Silver Machined Face': '#c8c8c8',
   'Gloss Black': '#1a1a1a',
   'Matte Black': '#2d2d2d',
+  'Black Vacuum': '#111',
+  'Black Vacuum (PVD)': '#111',
   'Hyper Black': '#4a4a4a',
+  'Hyper Black w/ Machined Lip': '#4a4a4a',
   'Bronze': '#8b6914',
   'Matte Bronze': '#7a5c12',
   'Bronze Machined Lip': '#8b6914',
+  'Bronze w/Machined Lip': '#8b6914',
   'Matte Bronze Machined Lip': '#7a5c12',
   'Chrome': '#e0e0e0',
   'PVD Chrome': '#dcdcdc',
+  'Vacuum Chrome': '#dcdcdc',
+  'Vacuum Chrome (PVD)': '#dcdcdc',
   'Gunmetal': '#6b6b6b',
   'Gold Machined Face': '#c9952c',
+  'Gold Vacuum': '#c9952c',
+  'Gold Vacuum (PVD)': '#c9952c',
   'Vacuum Gold Chrome': '#c9952c',
   'Matte Black Machined Lip': '#2d2d2d',
   'Silver': '#c0c0c0',
   'Hyper Silver': '#b0b0b0',
+  'Hyper Silver Machined Face': '#b0b0b0',
+  'Hyper Silver Machine Tip': '#b0b0b0',
   'Satin Silver': '#aaa',
   'Machined Gold': '#c9952c',
   'White': '#f0f0f0',
@@ -2227,18 +2941,36 @@ const finishColors = {
   'Silver Machined': '#c0c0c0',
   'Gun Metal': '#6b6b6b',
   'Black': '#1a1a1a',
+  'Matte Gray': '#6f6f6f',
+  'Gloss Black W /Gold Rivets': '#1a1a1a',
+  'Candy Red w/ (Chrome Rivets)': '#b3262e',
 };
 
 function getFinishColor(finish) {
   if (finishColors[finish]) return finishColors[finish];
   const lower = finish.toLowerCase();
-  if (lower.includes('silver') || lower.includes('machined') || lower.includes('chrome')) return '#c0c0c0';
-  if (lower.includes('black')) return '#2d2d2d';
   if (lower.includes('bronze')) return '#8b6914';
   if (lower.includes('gold')) return '#c9952c';
+  if (lower.includes('black')) return '#2d2d2d';
   if (lower.includes('gunmetal') || lower.includes('gun metal')) return '#6b6b6b';
   if (lower.includes('white')) return '#f0f0f0';
+  if (lower.includes('silver') || lower.includes('machined') || lower.includes('chrome')) return '#c0c0c0';
   return '#999';
+}
+
+function canonicalFinishName(finish) {
+  const name = finish.trim();
+  if (name === 'Silver W/Machined Face') return 'Silver w/Machined Face';
+  return name;
+}
+
+function normalizeFinishKey(finish) {
+  return canonicalFinishName(finish || '')
+    .toLowerCase()
+    .replace(/\(pvd\)/g, '')
+    .replace(/w\s*\/\s*/g, 'with ')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
 }
 
 // Static finish→image map per model (from Shopify API scrape)
@@ -2255,7 +2987,7 @@ const finishImages = {
   },
   ah05: {
     'Gloss Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH05_1885_GB_01_a855e277-7da3-438e-8cd3-3a7f8ca4dfd7.jpg?width=800',
-    'Silver Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH05_1885_SMF_01.jpg?width=800'
+    'Silver Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH05_1885_SMF_03.jpg?width=800'
   },
   ah06: {
     'Machined Silver': 'https://www.aodhanwheels.com/cdn/shop/products/AH06_1890_MS_01.jpg?width=800',
@@ -2296,17 +3028,31 @@ const finishImages = {
   ds01: {
     'Bronze w/Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS01_1885_BRONZE_03_52b41525-7011-44e1-8919-62f099957031.jpg?width=800',
     'Gloss Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS01_1885_GB_01_ed615246-dbd4-48bb-872d-a5e5de8997b8.jpg?width=800',
-    'Silver w/Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS01_18105_SML_01_f90c839c-4c87-4001-ab75-c4ecb1ec3445.jpg?width=800'
+    'Silver w/Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS01_18105_SML_01_f90c839c-4c87-4001-ab75-c4ecb1ec3445.jpg?width=800',
+    'Black Vacuum (PVD)': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS01_1885_BV_03_372a26a6-5113-4e66-a10c-c5ac8fcc485b.jpg?v=1749494671&width=800',
+    'Gold Vacuum (PVD)': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS01_1885_VG_03_7b7d5b13-1736-4f1f-a111-9ae52f8d9484.jpg?v=1749494672&width=800',
+    'Vacuum Chrome (PVD)': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS01_1885_VC_03_5effc08c-a6f8-47ad-8296-f0c231f0b27f.jpg?v=1749494672&width=800'
   },
   ds02: {
-    'Bronze w/Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS02_1885_BRZ_03_bae8b50d-0182-4be2-813e-493b07e46567.jpg?width=800',
-    'Silver w/Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS02_1885_SMF_03.jpg?width=800',
-    'Hyper Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS02_18105_SMF_03.jpg?width=800'
+    'Bronze w/Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS02_1885_BRZ_03_bae8b50d-0182-4be2-813e-493b07e46567.jpg?v=1749494658&width=800',
+    'Hyper Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS02_1885_HBLK_03.jpg?v=1749494659&width=800',
+    'Silver w/Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS02_1885_SMF_03.jpg?v=1749494659&width=800',
+    'Silver W/Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS02_1885_SMF_03.jpg?v=1749494659&width=800',
+    'Black Vacuum (PVD)': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS02_1895_BV_03.jpg?v=1749494660&width=800',
+    'Gold Vacuum (PVD)': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS02_1895_VG_03.jpg?v=1749494661&width=800',
+    'Vacuum Chrome (PVD)': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS02_1895_VC_03.jpg?v=1749494661&width=800'
+  },
+  ds03: {
+    'Black Vacuum': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/DS03_1895_VB_03D.jpg?v=1749494677&width=800',
+    'Gold Vacuum': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/DS03_1895_VG_03D.jpg?v=1749494677&width=800',
+    'Silver w/Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/DS03_1895_MS_03D.jpg?v=1749494676&width=800',
+    'Vacuum Chrome': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/DS03_1895_VC_03D.jpg?v=1749494677&width=800'
   },
   ds05: {
     'Bronze w/Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS05_BRZ_1885_03.jpg?width=800',
     'Gloss Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS05_1885_GB_03_ca49bed6-bd5f-4255-b6af-5615052c480d.jpg?width=800',
-    'Silver w/Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS05_18105_SMF_03_c437ea07-45c2-4142-9724-46d04ccb75c6.jpg?width=800'
+    'Silver w/Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS05_18105_SMF_03_c437ea07-45c2-4142-9724-46d04ccb75c6.jpg?width=800',
+    'Black Vacuum': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS05_1885_BV_03_c9411c1f-9824-4d7b-92b1-69c43aa7b65c.jpg?v=1749494651&width=800'
   },
   ds06: {
     'Bronze w/Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS06_1885_BRONZE_01_e3844a1a-8486-4f93-80ba-5b33c98343ad.jpg?width=800',
@@ -2314,12 +3060,13 @@ const finishImages = {
     'Silver w/Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS06_1895_SMF_03_ff12ed63-e6c7-4cbc-88ad-574207d444d9.jpg?width=800'
   },
   ds07: {
+    'Bronze w/Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS07_1885_BRONZE_03.jpg?v=1749494615&width=800',
     'Gloss Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS07_1885_GB_03.jpg?width=800',
     'Silver w/Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS07_1895_SMF_03.jpg?width=800'
   },
   ds08: {
     'Bronze w/Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS08_1885_BZ_03.jpg?width=800',
-    'Gloss Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS08_1885_MS_03.jpg?width=800',
+    'Gloss Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS08_1885_GB_03.jpg?v=1749494587&width=800',
     'Silver w/Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS08_1895_MS_03.jpg?width=800'
   },
   ds09: {
@@ -2330,6 +3077,7 @@ const finishImages = {
   },
   dsx: {
     'Bronze w/Machined Lip': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DSX_1885_BZML_03.jpg?width=800',
+    'Gloss Black W /Gold Rivets': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DSX_1885_GB_03.jpg?v=1749494545&width=800',
     'Silver w/Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DSX_1885_SMF_03.jpg?width=800'
   },
   // AFF Series
@@ -2338,6 +3086,22 @@ const finishImages = {
     'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF1_2090_MBRZ_03_7574050d-541f-4e91-8398-7c77c4f8a342.jpg?width=800',
     'Silver Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF1_20105_SMF_03_dce2b951-ff5e-4171-9323-44c3b64e9a72.jpg?width=800'
   },
+  aff2: {
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF02_1985_MB_03.jpg?v=1749494563&width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF02_1985_MBZ_03.jpg?v=1749494563&width=800',
+    'Matte Gray': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF02_1985_GM_03.jpg?v=1749494564&width=800',
+    'Silver Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF02_1985_SMF_03.jpg?v=1749494562&width=800'
+  },
+  aff3: {
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AFF03_2090_MB_03.jpg?v=1773872477&width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AFF03_2090_BRZ_03.jpg?v=1773872478&width=800',
+    'Silver Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AFF03_2090_MS_03.jpg?v=1773872478&width=800'
+  },
+  aff7: {
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF7_1885_MB_03.jpg?v=1749494581&width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF7_1885_BRZ_03.jpg?v=1749494581&width=800',
+    'Silver Machined Face': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF7_1885_SMF_03.jpg?v=1749494580&width=800'
+  },
   aff9: {
     'Matte Black': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF9_2090_MB_03_f7785824-4973-49ac-856b-12205908e088.jpg?width=800',
     'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF9_2090_MBZ_03_2efee466-3cb1-4d9e-b2d7-959f57cd23ea.jpg?width=800',
@@ -2345,73 +3109,90 @@ const finishImages = {
   },
   // Mflow Road Series
   mfr1: {
-    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-racing-mfr1-matte-bronze-unleashedwheels.jpg?width=800',
-    'Matte Black': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-racing-mfr1-matte-black-unleashedwheels.jpg?width=800',
-    'Hyper Black': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-racing-mfr1-hyper-black-unleashedwheels.jpg?width=800'
+    'Hyper Silver Machined Face': 'https://www.mflowracing.com/cdn/shop/files/MFR1-2085-MACHINEDSILVER1.jpg?v=1771531382&width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF1-1985-MATT-BRONZE-1.jpg?v=1757108284&width=800',
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF1-1885-MATT-BLACK-1.jpg?v=1757108286&width=800',
+    'Hyper Black': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF1-2085-HYPER-BLACK-1.jpg?v=1757108285&width=800'
   },
   mfr2: {
-    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-mfr2-matte-bronze-unleashedwheels.jpg?width=800',
-    'Matte Black': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-mfr2-matte-black-unleashedwheels.jpg?width=800'
+    'Hyper Silver': 'https://wheelplususa.com/cdn/shop/files/MFR2-Hyper-Silver-Wheels-Rims_1060734f-d490-4036-b02e-859985eddd44.jpg?v=1760722999&width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF2-2085-MATT_20BRONZE-1.jpg?v=1757108282&width=800',
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF2-2085-MATT_20BLACK-1.jpg?v=1757108283&width=800'
   },
   mfr3: {
-    'Gloss Black': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-mfr3-gloss-black-unleashedwheels.jpg?width=800',
-    'Hyper Silver': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-mfr3-hyper-silver-unleashedwheels.jpg?width=800',
-    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-mfr3-matte-bronze-unleashedwheels.jpg?width=800'
+    'Gloss Black': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF3-1995-GLOSS_20BLACK-1.jpg?v=1757108279&width=800',
+    'Hyper Silver': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF3-1985-HYPER_20SILVER-1.jpg?v=1757108281&width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF3-1885-MATT_20BRONZE-1.jpg?v=1757108280&width=800'
   },
   mfr4: {
-    'Matte Black Machine Lip': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-racing-mfr4-matte-black-unleashedwheels.jpg?width=800',
-    'Matte Bronze Machined Lip': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-racing-mfr4-matte-bronze-unleashedwheels.jpg?width=800'
+    'Hyper Silver Machine Tip': 'https://www.mflowracing.com/cdn/shop/files/MFR4HyperSilverMachinedTip.jpg?v=1771542352&width=800',
+    'Matte Black Machine Lip': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MFR4-1885-MATT_BLACK_MACHINED_LIP-1-p.jpg?v=1757108271&width=800',
+    'Matte Bronze Machined Lip': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MFR4-1985-MATT_BRONZE_MACHINED_LIP-1-p.jpg?v=1757108269&width=800'
   },
   // Mflow Luxury Series
   mfl1: {
-    'Matte Black Machined Lip': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-mfl1-matte-black-machined-lip.jpg?width=800',
-    'Matte Bronze Machined Lip': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-mfl1-matte-bronze-unleashedwheels.jpg?width=800',
-    'Chrome': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-mfl1-chrome-unleashedwheels.jpg?width=800'
+    'Matte Black Machined Lip': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MFL118X9.5MattBlackMACHINEDLIP.jpg?v=1757108277&width=800',
+    'Matte Bronze Machined Lip': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MFL118X9.5MattBRONZEMACHINEDLIP.jpg?v=1757108276&width=800',
+    'Chrome': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MFL120X9.5ChromePVD.jpg?v=1757108275&width=800'
   },
   mfl2: {
-    'Matte Black Machined Lip': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow_mfl2-matte-black-unleashedwheels.jpg?width=800',
-    'Matte Bronze Machined Lip': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-mfl2-matte-bronze-unleashedwheels.jpg?width=800',
-    'Chrome': 'https://cdn.shopify.com/s/files/1/0418/3670/8008/files/mflow-mfl2-chrome-unleashedwheels.jpg?width=800'
+    'Matte Black Machined Lip': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MFL218X8.5MattBLACKMACHINEDLIP.jpg?v=1757108274&width=800',
+    'Matte Bronze Machined Lip': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MFL218X9.5MattBRONZEMACHINEDLIP.jpg?v=1757108273&width=800',
+    'Chrome': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MFL220X8.5CHROMEPVD.jpg?v=1757108272&width=800'
   },
   // Mflow Offroad Series
   mf01: {
-    'Matte Black': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF01_20MATT_20BLACK.jpg?width=800',
-    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF01_20MATT_20BRONZE.jpg?width=800'
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF01_MATT_BLACK-B.jpg?v=1757108268&width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF01_MATT_BRONZE-B.jpg?v=1757108268&width=800',
+    'Machined Silver': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF01_SILVER_MACHINED_FACE.jpg?v=1771967605&width=800'
   },
   mf02: {
-    'Matte Black': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF02_205H_20MATT_20BLACK.jpg?width=800',
-    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF02_20MATTBRONZE.jpg?width=800'
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF02_MATTBLACK-B.jpg?v=1757108267&width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF02_MATTBRONZE-B.jpg?v=1757108267&width=800',
+    'Machined Silver': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF02SILVERMACHINEDFACE6H.jpg?v=1771968623&width=800'
   },
   mf03: {
-    'Matte Black': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF03_20MATTBLACK.jpg?width=800',
-    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF03_20MATTBRONZE.jpg?width=800'
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF03_MATTBLACK-B.jpg?v=1757108265&width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF03_MATTBRONZE-B.jpg?v=1757108265&width=800',
+    'Machined Silver': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF03SILVERMACHINEDFACE6H.jpg?v=1772137345&width=800'
   },
   mf04: {
-    'Matte Black': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF04_205H_20matt_20black.jpg?width=800',
-    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF04_205H_20matt_20bronze.jpg?width=800'
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF04-MATTBLACK-B.jpg?v=1757108263&width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF04-MATTBRONZE-B.jpg?v=1757108264&width=800',
+    'Machined Silver': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF04SILVERMACHINEDFACE6H.jpg?v=1772138088&width=800'
   },
   mf05: {
-    'Matte Black': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF05_20MATTBLACK.jpg?width=800',
-    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF05_20MATTBRONZE.jpg?width=800'
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF05_MATTBLACK-B.jpg?v=1757108262&width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF05_MATTBRONZE-B.jpg?v=1757108262&width=800',
+    'Machined Silver': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF05SILVERMACHINEDFACE6H.jpg?v=1772141164&width=800'
   },
   mf06: {
-    'Matte Black': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF06_20MATT_20BLACK.jpg?width=800',
-    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0058/0252/4785/files/MF06_20MATT_20BRONZE.jpg?width=800'
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF06_MATT_BLACK-B.jpg?v=1757108260&width=800',
+    'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF06_MATT_BRONZE-B.jpg?v=1757108260&width=800',
+    'Machined Silver': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF06SILVERMACHINEDFACE6H.jpg?v=1772142040&width=800'
   },
   // Vors
   'vors-tr4': {
-    'Hyper Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_18X85_HB.jpg?width=800',
-    'Silver Machined': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_17X8_SILVER.jpg?width=800',
-    'Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_19X85_BK_1.jpg?width=800'
+    'Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_18X85_BK_1.jpg?v=1769836819&width=800',
+    'Bronze': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_18X85_BR_1.jpg?v=1769836819&width=800',
+    'Hyper Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_18X85_HB.jpg?v=1769836819&width=800',
+    'Silver Machined': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_18X85_S_1.jpg?v=1769836819&width=800',
+    'White': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_18X85_W_1.jpg?v=1769836819&width=800'
   },
   'vors-tr10': {
     'Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR10_18X85_BK_1.jpg?width=800',
     'White': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR10_18X85_W_1.jpg?width=800'
   },
+  'vors-tr14': {
+    'Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR14_18X8_BK_1.jpg?v=1777941225&width=800',
+    'Silver': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR14_18X8_S_1.jpg?v=1777941225&width=800'
+  },
   'vors-tr37': {
-    'Hyper Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_18X85_HB.jpg?width=800',
-    'Bronze': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_17X8_BR_1.jpg?width=800',
-    'White': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_17X9_W_1.jpg?width=800'
+    'Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_18X95_BLACK.jpg?v=1767661231&width=800',
+    'Bronze': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_18X95_BR_1.jpg?v=1767661231&width=800',
+    'Hyper Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_18X95_HB.jpg?v=1767661231&width=800',
+    'Silver Machined': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_18X95_SF_1.jpg?v=1767661231&width=800',
+    'White': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_18X95_WHITE.jpg?v=1767661231&width=800'
   },
   'vors-tr88': {
     'Bronze': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR88_18X95_MBR_1.jpg?width=800',
@@ -2424,11 +3205,13 @@ const finishImages = {
     'Gloss Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/VR8_20X85_GB_1_5ae9b9d4-fd34-4dde-97bc-008bfe2aa565.jpg?width=800'
   },
   'vors-ar5': {
-    'Silver Machined': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR05_18X95_SILVER_STD.jpg?width=800',
+    'Bronze': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR5_17X9_BR_1.jpg?v=1774910671&width=800',
+    'Silver Machined': 'https://www.vorswheels.com/cdn/shop/files/AR05_18X95_SILVER_STD.jpg?width=800',
     'Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/AR5_17X8_BK_1.jpg?width=800'
   },
   'vors-sp1': {
     'Hyper Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/SP1_18X8_HB.jpg?width=800',
+    'Matte Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/SP1_15X7_MB_1.jpg?v=1767878630&width=800',
     'Silver Machined': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/SP1_18X9_SILVER_2KPX.jpg?width=800',
     'White': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/SP1_16X8_WHITE_1.jpg?width=800'
   },
@@ -2437,6 +3220,7 @@ const finishImages = {
     'Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/LT53_18X9_BK_1.jpg?width=800'
   },
   'vors-uo2': {
+    'Black': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/UO2_18X85_MB_1.jpg?v=1762488607&width=800',
     'Hyper Silver': 'https://cdn.shopify.com/s/files/1/0859/3725/8814/files/UO2_18X85_S_1.jpg?width=800'
   }
 };
@@ -2444,12 +3228,16 @@ const finishImages = {
 // Map image URL to likely finish names
 function guessFinishFromUrl(url) {
   const l = url.toLowerCase();
+  if (l.includes('_bv_')) return ['Black Vacuum (PVD)', 'Black Vacuum'];
+  if (l.includes('_vgc_') || l.includes('vacuum-gold') || l.includes('_vg_')) return ['Vacuum Gold Chrome', 'Gold Vacuum (PVD)', 'Gold Vacuum'];
+  if (l.includes('_vc_') || l.includes('vacuum-chrome') || l.includes('chromepvd') || l.includes('chrome-pvd')) return ['Vacuum Chrome (PVD)', 'Vacuum Chrome', 'Chrome', 'PVD Chrome'];
+  if (l.includes('_hblk_')) return ['Hyper Black'];
+  if (l.includes('_sf_')) return ['Silver Machined', 'Silver', 'Satin Silver'];
   if (l.includes('_smf_') || l.includes('silver-machined') || (l.includes('_silver_') && !l.includes('hyper'))) return ['Silver Machined Face', 'Silver Machined Lip', 'Silver', 'Silver Machined'];
   if (l.includes('_sml_')) return ['Silver w/ Machined Lip', 'Silver Machined Lip', 'Silver w/Machined Lip'];
-  if (l.includes('_ms_') || l.includes('machined-silver') || l.includes('machined_20silver')) return ['Machined Silver', 'Silver Machined Face', 'Silver Machined'];
+  if (l.includes('_ms_') || l.includes('machined-silver') || l.includes('machined_20silver') || l.includes('machinedsilver')) return ['Machined Silver', 'Silver Machined Face', 'Silver Machined'];
   if (l.includes('_gb_') || l.includes('gloss-black') || l.includes('gloss_20black')) return ['Gloss Black', 'Gloss Black Machined Face', 'Black'];
   if (l.includes('_brz_') || l.includes('_brzml_')) return ['Bronze', 'Bronze Machined Lip', 'Textured Bronze', 'Bronze w/Machined Lip'];
-  if (l.includes('_hblk_')) return ['Hyper Black'];
   if (l.includes('_hb_') || l.includes('hyper-black') || l.includes('hyper_20black')) return ['Hyper Black'];
   if (l.includes('_wht_')) return ['Gloss White', 'White'];
   if (l.includes('_mb_') && !l.includes('_mbz_') && !l.includes('_mbr_')) return ['Matte Black', 'Matte Black Machined Lip'];
@@ -2460,12 +3248,11 @@ function guessFinishFromUrl(url) {
   if (l.includes('matte-bronze') || l.includes('matte_bronze') || l.includes('matt_20bronze') || l.includes('matt_bronze') || l.includes('mattbronze')) return ['Matte Bronze', 'Matte Bronze Machined Lip', 'Matte Bronze Machined Tip'];
   if (l.includes('matte-black') || l.includes('matte_black') || l.includes('matt_20black') || l.includes('matt_black') || l.includes('mattblack')) return ['Matte Black', 'Matte Black Machined Lip', 'Matte Black Machine Lip', 'Black', 'Satin Black'];
   if (l.includes('_bk_') || (l.includes('-black-') && !l.includes('hyper') && !l.includes('gloss') && !l.includes('matte') && !l.includes('matt'))) return ['Black', 'Matte Black', 'Satin Black'];
-  if (l.includes('hyper-silver') || l.includes('hyper_20silver')) return ['Hyper Silver'];
-  if (l.includes('-chrome') || l.includes('_chrome') || l.includes('chromepvd') || l.includes('chrome-pvd')) return ['Chrome', 'PVD Chrome'];
+  if (l.includes('hyper-silver') || l.includes('hyper_20silver') || l.includes('hypersilver')) return ['Hyper Silver', 'Hyper Silver Machined Face', 'Hyper Silver Machine Tip'];
+  if (l.includes('-chrome') || l.includes('_chrome')) return ['Chrome', 'PVD Chrome'];
   if (l.includes('_gm_') || l.includes('gunmetal')) return ['Gunmetal', 'Gun Metal'];
   if (l.includes('_w_') || l.includes('_white')) return ['White', 'Gloss White'];
   if (l.includes('-white')) return ['White', 'Gloss White'];
-  if (l.includes('_vgc_') || l.includes('vacuum-gold') || l.includes('_vg_')) return ['Vacuum Gold Chrome', 'Gold Vacuum (PVD)', 'Vacuum Chrome (PVD)'];
   if (l.includes('_bz_') || l.includes('_bzml_') || l.includes('_bronze_') || l.includes('bronze')) return ['Bronze', 'Bronze w/Machined Lip', 'Bronze Machined Lip'];
   if (l.includes('_cr_') && !l.includes('chrome')) return ['Candy Red w/ (Chrome Rivets)'];
   if (l.includes('_s_') || l.includes('-silver') || l.includes('_silver')) return ['Silver', 'Satin Silver', 'Silver Machined'];
@@ -2480,7 +3267,9 @@ function buildFinishImageMap(wheel, id) {
   const map = {};
   // 1. Static overrides (highest priority, guaranteed correct)
   if (finishImages[id]) {
-    Object.assign(map, finishImages[id]);
+    Object.entries(finishImages[id]).forEach(([finish, url]) => {
+      map[canonicalFinishName(finish)] = url;
+    });
   }
   // 2. From images array via URL guessing
   if (wheel.images) {
@@ -2501,6 +3290,79 @@ function buildFinishImageMap(wheel, id) {
   return map;
 }
 
+function getFinishImage(map, finish) {
+  if (!finish) return '';
+  const canonical = canonicalFinishName(finish);
+  if (map[canonical]) return map[canonical];
+
+  const target = normalizeFinishKey(canonical);
+  const match = Object.keys(map).find(key => normalizeFinishKey(key) === target);
+  return match ? map[match] : '';
+}
+
+function getWheelDisplayImage(wheel, wheelId, size, finish = '') {
+  const variant = getVariantData(wheel, size);
+  const finishImgMap = buildFinishImageMap(wheel, wheelId);
+  const finishImage = getFinishImage(finishImgMap, finish);
+  return finishImage || variant.image || wheel.images?.[0] || '';
+}
+
+const cardFinishPreferences = {
+  aodhan: [
+    'Silver Machined Face',
+    'Silver w/Machined Face',
+    'Silver W/Machined Face',
+    'Silver w/ Machined Lip',
+    'Silver w/Machined Lip',
+    'Gloss Silver Machined Face',
+    'Machined Silver',
+    'Silver Machined',
+    'Silver',
+    'Hyper Silver',
+    'Chrome',
+    'Vacuum Chrome (PVD)',
+    'Vacuum Chrome',
+    'PVD Chrome',
+    'Gloss White',
+    'White'
+  ],
+  mflow: [
+    'Hyper Silver Machine Tip',
+    'Hyper Silver Machined Face',
+    'Hyper Silver',
+    'Chrome',
+    'Machined Silver',
+    'Silver Machined Face',
+    'Silver Machined',
+    'Silver',
+    'Satin Silver'
+  ],
+  vors: [
+    'Silver Machined',
+    'Silver',
+    'Hyper Silver',
+    'Satin Silver',
+    'Chrome',
+    'Gloss White',
+    'White',
+    'Gun Metal',
+    'Gunmetal'
+  ]
+};
+
+function getWheelBrand(id) {
+  if (id.startsWith('vors-')) return 'vors';
+  if (id.startsWith('mf')) return 'mflow';
+  return 'aodhan';
+}
+
+function pickCardDefaultFinish(id, finishes, finishImgMap) {
+  const preferences = cardFinishPreferences[getWheelBrand(id)] || [];
+  return preferences.find(finish =>
+    finishes.includes(canonicalFinishName(finish)) && getFinishImage(finishImgMap, finish)
+  ) || finishes.find(finish => getFinishImage(finishImgMap, finish)) || finishes[0];
+}
+
 document.querySelectorAll('.wheel-card').forEach(card => {
   const id = card.dataset.wheel;
   const wheel = wheelData[id];
@@ -2519,18 +3381,29 @@ document.querySelectorAll('.wheel-card').forEach(card => {
   const finishes = new Set();
   if (wheel.variants) {
     Object.values(wheel.variants).forEach(v => {
-      if (v.finishes) v.finishes.forEach(f => finishes.add(f));
+      if (v.finishes) v.finishes.forEach(f => finishes.add(canonicalFinishName(f)));
     });
   } else if (wheel.finishes) {
-    wheel.finishes.forEach(f => finishes.add(f));
+    wheel.finishes.forEach(f => finishes.add(canonicalFinishName(f)));
   }
 
   const finishImgMap = buildFinishImageMap(wheel, id);
   const cardImg = card.querySelector('.wheel-img-wrap img');
   const originalSrc = cardImg ? cardImg.src : '';
 
-  const arr = [...finishes];
-  const maxShow = 4;
+  const finishChoices = [
+    ...new Set([
+      ...finishes,
+      ...Object.keys(finishImgMap).map(canonicalFinishName)
+    ])
+  ];
+  const imageBackedFinishes = finishChoices.filter(f => getFinishImage(finishImgMap, f));
+  const finishOptions = imageBackedFinishes.length ? imageBackedFinishes : finishChoices;
+  const activeFinish = pickCardDefaultFinish(id, finishOptions, finishImgMap);
+  const arr = activeFinish
+    ? [activeFinish, ...finishOptions.filter(f => f !== activeFinish)]
+    : finishOptions;
+  const maxShow = 6;
   arr.slice(0, maxShow).forEach((f, i) => {
     const dot = document.createElement('span');
     dot.className = 'wheel-swatch';
@@ -2544,8 +3417,9 @@ document.querySelectorAll('.wheel-card').forEach(card => {
       swatchEl.querySelectorAll('.wheel-swatch').forEach(s => s.classList.remove('active'));
       dot.classList.add('active');
       // Swap image if we have one for this finish
-      if (cardImg && finishImgMap[f]) {
-        cardImg.src = finishImgMap[f].replace('width=800', 'width=400');
+      const finishImage = getFinishImage(finishImgMap, f);
+      if (cardImg && finishImage) {
+        cardImg.src = finishImage.replace('width=800', 'width=400');
       } else if (cardImg) {
         cardImg.src = originalSrc;
       }
@@ -2560,20 +3434,13 @@ document.querySelectorAll('.wheel-card').forEach(card => {
     swatchEl.appendChild(more);
   }
 
-  // Activate the swatch that matches the current card image color (don't override the image)
-  const currentSrc = cardImg ? cardImg.src.toLowerCase() : '';
-  const guessedFinishes = guessFinishFromUrl(currentSrc);
-  let activatedSwatch = false;
-  swatchEl.querySelectorAll('.wheel-swatch').forEach((dot, i) => {
-    if (!activatedSwatch && guessedFinishes.includes(arr[i])) {
-      dot.classList.add('active');
-      activatedSwatch = true;
-    }
-  });
-  // Fallback: activate first swatch without changing image
-  if (!activatedSwatch) {
-    const firstDot = swatchEl.querySelector('.wheel-swatch');
-    if (firstDot) firstDot.classList.add('active');
+  const activeIndex = arr.indexOf(activeFinish);
+  const activeDot = activeIndex > -1 ? swatchEl.querySelectorAll('.wheel-swatch')[activeIndex] : null;
+  if (activeDot) activeDot.classList.add('active');
+
+  const activeImage = getFinishImage(finishImgMap, activeFinish);
+  if (cardImg && activeImage) {
+    cardImg.src = activeImage.replace('width=800', 'width=400');
   }
 });
 
@@ -2683,7 +3550,343 @@ document.querySelectorAll('.wheel-grid').forEach(grid => {
   cards.forEach(card => grid.appendChild(card));
 });
 
+// ===== VEHICLE FINDER =====
+const finderState = {
+  years: [],
+  makes: [],
+  models: [],
+  modifications: [],
+  lastVehicleSpecs: null,
+  lastWheelSelection: null
+};
 
+function setFinderStatus(message, type = '') {
+  const el = document.getElementById('finderStatus');
+  if (!el) return;
+  el.textContent = message;
+  el.className = `finder-note ${type}`.trim();
+}
+
+function setFinderSelect(select, items, placeholder) {
+  if (!select) return;
+  select.innerHTML = `<option value="">${placeholder}</option>`;
+  items.forEach(item => {
+    const option = document.createElement('option');
+    option.value = item.slug || item.value || item.name || item;
+    option.textContent = item.name || item.title || item.slug || item;
+    select.appendChild(option);
+  });
+  select.disabled = !items.length;
+}
+
+async function fetchFitment(resource, params = {}) {
+  const query = new URLSearchParams({ resource, region: 'usdm', ...params });
+  const res = await fetch(`/api/fitment?${query.toString()}`);
+  const contentType = res.headers.get('content-type') || '';
+  const data = contentType.includes('application/json')
+    ? await res.json()
+    : { error: 'Vehicle finder API requires the Vercel dev server or production deployment.' };
+  if (!res.ok) throw new Error(data.error || 'Fitment lookup failed');
+  return data.data || [];
+}
+
+function parseNumber(value) {
+  if (value === undefined || value === null) return null;
+  const match = String(value).match(/-?\d+(\.\d+)?/);
+  return match ? Number(match[0]) : null;
+}
+
+function parseWheelSize(size) {
+  const match = String(size).match(/^(\d+(?:\.\d+)?)x(\d+(?:\.\d+)?)/i);
+  if (!match) return { diameter: null, width: null };
+  return { diameter: Number(match[1]), width: Number(match[2]) };
+}
+
+function normalizeBoltPattern(value) {
+  return String(value || '').toLowerCase().replace(/\s/g, '').replace('x', 'x');
+}
+
+function boltPatternMatches(vehicleBolt, wheelBolt) {
+  const target = normalizeBoltPattern(vehicleBolt);
+  if (!target) return false;
+  return normalizeBoltPattern(wheelBolt)
+    .split(/[\/,]/)
+    .some(part => part === target);
+}
+
+function getVehicleReferenceWheel(record) {
+  const wheel = (record.wheels || []).find(w => w.is_stock && w.front?.rim_width && w.front?.rim_offset)
+    || (record.wheels || []).find(w => w.front?.rim_width && w.front?.rim_offset)
+    || record.wheels?.[0];
+  return wheel?.front || {};
+}
+
+function getVehicleSpecs(record) {
+  const technical = record.technical || {};
+  const reference = getVehicleReferenceWheel(record);
+  return {
+    label: [
+      record.year,
+      record.make?.name,
+      record.model?.name,
+      record.trim || record.name
+    ].filter(Boolean).join(' '),
+    boltPattern: technical.bolt_pattern,
+    centerBore: parseNumber(technical.centre_bore),
+    thread: technical.wheel_fasteners?.thread_size || '',
+    fastenerType: technical.wheel_fasteners?.type || '',
+    torque: technical.wheel_tightening_torque || '',
+    oeDiameter: parseNumber(reference.rim_diameter),
+    oeWidth: parseNumber(reference.rim_width),
+    oeOffset: parseNumber(reference.rim_offset),
+    oeTire: reference.tire_full || reference.tire || ''
+  };
+}
+
+function getGoalLimits(goal) {
+  const limits = {
+    daily: { outer: 18, inner: 15, offset: 18 },
+    flush: { outer: 28, inner: 18, offset: 26 },
+    aggressive: { outer: 42, inner: 22, offset: 36 },
+    performance: { outer: 24, inner: 18, offset: 20 }
+  };
+  return limits[goal] || limits.daily;
+}
+
+function getFinderMatches(specs, goal) {
+  const limits = getGoalLimits(goal);
+  const matches = [];
+
+  Object.entries(wheelData).forEach(([wheelId, wheel]) => {
+    Object.entries(wheelBoltConfigs[wheelId] || {}).forEach(([size, configs]) => {
+      const parsedSize = parseWheelSize(size);
+      configs.forEach(config => {
+        if (!boltPatternMatches(specs.boltPattern, config.bolt)) return;
+
+        const wheelCb = parseNumber(config.cb);
+        if (specs.centerBore && wheelCb && wheelCb + 0.1 < specs.centerBore) return;
+
+        const offset = parseNumber(config.offset);
+        const offsetDelta = specs.oeOffset !== null && offset !== null ? offset - specs.oeOffset : 0;
+        const widthDelta = specs.oeWidth && parsedSize.width ? ((parsedSize.width - specs.oeWidth) * 25.4) / 2 : 0;
+        const outerChange = Math.round(widthDelta - offsetDelta);
+        const innerChange = Math.round(widthDelta + offsetDelta);
+        const diameterDelta = specs.oeDiameter && parsedSize.diameter ? parsedSize.diameter - specs.oeDiameter : 0;
+
+        const warnings = [];
+        if (Math.abs(offsetDelta) > limits.offset) warnings.push('offset check');
+        if (outerChange > limits.outer) warnings.push('poke/rub check');
+        if (innerChange > limits.inner) warnings.push('inner clearance check');
+        if (Math.abs(diameterDelta) > 2) warnings.push('tire sizing check');
+
+        const price = getWheelPrice(wheelId, size);
+        const score = 100
+          - Math.min(35, Math.abs(offsetDelta || 0))
+          - Math.min(25, Math.max(0, outerChange - limits.outer))
+          - Math.min(25, Math.max(0, innerChange - limits.inner))
+          - warnings.length * 4;
+
+        matches.push({
+          wheelId,
+          name: wheel.name,
+          size,
+          bolt: config.bolt,
+          offset: config.offset,
+          cb: config.cb,
+          image: getWheelDisplayImage(wheel, wheelId, size, getVariantData(wheel, size).finishes?.[0] || ''),
+          price,
+          score,
+          warnings
+        });
+      });
+    });
+  });
+
+  const byKey = new Map();
+  matches
+    .sort((a, b) => b.score - a.score)
+    .forEach(match => {
+      const key = `${match.wheelId}-${match.size}`;
+      if (!byKey.has(key)) byKey.set(key, match);
+    });
+
+  return [...byKey.values()].slice(0, 12);
+}
+
+function renderFinderResults(record, goal) {
+  const resultsEl = document.getElementById('finderResults');
+  if (!resultsEl) return;
+
+  const specs = getVehicleSpecs(record);
+  const matches = getFinderMatches(specs, goal);
+  finderState.lastVehicleSpecs = specs;
+  finderState.lastWheelSelection = matches[0] ? {
+    wheelId: matches[0].wheelId,
+    name: matches[0].name,
+    size: matches[0].size,
+    bolt: matches[0].bolt,
+    cb: matches[0].cb,
+    thread: specs.thread || ''
+  } : null;
+  updateAccessoryFitmentNote();
+
+  resultsEl.innerHTML = `
+    <div class="vehicle-spec-card">
+      <h3>${specs.label || 'Vehicle Specs'}</h3>
+      <div class="spec-list">
+        <div><span>Bolt Pattern</span>${specs.boltPattern || 'N/A'}</div>
+        <div><span>Center Bore</span>${specs.centerBore ? `${specs.centerBore}mm` : 'N/A'}</div>
+        <div><span>OE Wheel</span>${specs.oeWidth && specs.oeDiameter ? `${specs.oeDiameter}x${specs.oeWidth} ET${specs.oeOffset}` : 'N/A'}</div>
+        <div><span>OE Tire</span>${specs.oeTire || 'N/A'}</div>
+        <div><span>Thread</span>${[specs.fastenerType, specs.thread].filter(Boolean).join(' ') || 'N/A'}</div>
+        <div><span>Torque</span>${specs.torque || 'N/A'}</div>
+      </div>
+    </div>
+    <div class="match-list">
+      ${matches.length ? matches.map(match => `
+        <div class="match-card">
+          <img src="${match.image}" alt="${match.name}" loading="lazy">
+          <div>
+            <h3>${match.name}</h3>
+            <p class="match-meta">${match.size} · ${match.bolt} · ${match.offset} · ${match.cb}mm CB${match.price ? ` · From $${match.price}` : ''}</p>
+            <div class="match-tags">
+              <span>Bolt match</span>
+              <span>Hub bore OK</span>
+              <span>${Math.max(0, Math.round(match.score))}% fit score</span>
+            </div>
+            ${match.warnings.length ? `<p class="match-warning">${match.warnings.join(' · ')}</p>` : ''}
+            <button class="btn btn-outline finder-wheel-btn" data-wheel="${match.wheelId}" data-size="${match.size}" data-bolt="${match.bolt}" data-offset="${match.offset}" data-cb="${match.cb}" type="button">View Wheel</button>
+          </div>
+        </div>
+      `).join('') : `
+        <div class="finder-empty">
+          <strong>No direct catalog match</strong>
+          <span>Text us the vehicle and goal so we can check special order options.</span>
+        </div>
+      `}
+    </div>
+  `;
+
+  resultsEl.querySelectorAll('.finder-wheel-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      finderState.lastWheelSelection = {
+        wheelId: btn.dataset.wheel,
+        name: wheelData[btn.dataset.wheel]?.name || '',
+        size: btn.dataset.size || '',
+        bolt: btn.dataset.bolt || '',
+        cb: btn.dataset.cb || '',
+        thread: finderState.lastVehicleSpecs?.thread || ''
+      };
+      updateAccessoryFitmentNote();
+      openWheelModal(btn.dataset.wheel, {
+        size: btn.dataset.size,
+        bolt: btn.dataset.bolt,
+        offset: btn.dataset.offset,
+        cb: btn.dataset.cb
+      });
+    });
+  });
+}
+
+async function initVehicleFinder() {
+  const form = document.getElementById('vehicleFinderForm');
+  if (!form) return;
+
+  const yearSelect = document.getElementById('finderYear');
+  const makeSelect = document.getElementById('finderMake');
+  const modelSelect = document.getElementById('finderModel');
+  const modSelect = document.getElementById('finderModification');
+  const goalSelect = document.getElementById('finderGoal');
+
+  try {
+    setFinderStatus('Loading vehicle years...');
+    finderState.years = await fetchFitment('years', { ordering: '-slug' });
+    setFinderSelect(yearSelect, finderState.years, 'Select year');
+    setFinderStatus('Select your vehicle to find matching wheels.', 'ready');
+  } catch (err) {
+    setFinderStatus(err.message, 'error');
+    return;
+  }
+
+  yearSelect.addEventListener('change', async () => {
+    setFinderSelect(makeSelect, [], 'Select make');
+    setFinderSelect(modelSelect, [], 'Select model');
+    setFinderSelect(modSelect, [], 'Select trim');
+    if (!yearSelect.value) return;
+    try {
+      setFinderStatus('Loading makes...');
+      finderState.makes = await fetchFitment('makes', { year: yearSelect.value, ordering: 'slug' });
+      setFinderSelect(makeSelect, finderState.makes, 'Select make');
+      setFinderStatus('Choose a make.', 'ready');
+    } catch (err) {
+      setFinderStatus(err.message, 'error');
+    }
+  });
+
+  makeSelect.addEventListener('change', async () => {
+    setFinderSelect(modelSelect, [], 'Select model');
+    setFinderSelect(modSelect, [], 'Select trim');
+    if (!makeSelect.value) return;
+    try {
+      setFinderStatus('Loading models...');
+      finderState.models = await fetchFitment('models', {
+        year: yearSelect.value,
+        make: makeSelect.value,
+        ordering: 'slug'
+      });
+      setFinderSelect(modelSelect, finderState.models, 'Select model');
+      setFinderStatus('Choose a model.', 'ready');
+    } catch (err) {
+      setFinderStatus(err.message, 'error');
+    }
+  });
+
+  modelSelect.addEventListener('change', async () => {
+    setFinderSelect(modSelect, [], 'Select trim');
+    if (!modelSelect.value) return;
+    try {
+      setFinderStatus('Loading trims...');
+      finderState.modifications = await fetchFitment('modifications', {
+        year: yearSelect.value,
+        make: makeSelect.value,
+        model: modelSelect.value,
+        ordering: 'trim'
+      });
+      const trimItems = finderState.modifications.map(item => ({
+        slug: item.slug,
+        name: [item.trim || item.name, item.body, item.engine?.fuel].filter(Boolean).join(' · ') || item.slug
+      }));
+      setFinderSelect(modSelect, trimItems, 'Select trim');
+      modSelect.disabled = !trimItems.length;
+      setFinderStatus(trimItems.length ? 'Choose a trim, then find wheels.' : 'No trim split found. You can search this model now.', 'ready');
+    } catch (err) {
+      setFinderStatus(err.message, 'error');
+    }
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!yearSelect.value || !makeSelect.value || !modelSelect.value) return;
+    try {
+      setFinderStatus('Checking fitment data...');
+      const records = await fetchFitment('search', {
+        year: yearSelect.value,
+        make: makeSelect.value,
+        model: modelSelect.value,
+        modification: modSelect.value,
+        limit: 24
+      });
+      if (!records.length) throw new Error('No fitment record found for that vehicle.');
+      const selected = modSelect.value
+        ? records.find(record => record.slug === modSelect.value) || records[0]
+        : records[0];
+      renderFinderResults(selected, goalSelect.value);
+      setFinderStatus('Matches loaded. Verify tire size and final clearance before ordering.', 'ready');
+    } catch (err) {
+      setFinderStatus(err.message, 'error');
+    }
+  });
+}
 
 // ===== CART WIRE-UP =====
 document.addEventListener('DOMContentLoaded', () => {
@@ -2703,14 +3906,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initial badge count
   updateCartBadge();
+  initAccessories();
+  initVehicleFinder();
 });
 
-// "Don't Forget" CTA → open cart instead of jumping to accessories anchor
+// "Don't Forget" CTA → jump to the real accessory section
 const dontForgetCtaBtn = document.getElementById('dontForgetCta');
 if (dontForgetCtaBtn) {
   dontForgetCtaBtn.addEventListener('click', (e) => {
     e.preventDefault();
     closeDontForget();
-    setTimeout(openCart, 300);
+    setTimeout(() => {
+      document.getElementById('accessories')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.pushState(null, '', '#accessories');
+    }, 250);
   });
 }

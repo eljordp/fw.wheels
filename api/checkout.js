@@ -23,15 +23,27 @@ module.exports = async (req, res) => {
     const { items, origin } = req.body;
     if (!items || !items.length) return res.status(400).json({ error: 'Cart is empty' });
 
-    const line_items = items.map((item) => ({
+    const line_items = items.map((item) => {
+      const metaLines = Array.isArray(item.metaLines) ? item.metaLines : [
+        item.finish,
+        item.boltConfig,
+        item.cb ? `${item.cb}mm CB` : null
+      ].filter(Boolean);
+      const productName = item.productType === 'accessory'
+        ? item.name
+        : `${item.name} — ${item.size}`;
+
+      return ({
       price_data: {
         currency: 'usd',
         product_data: {
-          name: `${item.name} — ${item.size}`,
-          description: [item.finish, item.boltConfig, item.cb ? `${item.cb}mm CB` : null].filter(Boolean).join(' · '),
+          name: productName,
+          description: metaLines.join(' · '),
           images: item.image ? [item.image] : undefined,
           metadata: {
+            productType: item.productType || 'wheel',
             wheelId: item.wheelId || '',
+            accessoryId: item.accessoryId || '',
             size: item.size || '',
             finish: item.finish || '',
             boltConfig: item.boltConfig || ''
@@ -40,7 +52,8 @@ module.exports = async (req, res) => {
         unit_amount: Math.round(Number(item.price) * 100)
       },
       quantity: Number(item.qty) || 1
-    }));
+    });
+    });
 
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
