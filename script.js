@@ -1782,7 +1782,7 @@ const accessoryProducts = {
     name: 'Aluminum Valve Stems (V1)',
     pack: 'Set of 4',
     price: 13.99,
-    image: 'https://www.aodhanwheels.com/cdn/shop/files/V1_Silver_02.jpg',
+    image: 'https://cdn.shopify.com/s/files/1/0037/3194/7631/files/V1_Silver_02_c78b0cb9-1e19-461f-83c0-322f6d1b855c.jpg?v=1776204641&width=400',
     description: 'Universal fitment for standard 0.453 inch stem holes, 1.89 inch long.',
     options: [
       { id: 'color', label: 'Color', required: true, values: ['Silver', 'Red', 'Blue', 'Black'] }
