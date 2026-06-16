@@ -54,7 +54,7 @@ navLinks.querySelectorAll('a').forEach(link => {
 const navSubToggle = document.getElementById('navSubToggle');
 const navSubMenu = document.getElementById('navSubMenu');
 
-navSubToggle.addEventListener('click', (e) => {
+if (navSubToggle && navSubMenu) navSubToggle.addEventListener('click', (e) => {
   e.preventDefault();
   const isOpen = navSubMenu.classList.contains('open');
   navSubMenu.classList.toggle('open', !isOpen);
