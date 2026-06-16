@@ -27,13 +27,13 @@ async function init() {
   $('#login').classList.remove('hidden');
 }
 
-let usePassword = false;
+let usePassword = true; // password is the default (magic-link email delivery is unreliable)
 $('#togglePw').addEventListener('click', (e) => {
   e.preventDefault();
   usePassword = !usePassword;
   $('#pwField').style.display = usePassword ? 'block' : 'none';
   $('#loginBtn').textContent = usePassword ? 'Sign In' : 'Email me a login link';
-  $('#togglePw').textContent = usePassword ? 'Use a magic link instead' : 'Use a password instead';
+  $('#togglePw').textContent = usePassword ? 'Email me a login link instead' : 'Use a password instead';
 });
 
 $('#loginForm').addEventListener('submit', async (e) => {
