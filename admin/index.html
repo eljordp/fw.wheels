@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>FW Wheels — Admin</title>
+  <link rel="icon" href="/favicon.svg" />
+  <style>
+    :root{
+      --bg:#0d0d0d; --card:#161616; --card2:#1c1c1c; --surface:#111;
+      --border:#2a2a2a; --text:#f0f0f0; --muted:#8a8a8a;
+      --accent:#e63946; --accent2:#ff4757; --gold:#d4a843; --green:#3ba776; --blue:#4a78c2;
+      --radius:12px; --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.5}
+    a{color:inherit;text-decoration:none}
+    button{font-family:inherit;cursor:pointer}
+    input,select,textarea{font-family:inherit;font-size:14px}
+    .hidden{display:none!important}
+
+    /* ---- login ---- */
+    #login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+    .login-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:40px;width:100%;max-width:380px}
+    .login-card h1{font-size:22px;margin-bottom:4px}
+    .login-card .brand{color:var(--accent);font-weight:800;letter-spacing:.5px}
+    .login-card p{color:var(--muted);margin-bottom:24px;font-size:13px}
+    .field{margin-bottom:14px}
+    .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+    .field input{width:100%;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text)}
+    .field input:focus{outline:none;border-color:var(--accent)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border:none;border-radius:10px;background:var(--accent);color:#fff;font-weight:700;width:100%}
+    .btn:hover{background:var(--accent2)}
+    .btn.ghost{background:transparent;border:1px solid var(--border);color:var(--text);width:auto;padding:8px 14px}
+    .btn.ghost:hover{border-color:var(--accent)}
+    .btn.sm{padding:7px 12px;font-size:12.5px;width:auto}
+    .msg{font-size:13px;margin-top:12px;padding:10px 12px;border-radius:8px;display:none}
+    .msg.err{background:rgba(230,57,70,.12);color:#ff8088;display:block}
+    .msg.ok{background:rgba(59,167,118,.12);color:#6fd6a6;display:block}
+
+    /* ---- layout ---- */
+    #app{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+    aside{background:var(--surface);border-right:1px solid var(--border);padding:22px 14px;display:flex;flex-direction:column}
+    .logo{font-weight:800;font-size:18px;padding:0 10px 22px;letter-spacing:.5px}
+    .logo span{color:var(--accent)}
+    nav{display:flex;flex-direction:column;gap:2px}
+    .nav-item{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:9px;color:var(--muted);font-weight:600;font-size:13.5px}
+    .nav-item:hover{background:var(--card);color:var(--text)}
+    .nav-item.active{background:var(--card2);color:var(--text)}
+    .nav-item .ic{width:18px;text-align:center;opacity:.9}
+    .who{margin-top:auto;padding:14px 10px 4px;border-top:1px solid var(--border);font-size:12px;color:var(--muted)}
+    .who b{color:var(--text);display:block;font-size:13px}
+    main{padding:28px 32px;overflow-x:hidden}
+    .page-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px}
+    .page-head h2{font-size:22px}
+    .page-head .sub{color:var(--muted);font-size:13px}
+
+    /* ---- cards / kpis ---- */
+    .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:24px}
+    .kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+    .kpi .label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+    .kpi .val{font-size:28px;font-weight:800;margin-top:6px}
+    .kpi .delta{font-size:12px;margin-top:4px;color:var(--muted)}
+    .kpi .delta.up{color:#6fd6a6}.kpi .delta.down{color:#ff8088}
+    .grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;margin-bottom:18px}
+    @media(max-width:1000px){.grid2{grid-template-columns:1fr}#app{grid-template-columns:1fr}aside{position:sticky;top:0;z-index:5}}
+    .panel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+    .panel h3{font-size:15px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+    .panel h3 .hint{font-weight:400;color:var(--muted);font-size:12px}
+
+    /* ---- funnel ---- */
+    .funnel{display:flex;flex-direction:column;gap:10px}
+    .fstep{display:grid;grid-template-columns:130px 1fr 90px;align-items:center;gap:12px}
+    .fstep .fname{font-size:13px;color:var(--muted)}
+    .fbar-track{background:var(--surface);border-radius:6px;height:26px;overflow:hidden}
+    .fbar{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:6px;min-width:2px}
+    .fstep .fval{text-align:right;font-weight:700}
+    .fstep .fpct{color:var(--muted);font-weight:400;font-size:12px}
+
+    /* ---- tables ---- */
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th{text-align:left;color:var(--muted);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;padding:10px 12px;border-bottom:1px solid var(--border)}
+    td{padding:11px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+    tr:hover td{background:var(--card2)}
+    .tbl-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+    .tbl-scroll{overflow-x:auto}
+    .pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11.5px;font-weight:700;text-transform:capitalize}
+    .pill.new{background:rgba(74,120,194,.18);color:#8fb4ec}
+    .pill.processing{background:rgba(212,168,67,.18);color:var(--gold)}
+    .pill.shipped{background:rgba(59,167,118,.18);color:#6fd6a6}
+    .pill.delivered{background:rgba(59,167,118,.28);color:#8fe6bf}
+    .pill.canceled,.pill.refunded{background:rgba(230,57,70,.16);color:#ff8088}
+    .pill.low{background:rgba(212,168,67,.18);color:var(--gold)}
+    .pill.out{background:rgba(230,57,70,.16);color:#ff8088}
+    .pill.ok{background:rgba(59,167,118,.18);color:#6fd6a6}
+    .muted{color:var(--muted)}
+    .toolbar{display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+    .toolbar input,.toolbar select{padding:9px 12px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text)}
+    .toolbar input:focus,.toolbar select:focus{outline:none;border-color:var(--accent)}
+    .toolbar input.search{min-width:240px}
+    .num-in{width:70px;padding:6px 8px;background:var(--surface);border:1px solid var(--border);border-radius:7px;color:var(--text)}
+    select.status-sel{padding:6px 8px;background:var(--surface);border:1px solid var(--border);border-radius:7px;color:var(--text)}
+    .empty{padding:50px;text-align:center;color:var(--muted)}
+    .spark{display:flex;align-items:flex-end;gap:3px;height:90px;margin-top:6px}
+    .spark .b{flex:1;background:var(--accent);border-radius:3px 3px 0 0;min-height:2px;opacity:.85;transition:.2s}
+    .spark .b:hover{opacity:1;background:var(--accent2)}
+    .barlist{display:flex;flex-direction:column;gap:9px}
+    .barrow{display:grid;grid-template-columns:1fr 50px;gap:10px;align-items:center;font-size:13px}
+    .barrow .track{background:var(--surface);height:8px;border-radius:5px;overflow:hidden}
+    .barrow .fill{height:100%;background:var(--gold);border-radius:5px}
+    .barrow .lbl{display:flex;justify-content:space-between;margin-bottom:5px}
+    .barrow .cnt{text-align:right;color:var(--muted)}
+
+    /* modal */
+    .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
+    .modal{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto}
+    .modal h3{font-size:18px;margin-bottom:4px}
+    .modal .close{float:right;background:none;border:none;color:var(--muted);font-size:22px;line-height:1}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+    .det{font-size:13px}.det .k{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+    .seo-field{margin-bottom:16px}
+    .seo-field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+    .seo-field input,.seo-field textarea{width:100%;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text)}
+    .seo-field textarea{min-height:80px;resize:vertical}
+    .loading{padding:60px;text-align:center;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <!-- LOGIN -->
+  <div id="login">
+    <form class="login-card" id="loginForm">
+      <h1><span class="brand">FW</span> Wheels</h1>
+      <p>Owner dashboard — sign in to continue.</p>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="email" autocomplete="email" required />
+      </div>
+      <div class="field" id="pwField" style="display:none">
+        <label>Password</label>
+        <input type="password" id="password" autocomplete="current-password" />
+      </div>
+      <button class="btn" type="submit" id="loginBtn">Email me a login link</button>
+      <div style="text-align:center;margin-top:14px">
+        <a href="#" id="togglePw" class="muted" style="font-size:12.5px;color:var(--muted)">Use a password instead</a>
+      </div>
+      <div class="msg" id="loginMsg"></div>
+    </form>
+  </div>
+
+  <!-- APP -->
+  <div id="app" class="hidden">
+    <aside>
+      <div class="logo">FW<span>.</span>WHEELS</div>
+      <nav id="nav">
+        <a class="nav-item active" data-tab="overview"><span class="ic">▦</span> Overview</a>
+        <a class="nav-item" data-tab="orders"><span class="ic">▤</span> Orders</a>
+        <a class="nav-item" data-tab="products"><span class="ic">◎</span> Products</a>
+        <a class="nav-item" data-tab="inventory"><span class="ic">▣</span> Inventory</a>
+        <a class="nav-item" data-tab="customers"><span class="ic">☻</span> Customers</a>
+        <a class="nav-item" data-tab="analytics"><span class="ic">◔</span> Analytics</a>
+        <a class="nav-item" data-tab="seo"><span class="ic">⚙</span> SEO &amp; Settings</a>
+      </nav>
+      <div class="who">
+        <b id="whoName">—</b>
+        <span id="whoEmail"></span>
+        <button class="btn ghost sm" id="logoutBtn" style="margin-top:10px">Sign out</button>
+      </div>
+    </aside>
+    <main id="main">
+      <div class="loading">Loading…</div>
+    </main>
+  </div>
+
+  <div id="modalRoot"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/config.js?v=20260616"></script>
+  <script src="admin.js?v=20260616"></script>
+</body>
+</html>

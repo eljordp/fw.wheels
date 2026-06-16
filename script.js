@@ -1983,6 +1983,12 @@ function addToCart(item) {
     cart.push(item);
   }
   saveCart(cart);
+  if (window.fwTrack) window.fwTrack('add_to_cart', {
+    product_slug: item.wheelId || item.accessoryId || null,
+    size: item.size || null,
+    value: (Number(item.price) || 0) * (Number(item.qty) || 1),
+    meta: { name: item.name, finish: item.finish || null, type: item.productType || 'wheel' }
+  });
 }
 
 function removeFromCart(idx) {
@@ -2100,6 +2106,11 @@ async function startCheckout() {
   btn.disabled = true;
   btn.textContent = 'Loading...';
 
+  if (window.fwTrack) window.fwTrack('begin_checkout', {
+    value: cart.reduce((s, i) => s + (Number(i.price) || 0) * (Number(i.qty) || 1), 0),
+    meta: { items: cart.length }
+  });
+
   try {
     const res = await fetch('/api/checkout', {
       method: 'POST',
@@ -2142,6 +2153,10 @@ const modalQuoteBtn = document.getElementById('modalQuoteBtn');
 function openWheelModal(wheelId, preferred = {}) {
   const wheel = wheelData[wheelId];
   if (!wheel) return;
+
+  if (window.fwTrack) window.fwTrack('product_view', {
+    product_slug: wheelId, meta: { name: wheel.name, brand: wheel.series || null }
+  });
 
   modalTitle.textContent = wheel.name;
 
@@ -3719,6 +3734,13 @@ function renderFinderResults(record, goal) {
 
   const specs = getVehicleSpecs(record);
   const matches = getFinderMatches(specs, goal);
+  if (window.fwTrack) window.fwTrack('fitment_search', {
+    meta: {
+      vehicle: [record && record.make, record && record.model, record && record.year].filter(Boolean).join(' '),
+      goal: goal || null,
+      results: matches.length
+    }
+  });
   finderState.lastVehicleSpecs = specs;
   finderState.lastWheelSelection = matches[0] ? {
     wheelId: matches[0].wheelId,
