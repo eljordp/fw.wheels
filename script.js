@@ -157,7 +157,7 @@ function populateModelJump(brand) {
   modelJumpWrap.classList.add('visible');
 }
 
-modelJumpSelect.addEventListener('change', () => {
+if (modelJumpSelect) modelJumpSelect.addEventListener('change', () => {
   const id = modelJumpSelect.value;
   if (!id) return;
   openWheelModal(id);
@@ -2899,6 +2899,7 @@ function addSelectedAccessoryToCart() {
 }
 
 function initAccessories() {
+  if (!accessoriesGrid) return; // accessories section not on this page
   positionAccessoriesSection();
   initAccessoryTabs();
   renderAccessoryCards('all');
@@ -3629,26 +3630,46 @@ function buildNavBrands() {
   ];
 
   const menu = document.getElementById('navSubMenu');
+  if (!menu) return;
   menu.innerHTML = '';
+
+  // brand tabs only exist on the /wheels page
+  const onWheelsPage = !!document.querySelector('.brand-tab[data-brand]');
 
   brands.forEach(brand => {
     const li = document.createElement('li');
     const a = document.createElement('a');
-    a.href = '#brands';
+    a.href = '/wheels#' + brand.id;
     a.className = 'nav-sub-link';
     a.textContent = brand.label;
-    a.addEventListener('click', (e) => {
-      e.preventDefault();
-      document.querySelector(`.brand-tab[data-brand="${brand.id}"]`).click();
-      closeMobileMenu();
-      document.getElementById('brands').scrollIntoView({ behavior: 'smooth' });
-    });
+    if (onWheelsPage) {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        selectBrand(brand.id);
+        closeMobileMenu();
+        const sec = document.getElementById('brands');
+        if (sec) sec.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
     li.appendChild(a);
     menu.appendChild(li);
   });
 }
 
+// Activate a brand tab by id (only does anything where brand tabs exist)
+function selectBrand(id) {
+  const tab = document.querySelector(`.brand-tab[data-brand="${id}"]`);
+  if (tab) tab.click();
+}
+// On /wheels, honor /wheels#aodhan etc. to open straight to that brand
+function applyBrandFromHash() {
+  const h = (location.hash || '').replace('#', '');
+  if (['aodhan', 'mflow', 'vors'].includes(h)) selectBrand(h);
+}
+window.addEventListener('hashchange', applyBrandFromHash);
+
 buildNavBrands();
+applyBrandFromHash();
 
 // ===== COMPUTE + INJECT BRAND SET PRICE RANGES =====
 (function updateBrandSetPrices() {
@@ -4073,11 +4094,16 @@ document.addEventListener('DOMContentLoaded', () => {
 const dontForgetCtaBtn = document.getElementById('dontForgetCta');
 if (dontForgetCtaBtn) {
   dontForgetCtaBtn.addEventListener('click', (e) => {
-    e.preventDefault();
+    const accSection = document.getElementById('accessories');
     closeDontForget();
-    setTimeout(() => {
-      document.getElementById('accessories')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      history.pushState(null, '', '#accessories');
-    }, 250);
+    if (accSection) {
+      // accessories are on this page — smooth-scroll instead of navigating
+      e.preventDefault();
+      setTimeout(() => {
+        accSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.pushState(null, '', '#accessories');
+      }, 250);
+    }
+    // otherwise let the link navigate to /accessories
   });
 }

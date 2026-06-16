@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wheels | Aodhan, Mflow Racing & Vors — FW Wheels</title>
+  <meta name="description" content="Browse the full FW Wheels catalog: Aodhan, Mflow Racing, and Vors. Compare sizes, finishes, bolt patterns, and offsets, and check fitment for your vehicle.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://fwwheelz.com/wheels">
+  <meta name="theme-color" content="#0d0d0d">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/favicon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="FW Wheels">
+  <meta property="og:title" content="Wheels | Aodhan, Mflow Racing & Vors — FW Wheels">
+  <meta property="og:description" content="Browse the full FW Wheels catalog: Aodhan, Mflow Racing, and Vors. Compare sizes, finishes, bolt patterns, and offsets, and check fitment for your vehicle.">
+  <meta property="og:url" content="https://fwwheelz.com/wheels">
+  <meta property="og:image" content="https://fwwheelz.com/images/hero.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Wheels | Aodhan, Mflow Racing & Vors — FW Wheels">
+  <meta name="twitter:description" content="Browse the full FW Wheels catalog: Aodhan, Mflow Racing, and Vors. Compare sizes, finishes, bolt patterns, and offsets, and check fitment for your vehicle.">
+  <meta name="twitter:image" content="https://fwwheelz.com/images/hero.jpg">
+  <link rel="stylesheet" href="/styles.css?v=20260616-6">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="/" class="logo">FW<span>WHEELS</span></a>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="/">Home</a></li>
+        <li class="nav-has-sub" id="navBrandsItem">
+          <div class="nav-brand-row">
+            <a href="/wheels" class="nav-brands-link">Brands</a>
+            <button class="nav-sub-toggle" id="navSubToggle" aria-label="Open brand menu">
+              <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+          <ul class="nav-sub-menu" id="navSubMenu">
+            <!-- populated by JS -->
+          </ul>
+        </li>
+        <li><a href="/wheels#vehicle-finder">Fitment</a></li>
+        <li><a href="/accessories">Accessories</a></li>
+        <li><a href="/about#reviews">Reviews</a></li>
+        <li><a href="shipping.html">Policies</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="https://www.instagram.com/fw.wheels/" target="_blank" rel="noopener" class="nav-ig" aria-label="FW Wheels on Instagram">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+        <button class="nav-cart" id="cartBtn" aria-label="Open cart">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+  <div class="nav-backdrop" id="navBackdrop"></div>
+  <section class="brands" id="brands">
+    <div class="container">
+      <h2 class="section-title">Our Brands</h2>
+      <p class="section-subtitle">Browse wheels from Aodhan, Mflow Racing, and Vors.</p>
+
+      <!-- Brand Filter Tabs -->
+      <div class="brand-tabs">
+        <button class="brand-tab active" data-brand="all">All Brands</button>
+        <button class="brand-tab" data-brand="aodhan">Aodhan</button>
+        <button class="brand-tab" data-brand="mflow">Mflow Racing</button>
+        <button class="brand-tab" data-brand="vors">Vors</button>
+      </div>
+
+      <div class="fitment-help" id="fitment-help">
+        <p>Need exact fitment? Use the vehicle finder to match specs against the catalog.</p>
+        <a class="btn btn-primary" href="#vehicle-finder">Open Finder</a>
+      </div>
+
+      <!-- Series Sub-Tabs (populated by JS) -->
+      <div class="series-tabs" id="seriesTabs"></div>
+
+      <!-- Model Jump Dropdown (populated by JS when brand selected) -->
+      <div class="model-jump-wrap" id="modelJumpWrap">
+        <select id="modelJumpSelect">
+          <option value="">Jump to a model...</option>
+        </select>
+      </div>
+
+      <!-- Aodhan -->
+      <div class="brand-section" data-brand="aodhan">
+        <div class="brand-header">
+          <div>
+            <h3 class="brand-name">AODHAN</h3>
+            <p class="brand-desc">The go-to for clean fitment on a budget. Most popular with the younger crowd — proven designs, aggressive concavity, and flow form options.</p>
+          </div>
+          <div class="brand-price">$950 – $1,400 <span>per set</span></div>
+        </div>
+
+        <!-- AH Series -->
+        <div class="series-group" data-series="ah">
+          <h4 class="series-title">AH Series <span>— Classic Multi-Spoke</span></h4>
+          <div class="wheel-grid">
+            <div class="wheel-card" data-wheel="ah01">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH01_1895_SMF_01_df5a9c47-bc13-41c4-b8b0-419f67d20bbe.jpg?width=400" alt="Aodhan AH01" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">AH01</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="ah02">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH02_1895_SML_01.jpg?width=400" alt="Aodhan AH02" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">AH02</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="ah03">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH03_1895_SMF_01_a9be5c1a-f60b-4ffe-94fe-848c3f2429d4.jpg?width=400" alt="Aodhan AH03" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">AH03</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="ah04">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://www.aodhanwheels.com/cdn/shop/products/AH04_1895_SMF_01.jpg?width=400" alt="Aodhan AH04" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">AH04</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="ah05">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH05_1885_SMF_03.jpg?width=400" alt="Aodhan AH05" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">AH05</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="ah06">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://www.aodhanwheels.com/cdn/shop/products/AH06_1890_MS_01.jpg?width=400" alt="Aodhan AH06" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">AH06</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="ah07">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH07_1885_WHT_01_95faee32-55cd-411d-8411-c2ea2ba1c02f.jpg?width=400" alt="Aodhan AH07" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">AH07</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="ah08">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH08_1885_WHT_01.jpg?width=400" alt="Aodhan AH08" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">AH08</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="ah09">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH09_1885_MS_D_01.jpg?width=400" alt="Aodhan AH09" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">AH09</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="ahx">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AHX_1885_MS_01.jpg?width=400" alt="Aodhan AHX" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">AHX</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="ah11">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH11_1885_MS_01.jpg?width=400" alt="Aodhan AH11" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">AH11</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DS Series -->
+        <div class="series-group" data-series="ds">
+          <h4 class="series-title">DS Series <span>— Deep Concave</span></h4>
+          <div class="wheel-grid">
+            <div class="wheel-card" data-wheel="ds01">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://www.aodhanwheels.com/cdn/shop/products/DS01_18105_SML_01_f90c839c-4c87-4001-ab75-c4ecb1ec3445.jpg?width=400" alt="Aodhan DS01" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">DS01</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="ds02">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://www.aodhanwheels.com/cdn/shop/products/DS02_1885_SMF_03.jpg?width=400" alt="Aodhan DS02" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">DS02</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="ds03">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://www.aodhanwheels.com/cdn/shop/files/DS03_1895_MS_03D.jpg?v=1749494676&width=400" alt="Aodhan DS03" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">DS03</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="ds05">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://www.aodhanwheels.com/cdn/shop/products/DS05_18105_SMF_03_c437ea07-45c2-4142-9724-46d04ccb75c6.jpg?width=400" alt="Aodhan DS05" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">DS05</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="ds06">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DS06_1895_SMF_03_ff12ed63-e6c7-4cbc-88ad-574207d444d9.jpg?width=400" alt="Aodhan DS06" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">DS06</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="ds07">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://www.aodhanwheels.com/cdn/shop/products/DS07_1895_SMF_03.jpg?width=400" alt="Aodhan DS07" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">DS07</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="ds08">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://www.aodhanwheels.com/cdn/shop/products/DS08_1885_MS_03.jpg?width=400" alt="Aodhan DS08" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">DS08</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="ds09">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://www.aodhanwheels.com/cdn/shop/products/DS09_1885_SMF_01_c1d7efa9-e364-41ad-a9b4-4f4b1390c558.jpg?width=400" alt="Aodhan DS09" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">DS09</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="dsx">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://www.aodhanwheels.com/cdn/shop/products/DSX_1885_SMF_03.jpg?width=400" alt="Aodhan DSX" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">DSX</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AFF Series -->
+        <div class="series-group" data-series="aff">
+          <h4 class="series-title">AFF Series <span>— Flow Form</span></h4>
+          <div class="wheel-grid">
+            <div class="wheel-card" data-wheel="aff1">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://www.aodhanwheels.com/cdn/shop/products/AFF1_20105_SMF_03_dce2b951-ff5e-4171-9323-44c3b64e9a72.jpg?width=400" alt="Aodhan AFF1" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">AFF1</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="aff2">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://www.aodhanwheels.com/cdn/shop/products/AFF02_1985_SMF_03.jpg?v=1749494562&width=400" alt="Aodhan AFF2" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">AFF2</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="aff3">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AFF03_2090_MS_03.jpg?width=400" alt="Aodhan AFF3" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">AFF3</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="aff7">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://www.aodhanwheels.com/cdn/shop/products/AFF7_1885_SMF_03.jpg?v=1749494580&width=400" alt="Aodhan AFF7" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">AFF7</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="aff9">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AFF9_20105_SMF_01_d2b00b4d-163a-46bf-9a86-cfcd731f9606.jpg?width=400" alt="Aodhan AFF9" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">AFF9</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mflow Racing -->
+      <div class="brand-section" data-brand="mflow">
+        <div class="brand-header">
+          <div>
+            <h3 class="brand-name">MFLOW RACING</h3>
+            <p class="brand-desc">Flow-formed performance wheels engineered for speed and precision. Lightweight builds, race-inspired designs, and offroad options — from street to trail.</p>
+          </div>
+          <div class="brand-price">$800 – $1,300 <span>per set</span></div>
+        </div>
+
+        <!-- MFR Series -->
+        <div class="series-group" data-series="mfr">
+          <h4 class="series-title">MFR Series <span>— Flow Form</span></h4>
+          <div class="wheel-grid">
+            <div class="wheel-card" data-wheel="mfr1">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://www.mflowracing.com/cdn/shop/files/MFR1-2085-MACHINEDSILVER1.jpg?v=1771531382&width=400" alt="Mflow MFR1" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">MFR1</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="mfr2">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://wheelplususa.com/cdn/shop/files/MFR2-Hyper-Silver-Wheels-Rims_1060734f-d490-4036-b02e-859985eddd44.jpg?v=1760722999&width=400" alt="Mflow MFR2" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">MFR2</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="mfr3">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF3-1985-HYPER_20SILVER-1.jpg?v=1757108281&width=400" alt="Mflow MFR3" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">MFR3</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="mfr4">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://www.mflowracing.com/cdn/shop/files/MFR4HyperSilverMachinedTip.jpg?v=1771542352&width=400" alt="Mflow MFR4" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">MFR4</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MFL Series -->
+        <div class="series-group" data-series="mfl">
+          <h4 class="series-title">MFL Series <span>— Flow Forming</span></h4>
+          <div class="wheel-grid">
+            <div class="wheel-card" data-wheel="mfl1">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MFL120X9.5ChromePVD.jpg?v=1757108275&width=400" alt="Mflow MFL1" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">MFL1</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="mfl2">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MFL220X8.5CHROMEPVD.jpg?v=1757108272&width=400" alt="Mflow MFL2" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">MFL2</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MF Series (Offroad) -->
+        <div class="series-group" data-series="mf">
+          <h4 class="series-title">MF Series <span>— Offroad</span></h4>
+          <div class="wheel-grid">
+            <div class="wheel-card" data-wheel="mf01">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF01_SILVER_MACHINED_FACE.jpg?v=1771967605&width=400" alt="Mflow MF01" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">MF01</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="mf02">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF02SILVERMACHINEDFACE6H.jpg?v=1771968623&width=400" alt="Mflow MF02" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">MF02</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="mf03">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF03SILVERMACHINEDFACE6H.jpg?v=1772137345&width=400" alt="Mflow MF03" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">MF03</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="mf04">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF04SILVERMACHINEDFACE6H.jpg?v=1772138088&width=400" alt="Mflow MF04" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">MF04</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="mf05">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF05SILVERMACHINEDFACE6H.jpg?v=1772141164&width=400" alt="Mflow MF05" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">MF05</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="mf06">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF06SILVERMACHINEDFACE6H.jpg?v=1772142040&width=400" alt="Mflow MF06" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">MF06</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vors -->
+      <div class="brand-section" data-brand="vors">
+        <div class="brand-header">
+          <div>
+            <h3 class="brand-name">VORS</h3>
+            <p class="brand-desc">Affordable performance wheels built to JWL/VIA standards. From track-inspired designs to aggressive street styles — clean looks without breaking the bank.</p>
+          </div>
+          <div class="brand-price">$700 – $1,500 <span>per set</span></div>
+        </div>
+
+        <!-- TR Series -->
+        <div class="series-group" data-series="tr">
+          <h4 class="series-title">TR Series <span>— Track Road</span></h4>
+          <div class="wheel-grid">
+            <div class="wheel-card" data-wheel="vors-tr4">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_18X85_S_1.jpg?v=1769836819&width=400" alt="Vors TR4" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">TR4</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="vors-tr10">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR10_18X85_W_1.jpg?width=400" alt="Vors TR10" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">TR10</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="vors-tr14">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://www.vorswheels.com/cdn/shop/files/TR14_18X8_S_1.jpg?width=400" alt="Vors TR14" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">TR14</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="vors-tr37">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR37_18X95_SF_1.jpg?v=1767661231&width=400" alt="Vors TR37" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">TR37</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="vors-tr88">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR88_19X95_S_1.jpg?width=400" alt="Vors TR88" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">TR88</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VR Series -->
+        <div class="series-group" data-series="vr">
+          <h4 class="series-title">VR Series <span>— Multi-Spoke</span></h4>
+          <div class="wheel-grid">
+            <div class="wheel-card" data-wheel="vors-vr8">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://www.vorswheels.com/cdn/shop/files/VR8_19X95_S_1.jpg?width=400" alt="Vors VR8" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">VR8</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="vors-ar1">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://www.vorswheels.com/cdn/shop/files/AR01_18X85_SILVER_STD.jpg?width=400" alt="Vors AR1" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">AR1</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="vors-ar5">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://www.vorswheels.com/cdn/shop/files/AR05_18X95_SILVER_STD.jpg?width=400" alt="Vors AR5" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">AR5</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SP/LT Series -->
+        <div class="series-group" data-series="splt">
+          <h4 class="series-title">SP/LT Series <span>— Sport Entry</span></h4>
+          <div class="wheel-grid">
+            <div class="wheel-card" data-wheel="vors-sp1">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0859/3725/8814/files/SP1_18X9_SILVER_2KPX.jpg?width=400" alt="Vors SP1" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">SP1</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="vors-lt53">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://cdn.shopify.com/s/files/1/0859/3725/8814/files/LT53_18X9_GM_1.jpg?width=400" alt="Vors LT53" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">LT53</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+            <div class="wheel-card" data-wheel="vors-uo2">
+              <div class="wheel-img-wrap"><img decoding="async" src="https://www.vorswheels.com/cdn/shop/files/UO2_18X85_S_1.jpg?width=400" alt="Vors UO2" loading="lazy"></div>
+              <div class="wheel-card-info">
+                <p class="wheel-name">UO2</p>
+                <p class="wheel-price"></p>
+                <div class="wheel-swatches"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Vehicle Finder Section -->
+  <section class="vehicle-finder" id="vehicle-finder">
+    <div class="container">
+      <div class="finder-shell">
+        <div class="finder-head">
+          <p class="section-kicker">Vehicle Finder</p>
+          <h2 class="section-title">Find Wheels That Match Your Car</h2>
+          <p class="section-subtitle">Powered by vehicle fitment data. Select year, make, model, and trim to compare bolt pattern, center bore, offset range, and matching FW Wheels inventory.</p>
+        </div>
+
+        <div class="finder-grid">
+          <form class="finder-form" id="vehicleFinderForm">
+            <div class="form-row">
+              <label class="form-group" for="finderYear">
+                <span>Year</span>
+                <select id="finderYear" name="year" required>
+                  <option value="">Select year</option>
+                </select>
+              </label>
+              <label class="form-group" for="finderMake">
+                <span>Make</span>
+                <select id="finderMake" name="make" required disabled>
+                  <option value="">Select make</option>
+                </select>
+              </label>
+            </div>
+            <div class="form-row">
+              <label class="form-group" for="finderModel">
+                <span>Model</span>
+                <select id="finderModel" name="model" required disabled>
+                  <option value="">Select model</option>
+                </select>
+              </label>
+              <label class="form-group" for="finderModification">
+                <span>Trim / engine</span>
+                <select id="finderModification" name="modification" disabled>
+                  <option value="">Select trim</option>
+                </select>
+              </label>
+            </div>
+            <label class="form-group" for="finderGoal">
+              <span>Fitment goal</span>
+              <select id="finderGoal" name="goal">
+                <option value="daily">Clean daily</option>
+                <option value="flush">Flush street</option>
+                <option value="aggressive">Aggressive</option>
+                <option value="performance">Track/performance</option>
+              </select>
+            </label>
+            <button class="btn btn-primary btn-full" type="submit">Find Matching Wheels</button>
+            <p class="finder-note" id="finderStatus" aria-live="polite">Vehicle data loads when the fitment API key is configured.</p>
+          </form>
+
+          <div class="finder-results" id="finderResults">
+            <div class="finder-empty">
+              <strong>Select a vehicle</strong>
+              <span>Results will show OE specs, safe fitment notes, and catalog matches.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="/" class="logo">FW<span>WHEELS</span></a>
+          <p>Certified Friendly Neighborhood Wheel & Tire</p>
+        </div>
+        <div class="footer-links">
+          <a href="/wheels">Brands</a>
+          <a href="/wheels#vehicle-finder">Fitment</a>
+          <a href="/accessories">Accessories</a>
+          <a href="/shipping">Shipping</a>
+          <a href="/returns">Returns</a>
+          <a href="/warranty">Warranty</a>
+          <a href="/fitment-policy">Fitment Policy</a>
+          <a href="/terms">Terms</a>
+          <a href="/privacy">Privacy</a>
+          <a href="/about#faq">FAQ</a>
+          <a href="/about#reviews">Reviews</a>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+          <a href="https://www.instagram.com/fw.wheels/" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 FW Wheels LLC. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Don't Forget Accessories Popup -->
+  <div class="dont-forget-overlay" id="dontForgetModal">
+    <div class="dont-forget-modal">
+      <button class="modal-close" id="dontForgetClose" aria-label="Close accessories suggestions">&times;</button>
+      <h3 class="dont-forget-title">Don't Forget To Add These</h3>
+      <p class="dont-forget-sub">Complete your build with the right accessories.</p>
+      <div class="dont-forget-grid">
+        <button class="df-card" data-accessory="spl35" type="button"><img src="https://www.aodhanwheels.com/cdn/shop/files/SPL35_1215_BLACK_01.jpg?v=1749494642" alt="Spline Lug Nuts"><p>Spline Lug Nuts</p><span>$39.99</span></button>
+        <button class="df-card" data-accessory="xt51" type="button"><img src="https://www.aodhanwheels.com/cdn/shop/files/XT51_Grey_01.jpg?v=1773946635" alt="Extended Lug Nuts"><p>Extended Lug Nuts</p><span>$34.99</span></button>
+        <button class="df-card" data-accessory="xt92" type="button"><img src="https://www.aodhanwheels.com/cdn/shop/files/XT92_Black_01.jpg?v=1773952481" alt="Spiked Lug Nuts"><p>Spiked Lug Nuts</p><span>$55.99</span></button>
+        <button class="df-card" data-accessory="polyHubRings" type="button"><img src="https://www.aodhanwheels.com/cdn/shop/files/All.jpg?v=1749494624" alt="Hub Rings"><p>Hub Ring Set (Poly)</p><span>$14.99</span></button>
+        <button class="df-card" data-accessory="aluminumHubRings" type="button"><img src="https://www.aodhanwheels.com/cdn/shop/files/All_Aluminum.jpg?v=1749494622" alt="Aluminum Hub Rings"><p>Hub Ring Set (Alum)</p><span>$24.99</span></button>
+        <button class="df-card" data-accessory="v1ValveStems" type="button"><img src="https://cdn.shopify.com/s/files/1/0037/3194/7631/files/V1_Silver_02_c78b0cb9-1e19-461f-83c0-322f6d1b855c.jpg?v=1776204641&width=400" alt="Valve Stems V1"><p>Valve Stems (V1)</p><span>$13.99</span></button>
+        <button class="df-card" data-accessory="lb55" type="button"><img src="https://www.aodhanwheels.com/cdn/shop/files/LB55_Black_1.jpg" alt="Lug Bolts"><p>Lug Bolts (LB55)</p><span>$59.99</span></button>
+        <button class="df-card" data-accessory="lkb51" type="button"><img src="https://www.aodhanwheels.com/cdn/shop/products/BLK-OG.jpg" alt="Locking Lug Bolts"><p>Locking Bolts</p><span>$29.99</span></button>
+      </div>
+      <a href="/accessories" class="btn btn-primary" id="dontForgetCta" style="margin-top:24px;display:inline-block;">Shop Accessories</a>
+    </div>
+  </div>
+
+  <!-- Wheel Detail Modal -->
+  <div class="wheel-modal-overlay" id="wheelModal">
+    <div class="wheel-modal">
+      <button class="modal-close" id="modalClose" aria-label="Close wheel details">&times;</button>
+      <div class="modal-content">
+        <div class="modal-images" id="modalImages"></div>
+        <div class="modal-info">
+          <h3 class="modal-title" id="modalTitle"></h3>
+          <div class="modal-specs" id="modalSpecs"></div>
+          <button class="btn btn-primary btn-full modal-quote-btn" id="modalQuoteBtn">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Accessory Detail Modal -->
+  <div class="wheel-modal-overlay" id="accessoryModal">
+    <div class="wheel-modal accessory-modal">
+      <button class="modal-close" id="accessoryModalClose" aria-label="Close accessory details">&times;</button>
+      <div class="modal-content">
+        <div class="modal-images" id="accessoryModalImages"></div>
+        <div class="modal-info">
+          <h3 class="modal-title" id="accessoryModalTitle"></h3>
+          <div class="modal-specs" id="accessoryModalSpecs"></div>
+          <button class="btn btn-primary btn-full modal-quote-btn" id="accessoryAddBtn" disabled>Select Options</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Drawer -->
+  <div class="cart-backdrop" id="cartBackdrop"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping cart">
+    <div class="cart-header">
+      <h3 class="cart-title">Your Cart</h3>
+      <button class="cart-close" id="cartClose" aria-label="Close cart">&times;</button>
+    </div>
+    <div class="cart-empty" id="cartEmpty">
+      <p>Your cart is empty.</p>
+      <span>Add wheels or accessories to get started.</span>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer">
+      <div class="cart-subtotal-row">
+        <span>Subtotal</span>
+        <strong id="cartSubtotal">$0</strong>
+      </div>
+      <p class="cart-disclaimer">Free shipping. Taxes & sales tax calculated at checkout based on your address.</p>
+      <button class="btn btn-primary btn-full" id="cartCheckoutBtn" disabled>Checkout</button>
+    </div>
+  </aside>
+
+
+  <script src="/config.js?v=20260616-6"></script>
+  <script src="/analytics.js?v=20260616-6"></script>
+  <script src="/script.js?v=20260616-6"></script>
+</body>
+</html>

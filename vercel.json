@@ -1,8 +1,7 @@
 {
+  "cleanUrls": true,
   "redirects": [
-    { "source": "/admin", "destination": "/admin/", "permanent": false },
-    { "source": "/contact.html", "destination": "/#contact", "permanent": true },
-    { "source": "/contact", "destination": "/#contact", "permanent": true }
+    { "source": "/admin", "destination": "/admin/", "permanent": false }
   ],
   "headers": [
     {
