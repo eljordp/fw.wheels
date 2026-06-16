@@ -129,7 +129,7 @@
 <body>
   <!-- LOGIN -->
   <div id="login">
-    <form class="login-card" id="loginForm">
+    <form class="login-card" id="loginForm" onsubmit="return false" autocomplete="on">
       <h1><span class="brand">FW</span> Wheels</h1>
       <p>Owner dashboard — sign in to continue.</p>
       <div class="field">
@@ -175,8 +175,8 @@
 
   <div id="modalRoot"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-js.js?v=20260616-3"></script>
   <script src="/config.js?v=20260616"></script>
-  <script src="admin.js?v=20260616-2"></script>
+  <script src="admin.js?v=20260616-3"></script>
 </body>
 </html>

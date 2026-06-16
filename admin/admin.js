@@ -1,4 +1,11 @@
 /* FW Wheels admin portal */
+if (typeof supabase === 'undefined' || !window.FW_SUPABASE_URL) {
+  document.addEventListener('DOMContentLoaded', () => {
+    const m = document.getElementById('loginMsg');
+    if (m) { m.className = 'msg err'; m.textContent = 'Could not load the login library — disable any ad-blocker for this site and refresh.'; }
+  });
+  throw new Error('supabase library or config missing');
+}
 const sb = supabase.createClient(window.FW_SUPABASE_URL, window.FW_SUPABASE_ANON);
 
 const $ = (s, r = document) => r.querySelector(s);
