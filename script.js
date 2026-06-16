@@ -3378,10 +3378,13 @@ function pickCardDefaultFinish(id, finishes, finishImgMap) {
   ) || finishes.find(finish => getFinishImage(finishImgMap, finish)) || finishes[0];
 }
 
-document.querySelectorAll('.wheel-card').forEach(card => {
+let hiddenWheels = new Set();
+function applyWheelCards() {
+  document.querySelectorAll('.wheel-card').forEach(card => {
   const id = card.dataset.wheel;
   const wheel = wheelData[id];
-  if (!wheel) return;
+  if (!wheel || hiddenWheels.has(id)) { card.style.display = 'none'; return; }
+  card.style.display = '';
 
   // Price
   const priceEl = card.querySelector('.wheel-price');
@@ -3393,6 +3396,7 @@ document.querySelectorAll('.wheel-card').forEach(card => {
   // Swatches
   const swatchEl = card.querySelector('.wheel-swatches');
   if (!swatchEl) return;
+  swatchEl.innerHTML = '';
   const finishes = new Set();
   if (wheel.variants) {
     Object.values(wheel.variants).forEach(v => {
@@ -3457,7 +3461,61 @@ document.querySelectorAll('.wheel-card').forEach(card => {
   if (cardImg && activeImage) {
     cardImg.src = activeImage.replace('width=800', 'width=400');
   }
-});
+  });
+}
+applyWheelCards();
+
+// ===== LIVE CATALOG SYNC (admin edits → storefront) =====
+// Progressive enhancement: page already rendered with built-in catalog above.
+// This patches prices / hides inactive products / drops out-of-stock sizes from
+// the live Supabase catalog. If the fetch fails, the built-in catalog stays.
+async function syncCatalogFromDB() {
+  const URL = window.FW_SUPABASE_URL, ANON = window.FW_SUPABASE_ANON;
+  if (!URL || !ANON) return;
+  try {
+    const q = 'products?select=slug,kind,active,acc_price,product_variants(size,price,price_overrides,stock,track_stock,active)&active=eq.true';
+    const res = await fetch(URL + '/rest/v1/' + q, { headers: { apikey: ANON, Authorization: 'Bearer ' + ANON } });
+    if (!res.ok) return;
+    const rows = await res.json();
+    if (!Array.isArray(rows) || !rows.length) return;
+
+    const activeWheels = new Set();
+    rows.forEach(p => {
+      if (p.kind === 'accessory') {
+        if (accessoryProducts[p.slug] && p.acc_price != null) accessoryProducts[p.slug].price = Number(p.acc_price);
+        return;
+      }
+      if (!wheelData[p.slug]) return; // product not in built-in set (no card to show)
+      activeWheels.add(p.slug);
+      wheelPrices[p.slug] = wheelPrices[p.slug] || {};
+      (p.product_variants || []).forEach(v => {
+        const soldOut = v.active === false || (v.track_stock && Number(v.stock) <= 0);
+        if (soldOut) {
+          if (wheelData[p.slug].variants) delete wheelData[p.slug].variants[v.size];
+          delete wheelPrices[p.slug][v.size];
+        } else {
+          wheelPrices[p.slug][v.size] = Number(v.price);
+          if (v.price_overrides) colorPriceOverrides[p.slug] = v.price_overrides;
+        }
+      });
+      // recompute the card price-range string from current prices
+      const prices = Object.values(wheelPrices[p.slug]).filter(n => Number(n) > 0);
+      if (prices.length) {
+        const mn = Math.min(...prices), mx = Math.max(...prices);
+        wheelData[p.slug].priceRange = (mn === mx ? `$${mn}` : `$${mn} – $${mx}`) + ' /wheel';
+      }
+      // if every size sold out, treat the model as hidden
+      if (wheelData[p.slug].variants && Object.keys(wheelData[p.slug].variants).length === 0) activeWheels.delete(p.slug);
+    });
+
+    // any built-in wheel not active/in-stock in the DB gets hidden
+    hiddenWheels = new Set(Object.keys(wheelData).filter(slug => !activeWheels.has(slug)));
+
+    applyWheelCards();
+    if (typeof renderAccessoryCards === 'function') { try { renderAccessoryCards('all'); } catch (e) {} }
+  } catch (e) { /* keep built-in catalog */ }
+}
+syncCatalogFromDB();
 
 // ===== SCROLL ANIMATIONS =====
 const observerOptions = {
