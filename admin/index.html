@@ -124,6 +124,9 @@
     .seo-field input,.seo-field textarea{width:100%;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text)}
     .seo-field textarea{min-height:80px;resize:vertical}
     .loading{padding:60px;text-align:center;color:var(--muted)}
+    #refreshBtn .ic{display:inline-block}
+    #refreshBtn.spinning .ic{animation:spin .8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
   </style>
 </head>
 <body>
@@ -161,6 +164,7 @@
         <a class="nav-item" data-tab="analytics"><span class="ic">◔</span> Analytics</a>
         <a class="nav-item" data-tab="seo"><span class="ic">⚙</span> SEO &amp; Settings</a>
       </nav>
+      <button class="btn ghost sm" id="refreshBtn" style="margin-top:12px;width:100%"><span class="ic" id="refreshIcon">↻</span> Refresh data</button>
       <div class="who">
         <b id="whoName">—</b>
         <span id="whoEmail"></span>
@@ -177,6 +181,6 @@
 
   <script src="/admin/supabase-js.js?v=20260616-4"></script>
   <script src="/config.js?v=20260616"></script>
-  <script src="/admin/admin.js?v=20260616-4"></script>
+  <script src="/admin/admin.js?v=20260616-5"></script>
 </body>
 </html>

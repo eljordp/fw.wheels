@@ -82,6 +82,7 @@ async function enterApp(user) {
   $('#whoName').textContent = admin.full_name || 'Owner';
   $('#whoEmail').textContent = user.email;
   $$('#nav .nav-item').forEach((n) => n.addEventListener('click', () => switchTab(n.dataset.tab)));
+  $('#refreshBtn').addEventListener('click', refreshData);
   $('#logoutBtn').addEventListener('click', async () => { await sb.auth.signOut(); location.reload(); });
   $('#changePwBtn').addEventListener('click', async () => {
     const pw = prompt('Enter a new password (at least 8 characters):');
@@ -93,11 +94,19 @@ async function enterApp(user) {
   switchTab('overview');
 }
 
+let currentTab = 'overview';
 function switchTab(tab) {
+  currentTab = tab;
   $$('#nav .nav-item').forEach((n) => n.classList.toggle('active', n.dataset.tab === tab));
   main().innerHTML = '<div class="loading">Loading…</div>';
   const fn = { overview, orders: ordersTab, products: productsTab, inventory: inventoryTab, customers: customersTab, analytics: analyticsTab, seo: seoTab }[tab];
   fn().catch((e) => { main().innerHTML = `<div class="empty">Error: ${esc(e.message)}</div>`; console.error(e); });
+}
+async function refreshData() {
+  const btn = $('#refreshBtn');
+  if (btn) { btn.classList.add('spinning'); btn.disabled = true; }
+  switchTab(currentTab);
+  setTimeout(() => { if (btn) { btn.classList.remove('spinning'); btn.disabled = false; } }, 900);
 }
 
 /* ---------------- helpers ---------------- */
