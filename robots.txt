@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://fw-wheels.vercel.app/sitemap.xml
+Sitemap: https://fwwheelz.com/sitemap.xml

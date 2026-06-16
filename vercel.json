@@ -1,6 +1,8 @@
 {
   "redirects": [
-    { "source": "/admin", "destination": "/admin/", "permanent": false }
+    { "source": "/admin", "destination": "/admin/", "permanent": false },
+    { "source": "/contact.html", "destination": "/#contact", "permanent": true },
+    { "source": "/contact", "destination": "/#contact", "permanent": true }
   ],
   "headers": [
     {
