@@ -124,6 +124,11 @@ function renderSeriesTabs(brand) {
       });
     });
   });
+
+  // Auto-select the first series so the brand's wheels show immediately
+  // (otherwise picking a brand lands you on an empty-looking section).
+  const firstSeriesTab = seriesTabsContainer.querySelector('.series-tab');
+  if (firstSeriesTab && brand !== 'all') firstSeriesTab.click();
 }
 
 // ===== MODEL JUMP DROPDOWN =====
@@ -2469,10 +2474,10 @@ function closeWheelModal() {
 }
 
 // Click on wheel cards to open modal
-document.querySelectorAll('.wheel-card[data-wheel]').forEach(card => {
-  card.addEventListener('click', () => {
-    openWheelModal(card.dataset.wheel);
-  });
+// Delegated so dynamically-injected cards (admin-added products) work too.
+document.addEventListener('click', (e) => {
+  const card = e.target.closest('.wheel-card[data-wheel]');
+  if (card) openWheelModal(card.dataset.wheel);
 });
 
 // Close modal
@@ -3469,46 +3474,120 @@ applyWheelCards();
 // Progressive enhancement: page already rendered with built-in catalog above.
 // This patches prices / hides inactive products / drops out-of-stock sizes from
 // the live Supabase catalog. If the fetch fails, the built-in catalog stays.
+function brandSectionId(brandLabel) {
+  const b = (brandLabel || '').toLowerCase();
+  if (b.includes('aodhan')) return 'aodhan';
+  if (b.includes('mflow') || b.includes('mflow racing') || b.includes('m flow')) return 'mflow';
+  if (b.includes('vors')) return 'vors';
+  return null;
+}
+
+function priceRangeStr(slug) {
+  const prices = Object.values(wheelPrices[slug] || {}).filter(n => Number(n) > 0);
+  if (!prices.length) return '';
+  const mn = Math.min(...prices), mx = Math.max(...prices);
+  return (mn === mx ? `$${mn}` : `$${mn} – $${mx}`) + ' /wheel';
+}
+
+// Inject a card for an admin-added product that has no static HTML card.
+function injectDbProductCard(slug, brandSecId) {
+  const section = document.querySelector(`.brand-section[data-brand="${brandSecId}"]`);
+  if (!section) return;
+  let group = section.querySelector('.series-group[data-series="newarrivals"]');
+  if (!group) {
+    group = document.createElement('div');
+    group.className = 'series-group';
+    group.dataset.series = 'newarrivals';
+    group.innerHTML = '<h4 class="series-title">New Arrivals</h4><div class="wheel-grid"></div>';
+    section.appendChild(group);
+    if (brandSeriesMap[brandSecId] && !brandSeriesMap[brandSecId].some(s => s.id === 'newarrivals')) {
+      brandSeriesMap[brandSecId].push({ id: 'newarrivals', label: 'New Arrivals' });
+    }
+  }
+  const grid = group.querySelector('.wheel-grid');
+  if (grid.querySelector(`[data-wheel="${slug}"]`)) return;
+  const w = wheelData[slug];
+  const img = (w.images && w.images[0]) || '';
+  const card = document.createElement('div');
+  card.className = 'wheel-card';
+  card.dataset.wheel = slug;
+  card.innerHTML = `<div class="wheel-img-wrap"><img decoding="async" src="${img}" alt="${w.name}" loading="lazy"></div>`
+    + `<div class="wheel-card-info"><p class="wheel-name">${w.name}</p><p class="wheel-price"></p><div class="wheel-swatches"></div></div>`;
+  grid.appendChild(card);
+}
+
 async function syncCatalogFromDB() {
   const URL = window.FW_SUPABASE_URL, ANON = window.FW_SUPABASE_ANON;
   if (!URL || !ANON) return;
   try {
-    const q = 'products?select=slug,kind,active,acc_price,product_variants(size,price,price_overrides,stock,track_stock,active)&active=eq.true';
+    const q = 'products?select=slug,kind,active,brand,series,name,center_bore,images,acc_price,acc_pack,acc_desc,'
+      + 'product_variants(size,price,finishes,bolt_patterns,offsets,bolt_offsets,bolt_configs,price_overrides,stock,track_stock,active,image)'
+      + '&active=eq.true&order=sort_order';
     const res = await fetch(URL + '/rest/v1/' + q, { headers: { apikey: ANON, Authorization: 'Bearer ' + ANON } });
     if (!res.ok) return;
     const rows = await res.json();
     if (!Array.isArray(rows) || !rows.length) return;
 
     const activeWheels = new Set();
+    const newWheels = []; // { slug, brandSecId }
     rows.forEach(p => {
       if (p.kind === 'accessory') {
         if (accessoryProducts[p.slug] && p.acc_price != null) accessoryProducts[p.slug].price = Number(p.acc_price);
         return;
       }
-      if (!wheelData[p.slug]) return; // product not in built-in set (no card to show)
-      activeWheels.add(p.slug);
-      wheelPrices[p.slug] = wheelPrices[p.slug] || {};
-      (p.product_variants || []).forEach(v => {
-        const soldOut = v.active === false || (v.track_stock && Number(v.stock) <= 0);
-        if (soldOut) {
-          if (wheelData[p.slug].variants) delete wheelData[p.slug].variants[v.size];
-          delete wheelPrices[p.slug][v.size];
-        } else {
-          wheelPrices[p.slug][v.size] = Number(v.price);
-          if (v.price_overrides) colorPriceOverrides[p.slug] = v.price_overrides;
+      const isNew = !wheelData[p.slug];
+      const liveVariants = (p.product_variants || []).filter(v => !(v.active === false || (v.track_stock && Number(v.stock) <= 0)));
+      if (!liveVariants.length) { return; } // nothing in stock → don't show (built-in handled by hiddenWheels below)
+
+      if (isNew) {
+        // Build a full catalog entry from the DB so the modal + cards work.
+        wheelData[p.slug] = {
+          name: p.name || p.slug,
+          series: p.series || 'New Arrivals',
+          centerBore: p.center_bore || '',
+          images: Array.isArray(p.images) ? p.images : [],
+          variants: {},
+        };
+        wheelPrices[p.slug] = {};
+        wheelBoltConfigs[p.slug] = {};
+      } else {
+        wheelPrices[p.slug] = wheelPrices[p.slug] || {};
+        // drop sold-out sizes from the built-in entry
+        (p.product_variants || []).forEach(v => {
+          if (v.active === false || (v.track_stock && Number(v.stock) <= 0)) {
+            if (wheelData[p.slug].variants) delete wheelData[p.slug].variants[v.size];
+            delete wheelPrices[p.slug][v.size];
+          }
+        });
+      }
+
+      liveVariants.forEach(v => {
+        wheelPrices[p.slug][v.size] = Number(v.price);
+        if (v.price_overrides) colorPriceOverrides[p.slug] = v.price_overrides;
+        if (isNew) {
+          wheelData[p.slug].variants[v.size] = {
+            finishes: Array.isArray(v.finishes) ? v.finishes : [],
+            boltPatterns: Array.isArray(v.bolt_patterns) ? v.bolt_patterns : [],
+            offsets: Array.isArray(v.offsets) ? v.offsets : [],
+            boltOffsets: v.bolt_offsets || undefined,
+            image: v.image || (Array.isArray(p.images) ? p.images[0] : '') || '',
+          };
+          if (v.bolt_configs) wheelBoltConfigs[p.slug][v.size] = v.bolt_configs;
         }
       });
-      // recompute the card price-range string from current prices
-      const prices = Object.values(wheelPrices[p.slug]).filter(n => Number(n) > 0);
-      if (prices.length) {
-        const mn = Math.min(...prices), mx = Math.max(...prices);
-        wheelData[p.slug].priceRange = (mn === mx ? `$${mn}` : `$${mn} – $${mx}`) + ' /wheel';
+
+      wheelData[p.slug].priceRange = priceRangeStr(p.slug);
+      activeWheels.add(p.slug);
+      if (isNew) {
+        const secId = brandSectionId(p.brand);
+        if (secId) newWheels.push({ slug: p.slug, brandSecId: secId });
       }
-      // if every size sold out, treat the model as hidden
-      if (wheelData[p.slug].variants && Object.keys(wheelData[p.slug].variants).length === 0) activeWheels.delete(p.slug);
     });
 
-    // any built-in wheel not active/in-stock in the DB gets hidden
+    // inject cards for new admin-added products
+    newWheels.forEach(({ slug, brandSecId }) => injectDbProductCard(slug, brandSecId));
+
+    // any built-in wheel not active/in-stock in the DB gets hidden (new ones are in activeWheels)
     hiddenWheels = new Set(Object.keys(wheelData).filter(slug => !activeWheels.has(slug)));
 
     applyWheelCards();

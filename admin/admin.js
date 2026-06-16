@@ -76,6 +76,13 @@ async function enterApp(user) {
   $('#whoEmail').textContent = user.email;
   $$('#nav .nav-item').forEach((n) => n.addEventListener('click', () => switchTab(n.dataset.tab)));
   $('#logoutBtn').addEventListener('click', async () => { await sb.auth.signOut(); location.reload(); });
+  $('#changePwBtn').addEventListener('click', async () => {
+    const pw = prompt('Enter a new password (at least 8 characters):');
+    if (!pw) return;
+    if (pw.length < 8) { alert('Password must be at least 8 characters.'); return; }
+    const { error } = await sb.auth.updateUser({ password: pw });
+    alert(error ? 'Could not update: ' + error.message : 'Password updated. Use it next time you sign in.');
+  });
   switchTab('overview');
 }
 
@@ -249,7 +256,7 @@ async function productsTab() {
   const { data: products } = await sb.from('products').select('*').order('kind').order('sort_order');
   const all = products || [];
   main().innerHTML = `
-    <div class="page-head"><div><h2>Products</h2><div class="sub">${all.filter((p) => p.kind === 'wheel').length} wheels · ${all.filter((p) => p.kind === 'accessory').length} accessories</div></div></div>
+    <div class="page-head"><div><h2>Products</h2><div class="sub">${all.filter((p) => p.kind === 'wheel').length} wheels · ${all.filter((p) => p.kind === 'accessory').length} accessories</div></div><button class="btn sm" id="addProduct" style="width:auto">+ Add product</button></div>
     <div class="toolbar"><input class="search" id="pSearch" placeholder="Search products…"/><select id="pKind"><option value="">All types</option><option value="wheel">Wheels</option><option value="accessory">Accessories</option></select></div>
     <div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr><th></th><th>Name</th><th>Brand</th><th>Type</th><th>Price</th><th>Status</th><th></th></tr></thead><tbody id="pBody"></tbody></table></div></div>`;
   const render = () => {
@@ -272,7 +279,124 @@ async function productsTab() {
       const p = all.find((x) => x.id === b.dataset.id); if (p) p.active = newA; render();
     }));
   };
-  $('#pSearch').addEventListener('input', render); $('#pKind').addEventListener('change', render); render();
+  $('#pSearch').addEventListener('input', render); $('#pKind').addEventListener('change', render);
+  $('#addProduct').addEventListener('click', () => openProductForm());
+  render();
+}
+
+/* ---------------- ADD PRODUCT ---------------- */
+const BRANDS = ['Aodhan', 'Mflow Racing', 'Vors'];
+const slugify = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+function variantRow() {
+  return `<tr class="vrow">
+    <td><input class="num-in v-size" style="width:80px" placeholder="18x9.5"/></td>
+    <td>$<input class="num-in v-price" type="number" placeholder="237"/></td>
+    <td><input class="v-finishes" style="width:150px;padding:6px 8px;background:var(--surface);border:1px solid var(--border);border-radius:7px;color:var(--text)" placeholder="Gloss Black, Bronze"/></td>
+    <td><input class="num-in v-bolt" style="width:90px" placeholder="5x114.3"/></td>
+    <td><input class="num-in v-offset" style="width:60px" placeholder="+35"/></td>
+    <td><input class="num-in v-cb" style="width:60px" placeholder="73.1"/></td>
+    <td><input class="num-in v-stock" type="number" value="0" style="width:60px"/></td>
+    <td><input type="checkbox" class="v-track"/></td>
+    <td><button type="button" class="btn ghost sm v-del">✕</button></td>
+  </tr>`;
+}
+function openProductForm() {
+  openModal(`
+    <button class="close" onclick="closeModal()">×</button>
+    <h3>Add product</h3>
+    <div class="seo-field" style="margin-top:12px"><label>Type</label>
+      <select id="fpType" style="width:100%;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text)">
+        <option value="wheel">Wheel</option><option value="accessory">Accessory</option>
+      </select>
+    </div>
+    <div id="wheelFields">
+      <div class="row">
+        <div class="seo-field" style="margin:0"><label>Brand</label><select id="fpBrand" style="width:100%;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text)">${BRANDS.map((b) => `<option>${b}</option>`).join('')}</select></div>
+        <div class="seo-field" style="margin:0"><label>Series (label)</label><input id="fpSeries" placeholder="AH Series — Multi-Spoke"/></div>
+      </div>
+      <div class="row">
+        <div class="seo-field" style="margin:0"><label>Model name</label><input id="fpName" placeholder="AODHAN AH12"/></div>
+        <div class="seo-field" style="margin:0"><label>Center bore</label><input id="fpCB" placeholder="73.1mm"/></div>
+      </div>
+      <div class="seo-field"><label>Main image URL</label><input id="fpImage" placeholder="https://…"/></div>
+      <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Sizes & pricing</label>
+      <div class="tbl-scroll"><table style="font-size:12px"><thead><tr><th>Size</th><th>Price</th><th>Finishes</th><th>Bolt</th><th>Offset</th><th>CB</th><th>Stock</th><th>Track</th><th></th></tr></thead><tbody id="vbody">${variantRow()}</tbody></table></div>
+      <button type="button" class="btn ghost sm" id="addVariant" style="margin-top:10px">+ Add size</button>
+    </div>
+    <div id="accFields" style="display:none">
+      <div class="row">
+        <div class="seo-field" style="margin:0"><label>Name</label><input id="faName" placeholder="Lug Nuts — Black"/></div>
+        <div class="seo-field" style="margin:0"><label>Price</label><input id="faPrice" type="number" placeholder="60"/></div>
+      </div>
+      <div class="row">
+        <div class="seo-field" style="margin:0"><label>Pack</label><input id="faPack" placeholder="Set of 20"/></div>
+        <div class="seo-field" style="margin:0"><label>Image URL</label><input id="faImage" placeholder="https://…"/></div>
+      </div>
+      <div class="seo-field"><label>Description</label><textarea id="faDesc"></textarea></div>
+    </div>
+    <div class="msg" id="fpMsg"></div>
+    <button class="btn" id="fpSave" style="margin-top:14px">Save product</button>`);
+
+  $('#fpType').addEventListener('change', () => {
+    const wheel = $('#fpType').value === 'wheel';
+    $('#wheelFields').style.display = wheel ? '' : 'none';
+    $('#accFields').style.display = wheel ? 'none' : '';
+  });
+  $('#addVariant').addEventListener('click', () => { $('#vbody').insertAdjacentHTML('beforeend', variantRow()); bindVdel(); });
+  const bindVdel = () => $$('.v-del').forEach((b) => { b.onclick = () => { if ($$('.vrow').length > 1) b.closest('tr').remove(); }; });
+  bindVdel();
+  $('#fpSave').addEventListener('click', saveProduct);
+}
+
+async function saveProduct() {
+  const msg = $('#fpMsg'); msg.className = 'msg';
+  const btn = $('#fpSave'); btn.disabled = true; btn.textContent = 'Saving…';
+  const fail = (m) => { msg.className = 'msg err'; msg.textContent = m; btn.disabled = false; btn.textContent = 'Save product'; };
+  try {
+    const type = $('#fpType').value;
+    if (type === 'accessory') {
+      const name = $('#faName').value.trim();
+      if (!name) return fail('Name is required.');
+      const slug = slugify(name);
+      const { error } = await sb.from('products').insert([{
+        slug, kind: 'accessory', name, acc_price: Number($('#faPrice').value) || 0,
+        acc_pack: $('#faPack').value.trim() || null, acc_desc: $('#faDesc').value.trim() || null,
+        images: $('#faImage').value.trim() ? [$('#faImage').value.trim()] : [], active: true, sort_order: 999,
+      }]);
+      if (error) return fail(error.message);
+    } else {
+      const name = $('#fpName').value.trim();
+      if (!name) return fail('Model name is required.');
+      const rows = $$('.vrow').map((r) => ({
+        size: r.querySelector('.v-size').value.trim(),
+        price: Number(r.querySelector('.v-price').value) || 0,
+        finishes: r.querySelector('.v-finishes').value.split(',').map((s) => s.trim()).filter(Boolean),
+        bolt: r.querySelector('.v-bolt').value.trim(),
+        offset: r.querySelector('.v-offset').value.trim(),
+        cb: r.querySelector('.v-cb').value.trim(),
+        stock: parseInt(r.querySelector('.v-stock').value || '0', 10),
+        track: r.querySelector('.v-track').checked,
+      })).filter((v) => v.size && v.price);
+      if (!rows.length) return fail('Add at least one size with a price.');
+      const slug = slugify(name);
+      const img = $('#fpImage').value.trim();
+      const { data: prod, error } = await sb.from('products').insert([{
+        slug, kind: 'wheel', brand: $('#fpBrand').value, series: $('#fpSeries').value.trim() || 'New Arrivals',
+        name, center_bore: $('#fpCB').value.trim() || null, images: img ? [img] : [], active: true, sort_order: 999,
+      }]).select('id').single();
+      if (error) return fail(error.message);
+      const variants = rows.map((v) => ({
+        product_id: prod.id, size: v.size, price: v.price, finishes: v.finishes,
+        bolt_patterns: v.bolt ? [v.bolt] : [], offsets: v.offset ? [v.offset] : [],
+        bolt_configs: v.bolt ? [{ bolt: v.bolt, offset: v.offset, cb: v.cb }] : null,
+        stock: v.stock, track_stock: v.track, image: img || null,
+      }));
+      const { error: ve } = await sb.from('product_variants').insert(variants);
+      if (ve) return fail('Product saved but sizes failed: ' + ve.message);
+    }
+    closeModal();
+    productsTab();
+  } catch (e) { fail(e.message); }
 }
 
 /* ---------------- INVENTORY ---------------- */
