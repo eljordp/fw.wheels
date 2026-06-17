@@ -2228,6 +2228,15 @@ section {
 }
 .lead-sms input { width: 15px; height: 15px; accent-color: var(--accent); }
 .lead-msg { margin: 10px 0 0; font-size: 0.85rem; min-height: 1em; }
+
+/* Back-in-stock notify box (wheel modal) */
+.fw-notify { margin-top: 12px; padding: 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; }
+.fw-notify-label { margin: 0 0 10px; font-size: 0.9rem; color: var(--text-muted); }
+.fw-notify-row { display: flex; gap: 8px; }
+.fw-notify-row input { flex: 1; min-width: 0; padding: 11px 13px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); }
+.fw-notify-row input:focus { outline: none; border-color: var(--accent); }
+.fw-notify-row .btn { white-space: nowrap; padding: 11px 18px; }
+.fw-notify-msg { margin: 8px 0 0; font-size: 0.82rem; min-height: 1em; }
 @media (max-width: 700px) {
   .footer-signup { flex-direction: column; align-items: flex-start; gap: 16px; }
   .footer-signup .lead-form { width: 100%; max-width: none; }

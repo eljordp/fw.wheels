@@ -2228,6 +2228,7 @@ function openWheelModal(wheelId, preferred = {}) {
   document.getElementById('sizeSelect').addEventListener('change', (e) => {
     updateModalVariant(wheelId, e.target.value);
     updatePriceDisplay();
+    fwApplyStockState(wheelId);
   });
 
   // Quantity stepper — default to 4 wheels
@@ -2243,6 +2244,7 @@ function openWheelModal(wheelId, preferred = {}) {
 
   updateModalVariant(wheelId, defaultSize, preferred);
   updatePriceDisplay();
+  fwApplyStockState(wheelId);
 
   // Spec chart toggle
   const specToggle = document.getElementById('specChartToggle');
@@ -2522,9 +2524,64 @@ document.querySelectorAll('.df-card[data-accessory]').forEach(card => {
 });
 
 // "Add to Cart" — gather current selections, add item, then show Don't Forget popup
+// Toggle the modal's primary button between "Add to Cart" and "Notify me" based
+// on whether the selected size is sold out; also label sold-out options.
+function fwApplyStockState(wheelId) {
+  const sel = document.getElementById('sizeSelect');
+  if (!sel || !modalQuoteBtn) return;
+  Array.from(sel.options).forEach(o => {
+    o.textContent = o.value + (fwIsSoldOut(wheelId, o.value) ? ' — Sold out' : '');
+  });
+  const existing = document.getElementById('fwNotifyBox');
+  if (existing) existing.remove();
+  if (fwIsSoldOut(wheelId, sel.value)) {
+    modalQuoteBtn.textContent = "🔔 Notify Me When It's Back";
+    modalQuoteBtn.dataset.mode = 'notify';
+  } else {
+    modalQuoteBtn.textContent = 'Add to Cart';
+    modalQuoteBtn.dataset.mode = 'cart';
+  }
+}
+
+// Inline email capture for back-in-stock notifications → leads table.
+function fwOpenNotify(wheelId) {
+  if (document.getElementById('fwNotifyBox')) { document.getElementById('fwNotifyEmail').focus(); return; }
+  const size = document.getElementById('sizeSelect').value;
+  const name = (wheelData[wheelId] && wheelData[wheelId].name) || 'this wheel';
+  const box = document.createElement('div');
+  box.id = 'fwNotifyBox';
+  box.className = 'fw-notify';
+  box.innerHTML = '<p class="fw-notify-label">We\'ll email you the second the ' + name + ' (' + size + ') is back in stock.</p>'
+    + '<div class="fw-notify-row"><input type="email" id="fwNotifyEmail" placeholder="Your email" autocomplete="email" />'
+    + '<button type="button" class="btn btn-primary" id="fwNotifySend">Notify me</button></div>'
+    + '<p class="fw-notify-msg" id="fwNotifyMsg"></p>';
+  modalQuoteBtn.insertAdjacentElement('afterend', box);
+  document.getElementById('fwNotifyEmail').focus();
+  document.getElementById('fwNotifySend').addEventListener('click', function () {
+    const email = document.getElementById('fwNotifyEmail').value.trim();
+    const msg = document.getElementById('fwNotifyMsg');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { msg.textContent = 'Enter a valid email.'; msg.style.color = '#ff8088'; return; }
+    const U = window.FW_SUPABASE_URL, A = window.FW_SUPABASE_ANON;
+    if (!U || !A) { msg.textContent = 'Try again later.'; msg.style.color = '#ff8088'; return; }
+    const b = document.getElementById('fwNotifySend'); b.disabled = true; b.textContent = '…';
+    fetch(U + '/rest/v1/leads', {
+      method: 'POST',
+      headers: { apikey: A, Authorization: 'Bearer ' + A, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+      body: JSON.stringify({ email: email, source: 'notify-back-in-stock', product_slug: wheelId, meta: { size: size, name: name } }),
+    }).then(function (r) {
+      b.disabled = false; b.textContent = 'Notify me';
+      if (r.ok || r.status === 409) {
+        box.innerHTML = '<p class="fw-notify-label" style="color:#3ba776">Done — we\'ll let you know the moment it\'s back.</p>';
+        if (window.fwTrack) window.fwTrack('notify_request', { product_slug: wheelId, size: size, meta: { name: name } });
+      } else { msg.textContent = 'Could not save. Try again.'; msg.style.color = '#ff8088'; }
+    }).catch(function () { b.disabled = false; b.textContent = 'Notify me'; msg.textContent = 'Network error.'; msg.style.color = '#ff8088'; });
+  });
+}
+
 modalQuoteBtn.addEventListener('click', () => {
   const wheelId = modalQuoteBtn.dataset.wheel;
   if (!wheelId) return;
+  if (modalQuoteBtn.dataset.mode === 'notify') { fwOpenNotify(wheelId); return; }
   const wheel = wheelData[wheelId];
   const size = document.getElementById('sizeSelect').value;
   const qty = parseInt(document.getElementById('qtyValue').textContent) || 4;
@@ -3385,6 +3442,8 @@ function pickCardDefaultFinish(id, finishes, finishImgMap) {
 }
 
 let hiddenWheels = new Set();
+const FW_SOLD_OUT = new Set(); // "slug|size" entries that are out of stock
+function fwIsSoldOut(slug, size) { return FW_SOLD_OUT.has(slug + '|' + size); }
 function applyWheelCards() {
   document.querySelectorAll('.wheel-card').forEach(card => {
   const id = card.dataset.wheel;
@@ -3537,8 +3596,8 @@ async function syncCatalogFromDB() {
         return;
       }
       const isNew = !wheelData[p.slug];
-      const liveVariants = (p.product_variants || []).filter(v => !(v.active === false || (v.track_stock && Number(v.stock) <= 0)));
-      if (!liveVariants.length) { return; } // nothing in stock → don't show (built-in handled by hiddenWheels below)
+      const variants = p.product_variants || [];
+      if (!variants.length) return;
 
       if (isNew) {
         // Build a full catalog entry from the DB so the modal + cards work.
@@ -3553,16 +3612,13 @@ async function syncCatalogFromDB() {
         wheelBoltConfigs[p.slug] = {};
       } else {
         wheelPrices[p.slug] = wheelPrices[p.slug] || {};
-        // drop sold-out sizes from the built-in entry
-        (p.product_variants || []).forEach(v => {
-          if (v.active === false || (v.track_stock && Number(v.stock) <= 0)) {
-            if (wheelData[p.slug].variants) delete wheelData[p.slug].variants[v.size];
-            delete wheelPrices[p.slug][v.size];
-          }
-        });
       }
 
-      liveVariants.forEach(v => {
+      // Keep every size visible (so "notify me when back" can show); flag sold-out ones.
+      variants.forEach(v => {
+        const soldOut = v.active === false || (v.track_stock && Number(v.stock) <= 0);
+        const key = p.slug + '|' + v.size;
+        if (soldOut) FW_SOLD_OUT.add(key); else FW_SOLD_OUT.delete(key);
         wheelPrices[p.slug][v.size] = Number(v.price);
         if (v.price_overrides) colorPriceOverrides[p.slug] = v.price_overrides;
         if (isNew) {
