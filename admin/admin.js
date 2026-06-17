@@ -99,7 +99,7 @@ function switchTab(tab) {
   currentTab = tab;
   $$('#nav .nav-item').forEach((n) => n.classList.toggle('active', n.dataset.tab === tab));
   main().innerHTML = '<div class="loading">Loading…</div>';
-  const fn = { overview, orders: ordersTab, products: productsTab, inventory: inventoryTab, customers: customersTab, leads: leadsTab, analytics: analyticsTab, seo: seoTab }[tab];
+  const fn = { overview, orders: ordersTab, products: productsTab, inventory: inventoryTab, customers: customersTab, leads: leadsTab, analytics: analyticsTab, seo: seoTab, worklog: worklogTab }[tab];
   fn().catch((e) => { main().innerHTML = `<div class="empty">Error: ${esc(e.message)}</div>`; console.error(e); });
 }
 async function refreshData() {
@@ -749,5 +749,152 @@ async function loadGSC() {
 function openModal(html) { $('#modalRoot').innerHTML = `<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal">${html}</div></div>`; }
 function closeModal() { $('#modalRoot').innerHTML = ''; }
 window.closeModal = closeModal;
+
+/* ---------------- Work Log ---------------- */
+const WORK_LOG = [
+  { date: '2026-06-17', cat: 'Admin', title: 'Owner admin + lead capture polish', detail: 'Footer lead capture is now no-friction — buyers and already-subscribed visitors stop seeing the prompt. Added this Work Log tab so you can see every update in one place.', items: [
+    'Hidden the footer signup form for visitors who already signed up or just completed checkout',
+    'Captures Stripe success redirects automatically (no double-prompts after a purchase)',
+    'Built this Work Log tab so the build history lives inside the real admin',
+  ] },
+  { date: '2026-06-16', cat: 'Admin', title: 'Inventory portal + Owner admin foundations', detail: 'Spun up the owner admin with inventory status controls and laid the foundation for the rest of the admin tabs.', items: [
+    'Inventory admin with status controls (Active, Preorder, Backorder, Sold out, Hidden) and per-product owner notes',
+    'One-click Copy / Download JSON to publish inventory updates to the live site',
+    'Notify-me-when-back-in-stock capture on out-of-stock products',
+  ] },
+  { date: '2026-06-15', cat: 'Analytics', title: 'GA4 + lead capture + admin Leads tab', detail: 'Added Google Analytics 4 across the site, plus an email/SMS lead capture wired to a new Leads tab in the admin.', items: [
+    'Added Google Analytics 4 (G-DB1RHQBZX5) via shared ga.js on all storefront pages',
+    'Built the email + SMS lead capture and the matching Leads tab in this admin',
+    'Notify-me on back-in-stock now flows into Leads too',
+  ] },
+  { date: '2026-06-05', cat: 'Store', title: 'Storefront fitment + silver defaults', detail: 'Polished the buyer experience: fitment search on the storefront and silver as the default wheel finish.', items: [
+    'Shipped storefront fitment so customers can find wheels by year/make/model',
+    'Defaulted all wheel cards to silver finish for consistency',
+    'Fixed valve stem accessory image',
+  ] },
+  { date: '2026-05-17', cat: 'Store', title: 'Full e-commerce live', detail: 'Cart drawer plus Stripe Checkout — the site now sells directly.', items: [
+    'Built the cart drawer (add, remove, edit quantities)',
+    'Integrated Stripe Checkout for live payments',
+    'Wired the post-payment notification email so you get pinged on every order',
+  ] },
+  { date: '2026-05-07', cat: 'Fixes', title: 'MFlow inventory + phone number', detail: 'Bug-fix sweep, MFlow data refresh, and contact phone surfaced.', items: [
+    'Refreshed MFlow inventory data',
+    'Added phone number to contact details',
+    "Removed the Builds section that didn't fit the shop flow",
+    'Multiple small bug fixes',
+  ] },
+  { date: '2026-04-21', cat: 'Data', title: 'Real pricing + Vors bolt configs + video hero', detail: 'Replaced placeholders with real manufacturer pricing, added bolt configurations, and a cinematic video hero.', items: [
+    'Pulled real pricing from manufacturer inventory spreadsheets across all brands',
+    'Added complete Vors bolt configurations from the inventory spreadsheet',
+    'Merged bolt and offset into one filter (cleaner UX)',
+    'Added gallery carousel',
+    'Replaced static hero with looping dark cinematic wheel close-up (400 KB, lightweight)',
+  ] },
+  { date: '2026-04-20', cat: 'Design', title: 'Dark theme overhaul — kill the AI look', detail: 'A big day of design upgrades: dark theme, Barlow typography, accessories lineup, sizing chart, weight + lip data, reviews section.', items: [
+    'Full dark theme overhaul to kill the AI-template look',
+    'Switched typography from Inter to Barlow (tighter, more automotive feel)',
+    'Matched every wheel to the correct offsets per bolt pattern across all 3 brands',
+    'Added Vors and MFlow weight + lip data, fixed MFlow pricing',
+    'Locked contact to Instagram only',
+    'Added sizing chart, weight/lip specs, and a reviews section',
+    'Added a full accessories lineup',
+  ] },
+  { date: '2026-04-11', cat: 'Imagery', title: "Image fixes + Enay's 4/1 change list", detail: "Knocked out Enay's requested fixes and corrected three broken wheel card images.", items: [
+    'Fixed 3 broken Vors wheel card images',
+    'Fixed SP1 card and modal images via Shopify CDN',
+    "Implemented Enay's 4/1 change list end-to-end",
+  ] },
+  { date: '2026-03-28', cat: 'Imagery', title: "Enay's feedback round", detail: "Implemented Enay's feedback list and fixed several wheel images.", items: [
+    'Implemented 5 feedback items from Enay',
+    'Fixed AFF3 images (corrected CDN path)',
+    'Fixed DS06 card image — bronze to silver to match the DS family',
+  ] },
+  { date: '2026-03-18', cat: 'Store', title: 'Catalog upgrade — nav, modal, pricing', detail: '3-level navigation, finish/bolt/size selection in modals, set-of-4 discount, and hero image work.', items: [
+    'Built a 3-level nav accordion with brand dropdowns and series flyouts',
+    'Added finish selection, bolt pattern selection, and set-of-4 discount in the wheel modal',
+    'Brand-click now shows series tabs only (not all wheels at once)',
+    'Added the model jump, size select, qty stepper, and free shipping badge',
+    'Fixed brand set price ranges (computed dynamically)',
+    'Fixed set-of-4 pricing to show full range when prices vary by size',
+    'Made the hero full viewport height (44vh → 100vh) with background image and dark overlay',
+  ] },
+  { date: '2026-03-06', cat: 'Imagery', title: 'Per-finish images + Vors brand + light theme redesign', detail: 'Added live finish-swatch image swaps for every wheel, added Vors as a third brand, and redesigned the site with a clean light theme.', items: [
+    'Per-finish image map for all wheel models — swatch clicks show correct finish images',
+    'Added Vors as a third brand with full catalog and per-size dynamic filtering',
+    'Redesigned the site (Aodhan-style light theme — later replaced with the dark overhaul)',
+    'Fixed 6 broken Vors modal images (dead vorswheels.com URLs)',
+    'All MFlow thumbnails switched to bronze/gold with interactive finish swatches',
+    'Mobile optimization: tighter typography, spacing, touch targets',
+  ] },
+  { date: '2026-03-03', cat: 'Store', title: 'Mflow brand + series tabs + image perf', detail: 'Added the Mflow Racing brand with full catalog, plus series sub-tabs and faster image loading.', items: [
+    'Added Mflow Racing brand with full wheel catalog',
+    'Built series sub-category tabs for Aodhan and Mflow',
+    'Optimized image loading via Shopify CDN resizing + async decoding',
+  ] },
+  { date: '2026-03-02', cat: 'Mobile', title: 'Mobile-first pass + Aodhan upgrades', detail: 'Full mobile pass and real Aodhan wheel data with detail modals.', items: [
+    'Mobile-optimized the entire site',
+    'Added real Aodhan wheel images, specs, and detail modal',
+  ] },
+  { date: '2026-02-26', cat: 'Launch', title: 'FW Wheels site launch', detail: 'Initial launch — dark theme with brand catalog.', items: [
+    'Initial fw.wheels website live: dark theme, brand catalog, basic product cards',
+  ] },
+];
+
+async function worklogTab() {
+  const days = new Set(WORK_LOG.map(e => e.date)).size;
+  const months = new Set(WORK_LOG.map(e => e.date.slice(0, 7))).size;
+  const lineItems = WORK_LOG.reduce((s, e) => s + e.items.length, 0);
+  const first = WORK_LOG[WORK_LOG.length - 1].date;
+
+  main().innerHTML = `
+    <div class="page-head">
+      <div>
+        <h2>Work Log</h2>
+        <p class="sub">Every update shipped on FW Wheels, from launch to now. Newest first.</p>
+      </div>
+    </div>
+    <div class="kpis">
+      ${kpiCard('Build sessions', days)}
+      ${kpiCard('Months active', months)}
+      ${kpiCard('Updates shipped', WORK_LOG.length)}
+      ${kpiCard('Line items', lineItems)}
+      ${kpiCard('First build', fmtDate(first))}
+    </div>
+    <div class="panel" style="padding:0">
+      ${WORK_LOG.map((e, i) => `
+        <div class="wl-row" data-i="${i}" style="border-bottom:1px solid var(--border)">
+          <button class="wl-head" data-i="${i}" style="background:transparent;border:none;color:var(--text);width:100%;text-align:left;padding:16px 20px;display:grid;grid-template-columns:90px 1fr 20px;gap:16px;align-items:start">
+            <div>
+              <div style="font-weight:700;font-size:13.5px">${fmtDate(e.date)}</div>
+              <div style="font-size:11.5px;color:var(--muted)">${e.date.slice(0,4)}</div>
+            </div>
+            <div style="min-width:0">
+              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:4px">
+                <span class="pill" style="background:rgba(74,120,194,.18);color:#8fb4ec">${e.cat}</span>
+                <span style="font-weight:700;font-size:14px">${esc(e.title)}</span>
+                <span style="font-size:11.5px;color:var(--muted)">· ${e.items.length} ${e.items.length === 1 ? 'item' : 'items'}</span>
+              </div>
+              <div style="font-size:13px;color:var(--muted);line-height:1.55">${esc(e.detail)}</div>
+            </div>
+            <span class="wl-chev" style="color:var(--muted);font-size:13px;padding-top:6px;transition:transform .2s">▾</span>
+          </button>
+          <ul class="wl-items" style="display:none;list-style:none;margin:0;padding:0 20px 18px calc(90px + 16px + 20px)">
+            ${e.items.map(it => `<li style="display:flex;gap:10px;font-size:13px;line-height:1.55;padding:4px 0"><span style="color:var(--accent)">•</span><span>${esc(it)}</span></li>`).join('')}
+          </ul>
+        </div>
+      `).join('')}
+    </div>
+    <p class="muted" style="font-size:12.5px;margin-top:14px">Tap any day to see the full breakdown. Maintained by JP — always current.</p>
+  `;
+
+  $$('.wl-head').forEach(btn => btn.addEventListener('click', () => {
+    const row = btn.closest('.wl-row');
+    const items = row.querySelector('.wl-items');
+    const chev = row.querySelector('.wl-chev');
+    const open = items.style.display !== 'none';
+    items.style.display = open ? 'none' : 'block';
+    chev.style.transform = open ? 'none' : 'rotate(180deg)';
+  }));
+}
 
 init();
