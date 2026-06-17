@@ -668,7 +668,13 @@ async function loadGSC() {
         <b>Not connected yet.</b><br><span class="muted">Live Google data turns on once the Search Console service account is linked to fwwheelz.com. Until then, the keyword table above is your tracker.</span></div>`;
       return;
     }
-    if (data.error) { box.innerHTML = `<div class="empty" style="padding:24px">Search Console error: ${esc(data.error)}</div>`; return; }
+    if (data.error) {
+      const perm = /permission|not found|insufficient/i.test(data.error);
+      box.innerHTML = perm
+        ? `<div class="empty" style="padding:24px;text-align:left"><b>Almost connected.</b><br><span class="muted">The Google service account is set up but hasn't been given access to the fwwheelz.com property yet. Add <b>tss-gsc-reader@the-sticker-smith.iam.gserviceaccount.com</b> as a user in Search Console (Settings → Users and permissions) and live data shows up here.</span></div>`
+        : `<div class="empty" style="padding:24px">Search Console error: ${esc(data.error)}</div>`;
+      return;
+    }
     const q = data.queries || [];
     if (!q.length) { box.innerHTML = '<div class="empty" style="padding:24px">No search impressions yet (new site). Check back as Google starts showing FW Wheels.</div>'; return; }
     box.innerHTML = `<div class="tbl-scroll"><table><thead><tr><th>Search query</th><th>Clicks</th><th>Impressions</th><th>CTR</th><th>Avg position</th></tr></thead><tbody>
