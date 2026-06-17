@@ -2237,6 +2237,8 @@ section {
 .fw-notify-row input:focus { outline: none; border-color: var(--accent); }
 .fw-notify-row .btn { white-space: nowrap; padding: 11px 18px; }
 .fw-notify-msg { margin: 8px 0 0; font-size: 0.82rem; min-height: 1em; }
+.fw-low-stock { margin: 0 0 12px; padding: 8px 12px; font-size: 0.85rem; font-weight: 600; color: #d6452b; background: rgba(214, 69, 43, 0.08); border: 1px solid rgba(214, 69, 43, 0.25); border-radius: 8px; }
+.fw-low-stock strong { font-weight: 800; }
 @media (max-width: 700px) {
   .footer-signup { flex-direction: column; align-items: flex-start; gap: 16px; }
   .footer-signup .lead-form { width: 100%; max-width: none; }

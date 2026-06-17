@@ -426,30 +426,38 @@ async function inventoryTab() {
   const lowCount = all.filter((v) => v.track_stock && v.stock <= v.low_stock_at).length;
   main().innerHTML = `
     <div class="page-head"><div><h2>Inventory</h2><div class="sub">${all.length} SKUs · ${lowCount} low/out of stock</div></div></div>
+    <div class="muted" style="margin:-4px 0 14px;font-size:13px;line-height:1.5">
+      <b>How this works:</b> SKUs are <b>Made to order</b> (always available) unless you tick <b>Track stock</b>.
+      Tick it for a size you actually count, then set <b>Stock</b> + a <b>Low&nbsp;at</b> threshold.
+      When stock drops to that threshold, the site shows <b>“🔥 Only X left”</b> on that size to push the sale. Hit 0 → it flips to “Sold out” + a notify-me capture.
+    </div>
     <div class="toolbar">
       <input class="search" id="iSearch" placeholder="Search by model or size…"/>
       <select id="iFilter"><option value="">All SKUs</option><option value="tracked">Stock-tracked</option><option value="low">Low / out of stock</option></select>
-      <span class="muted" style="margin-left:auto">Edit price & stock inline — saves on change</span>
+      <span class="muted" style="margin-left:auto">Edit inline — saves on change</span>
     </div>
-    <div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr><th>Model</th><th>Size</th><th>Price</th><th>Track stock</th><th>Stock</th><th>Status</th></tr></thead><tbody id="iBody"></tbody></table></div></div>`;
+    <div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr><th>Model</th><th>Size</th><th>Price</th><th>Track stock</th><th>Stock</th><th>Low at</th><th>Status</th></tr></thead><tbody id="iBody"></tbody></table></div></div>`;
   const render = () => {
     const q = $('#iSearch').value.toLowerCase(), f = $('#iFilter').value;
     let rows = all.filter((v) => !q || `${v._p.name} ${v.size} ${v._p.brand}`.toLowerCase().includes(q));
     if (f === 'tracked') rows = rows.filter((v) => v.track_stock);
     if (f === 'low') rows = rows.filter((v) => v.track_stock && v.stock <= v.low_stock_at);
     $('#iBody').innerHTML = rows.map((v) => {
-      const status = !v.track_stock ? '<span class="pill ok">available</span>' : v.stock <= 0 ? '<span class="pill out">out</span>' : v.stock <= v.low_stock_at ? '<span class="pill low">low</span>' : '<span class="pill ok">in stock</span>';
+      const lowAt = v.low_stock_at == null ? 3 : v.low_stock_at;
+      const status = !v.track_stock ? '<span class="pill ok">made to order</span>' : v.stock <= 0 ? '<span class="pill out">sold out</span>' : v.stock <= lowAt ? `<span class="pill low">🔥 only ${v.stock} left</span>` : '<span class="pill ok">in stock</span>';
       return `<tr>
         <td><b>${esc(v._p.name || '—')}</b><br><span class="muted">${esc(v._p.brand || '')}</span></td>
         <td>${esc(v.size)}</td>
         <td>$<input class="num-in price-in" data-id="${v.id}" type="number" step="1" value="${Number(v.price)}"/></td>
         <td><input type="checkbox" class="track-in" data-id="${v.id}" ${v.track_stock ? 'checked' : ''}/></td>
-        <td><input class="num-in stock-in" data-id="${v.id}" type="number" step="1" value="${v.stock}" ${v.track_stock ? '' : 'disabled'}/></td>
+        <td>${v.track_stock ? `<input class="num-in stock-in" data-id="${v.id}" type="number" step="1" value="${v.stock}"/>` : '<span class="muted">made to order</span>'}</td>
+        <td>${v.track_stock ? `<input class="num-in low-in" data-id="${v.id}" type="number" step="1" min="1" value="${lowAt}" style="width:56px" title="Show ‘Only X left’ urgency at or below this number"/>` : '<span class="muted">—</span>'}</td>
         <td>${status}</td>
       </tr>`;
-    }).join('') || '<tr><td colspan="6" class="empty">No SKUs.</td></tr>';
+    }).join('') || '<tr><td colspan="7" class="empty">No SKUs.</td></tr>';
     $$('.price-in').forEach((el) => el.addEventListener('change', async () => { await sb.from('product_variants').update({ price: Number(el.value) }).eq('id', el.dataset.id); flash(el); }));
     $$('.stock-in').forEach((el) => el.addEventListener('change', async () => { await sb.from('product_variants').update({ stock: parseInt(el.value || 0, 10) }).eq('id', el.dataset.id); const v = all.find((x) => x.id === el.dataset.id); if (v) v.stock = parseInt(el.value || 0, 10); flash(el); render(); }));
+    $$('.low-in').forEach((el) => el.addEventListener('change', async () => { const n = Math.max(1, parseInt(el.value || 1, 10)); await sb.from('product_variants').update({ low_stock_at: n }).eq('id', el.dataset.id); const v = all.find((x) => x.id === el.dataset.id); if (v) v.low_stock_at = n; flash(el); render(); }));
     $$('.track-in').forEach((el) => el.addEventListener('change', async () => { await sb.from('product_variants').update({ track_stock: el.checked }).eq('id', el.dataset.id); const v = all.find((x) => x.id === el.dataset.id); if (v) v.track_stock = el.checked; render(); }));
   };
   const flash = (el) => { el.style.borderColor = 'var(--green)'; setTimeout(() => (el.style.borderColor = ''), 600); };

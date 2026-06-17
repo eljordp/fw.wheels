@@ -2530,16 +2530,29 @@ function fwApplyStockState(wheelId) {
   const sel = document.getElementById('sizeSelect');
   if (!sel || !modalQuoteBtn) return;
   Array.from(sel.options).forEach(o => {
-    o.textContent = o.value + (fwIsSoldOut(wheelId, o.value) ? ' — Sold out' : '');
+    const left = fwLowLeft(wheelId, o.value);
+    o.textContent = o.value
+      + (fwIsSoldOut(wheelId, o.value) ? ' — Sold out' : (left ? ' — Only ' + left + ' left' : ''));
   });
   const existing = document.getElementById('fwNotifyBox');
   if (existing) existing.remove();
+  // Low-stock urgency banner for the currently selected size.
+  const urgEl = document.getElementById('fwLowStock');
+  if (urgEl) urgEl.remove();
   if (fwIsSoldOut(wheelId, sel.value)) {
     modalQuoteBtn.textContent = "🔔 Notify Me When It's Back";
     modalQuoteBtn.dataset.mode = 'notify';
   } else {
     modalQuoteBtn.textContent = 'Add to Cart';
     modalQuoteBtn.dataset.mode = 'cart';
+    const left = fwLowLeft(wheelId, sel.value);
+    if (left) {
+      const tag = document.createElement('p');
+      tag.id = 'fwLowStock';
+      tag.className = 'fw-low-stock';
+      tag.innerHTML = '🔥 Selling fast — only <strong>' + left + '</strong> set' + (left === 1 ? '' : 's') + ' left at this size';
+      modalQuoteBtn.insertAdjacentElement('beforebegin', tag);
+    }
   }
 }
 
@@ -3443,7 +3456,9 @@ function pickCardDefaultFinish(id, finishes, finishImgMap) {
 
 let hiddenWheels = new Set();
 const FW_SOLD_OUT = new Set(); // "slug|size" entries that are out of stock
+const FW_LOW = new Map(); // "slug|size" -> units left, for low-stock urgency
 function fwIsSoldOut(slug, size) { return FW_SOLD_OUT.has(slug + '|' + size); }
+function fwLowLeft(slug, size) { return FW_LOW.get(slug + '|' + size); }
 function applyWheelCards() {
   document.querySelectorAll('.wheel-card').forEach(card => {
   const id = card.dataset.wheel;
@@ -3581,7 +3596,7 @@ async function syncCatalogFromDB() {
   if (!URL || !ANON) return;
   try {
     const q = 'products?select=slug,kind,active,brand,series,name,center_bore,images,acc_price,acc_pack,acc_desc,'
-      + 'product_variants(size,price,finishes,bolt_patterns,offsets,bolt_offsets,bolt_configs,price_overrides,stock,track_stock,active,image)'
+      + 'product_variants(size,price,finishes,bolt_patterns,offsets,bolt_offsets,bolt_configs,price_overrides,stock,track_stock,low_stock_at,active,image)'
       + '&active=eq.true&order=sort_order';
     const res = await fetch(URL + '/rest/v1/' + q, { headers: { apikey: ANON, Authorization: 'Bearer ' + ANON } });
     if (!res.ok) return;
@@ -3619,6 +3634,11 @@ async function syncCatalogFromDB() {
         const soldOut = v.active === false || (v.track_stock && Number(v.stock) <= 0);
         const key = p.slug + '|' + v.size;
         if (soldOut) FW_SOLD_OUT.add(key); else FW_SOLD_OUT.delete(key);
+        // Low-stock urgency: only when actively tracking, in stock, and at/under the threshold.
+        const lowAt = v.low_stock_at == null ? 3 : Number(v.low_stock_at);
+        if (!soldOut && v.track_stock && Number(v.stock) > 0 && Number(v.stock) <= lowAt) {
+          FW_LOW.set(key, Number(v.stock));
+        } else { FW_LOW.delete(key); }
         wheelPrices[p.slug][v.size] = Number(v.price);
         if (v.price_overrides) colorPriceOverrides[p.slug] = v.price_overrides;
         if (isNew) {
