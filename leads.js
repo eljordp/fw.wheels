@@ -1,6 +1,27 @@
 // Newsletter / lead capture — posts to Supabase `leads` (anon insert allowed by RLS).
+// Hides the signup UI for visitors who already subscribed or completed checkout
+// so returning customers never get prompted again.
 (function () {
   var URL = window.FW_SUPABASE_URL, ANON = window.FW_SUPABASE_ANON;
+  var FLAG = 'fw_subscribed';
+
+  function isSubscribed() {
+    try { return localStorage.getItem(FLAG) === '1'; } catch (_) { return false; }
+  }
+  function markSubscribed() {
+    try { localStorage.setItem(FLAG, '1'); } catch (_) {}
+    hideAllSignupBlocks();
+  }
+  function hideAllSignupBlocks() {
+    document.querySelectorAll('.footer-signup, [data-signup-block]').forEach(function (el) {
+      el.style.display = 'none';
+    });
+  }
+  // Stripe success redirect — mark them so the signup form goes away post-checkout.
+  function captureCheckoutSuccess() {
+    if (location.search.indexOf('checkout=success') === -1) return;
+    markSubscribed();
+  }
 
   function wire(form) {
     if (!form || form.dataset.wired) return;
@@ -39,11 +60,13 @@
         if (r.ok) {
           form.reset();
           show(msg, "You're on the list. We'll hit you with drops & restocks.", true);
+          markSubscribed();
           if (window.fwTrack) window.fwTrack('lead_signup', { meta: { source: form.dataset.source || 'footer' } });
         } else if (r.status === 409) {
-          // already subscribed (unique email) — treat as success
+          // already subscribed (unique email) — treat as success and flag
           form.reset();
           show(msg, "You're already on the list — you're good.", true);
+          markSubscribed();
         } else {
           show(msg, 'Could not sign you up. Try again.', false);
         }
@@ -60,7 +83,14 @@
     el.style.color = ok ? '#3ba776' : '#ff8088';
   }
 
-  function init() { document.querySelectorAll('form.lead-form').forEach(wire); }
+  function init() {
+    captureCheckoutSuccess();
+    if (isSubscribed()) {
+      hideAllSignupBlocks();
+      return;
+    }
+    document.querySelectorAll('form.lead-form').forEach(wire);
+  }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();
