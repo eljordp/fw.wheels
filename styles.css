@@ -2395,7 +2395,10 @@ section {
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.3);
-    z-index: 1000;
+    /* Must sit BELOW the navbar (z-index:1000). The mobile menu (.nav-links)
+       lives inside the navbar's stacking context, so an equal/higher backdrop
+       z-index paints over the menu and swallows link taps. */
+    z-index: 999;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s;
@@ -2653,6 +2656,18 @@ section {
     max-height: 95dvh;
     border-radius: var(--radius) var(--radius) 0 0;
     border-bottom: none;
+  }
+
+  /* Keep the primary CTA ("Add to Cart") pinned to the bottom of the modal so
+     it's always visible on short phones. Without this the image + option
+     dropdowns push the button below the fold and users can't reach checkout. */
+  .wheel-modal .modal-quote-btn {
+    position: sticky;
+    bottom: 0;
+    margin-top: 12px;
+    z-index: 5;
+    /* Solid backing so scrolling content doesn't bleed under the button. */
+    box-shadow: 0 -14px 14px -6px var(--bg-card);
   }
 
   .modal-content {
