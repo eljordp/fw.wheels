@@ -99,7 +99,7 @@ function switchTab(tab) {
   currentTab = tab;
   $$('#nav .nav-item').forEach((n) => n.classList.toggle('active', n.dataset.tab === tab));
   main().innerHTML = '<div class="loading">Loading…</div>';
-  const fn = { overview, orders: ordersTab, products: productsTab, inventory: inventoryTab, customers: customersTab, analytics: analyticsTab, seo: seoTab }[tab];
+  const fn = { overview, orders: ordersTab, products: productsTab, inventory: inventoryTab, customers: customersTab, leads: leadsTab, analytics: analyticsTab, seo: seoTab }[tab];
   fn().catch((e) => { main().innerHTML = `<div class="empty">Error: ${esc(e.message)}</div>`; console.error(e); });
 }
 async function refreshData() {
@@ -482,6 +482,48 @@ async function customersTab() {
       </tr>`).join('') || '<tr><td colspan="5" class="empty">No customers yet.</td></tr>';
   };
   $('#cSearch').addEventListener('input', render); render();
+}
+
+/* ---------------- LEADS ---------------- */
+async function leadsTab() {
+  const { data: leads } = await sb.from('leads').select('*').order('created_at', { ascending: false }).limit(2000);
+  const all = leads || [];
+  const since7 = daysAgo(7);
+  const week = all.filter((l) => l.created_at >= since7).length;
+  const sms = all.filter((l) => l.sms_opt_in).length;
+  const withPhone = all.filter((l) => l.phone).length;
+  main().innerHTML = `
+    <div class="page-head"><div><h2>Leads</h2><div class="sub">Email & SMS signups from the storefront</div></div>${all.length ? '<button class="btn sm" id="leadCsv" style="width:auto">Export CSV</button>' : ''}</div>
+    <div class="kpis">
+      ${kpiCard('Total leads', all.length, null)}
+      ${kpiCard('New (7 days)', week, { dir: 'up', text: 'last 7 days' })}
+      ${kpiCard('SMS opt-ins', sms, { dir: 'up', text: all.length ? `${((sms / all.length) * 100).toFixed(0)}% of list` : '' })}
+      ${kpiCard('Phone numbers', withPhone, null)}
+    </div>
+    <div class="toolbar"><input class="search" id="lSearch" placeholder="Search email or phone…"/></div>
+    <div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr><th>Email</th><th>Phone</th><th>SMS</th><th>Source</th><th>Date</th></tr></thead><tbody id="lBody"></tbody></table></div></div>`;
+  const render = () => {
+    const q = $('#lSearch').value.toLowerCase();
+    const rows = all.filter((l) => !q || `${l.email || ''} ${l.phone || ''}`.toLowerCase().includes(q));
+    $('#lBody').innerHTML = rows.map((l) => `<tr>
+        <td><b>${esc(l.email || '—')}</b></td>
+        <td class="muted">${esc(l.phone || '—')}</td>
+        <td>${l.sms_opt_in ? '<span class="pill ok">yes</span>' : '<span class="muted">—</span>'}</td>
+        <td class="muted">${esc(l.source || '—')}</td>
+        <td class="muted">${fmtDateTime(l.created_at)}</td>
+      </tr>`).join('') || '<tr><td colspan="5" class="empty">No leads yet. They appear here when people sign up on the site.</td></tr>';
+  };
+  $('#lSearch').addEventListener('input', render); render();
+  const csvBtn = $('#leadCsv');
+  if (csvBtn) csvBtn.addEventListener('click', () => {
+    const head = 'email,phone,sms_opt_in,source,created_at\n';
+    const body = all.map((l) => [l.email || '', l.phone || '', l.sms_opt_in, l.source || '', l.created_at].map((v) => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+    const blob = new Blob([head + body], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = window.URL.createObjectURL(blob);
+    a.download = 'fw-wheels-leads.csv';
+    a.click();
+  });
 }
 
 /* ---------------- ANALYTICS ---------------- */

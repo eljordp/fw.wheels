@@ -2185,6 +2185,54 @@ section {
   border-top: 1px solid var(--border);
 }
 
+/* Newsletter / lead capture */
+.footer-signup {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+  padding-bottom: 32px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+.footer-signup-text h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 0.5px;
+  margin: 0 0 4px;
+}
+.footer-signup-text p { color: var(--text-muted); margin: 0; font-size: 0.95rem; }
+.footer-signup .lead-form { min-width: 300px; flex: 1; max-width: 460px; }
+.lead-fields { display: flex; gap: 8px; flex-wrap: wrap; }
+.lead-fields input {
+  flex: 1;
+  min-width: 120px;
+  padding: 12px 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+.lead-fields input:focus { outline: none; border-color: var(--accent); }
+.lead-fields .btn { padding: 12px 24px; white-space: nowrap; }
+.lead-sms {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.lead-sms input { width: 15px; height: 15px; accent-color: var(--accent); }
+.lead-msg { margin: 10px 0 0; font-size: 0.85rem; min-height: 1em; }
+@media (max-width: 700px) {
+  .footer-signup { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .footer-signup .lead-form { width: 100%; max-width: none; }
+}
+
 .footer-content {
   display: grid;
   grid-template-columns: minmax(220px, 1fr) minmax(420px, 1.4fr);
