@@ -559,28 +559,130 @@ const STORE_FIELDS = [
   ['announcement', 'Storefront announcement bar (leave blank to hide)', 'input'],
   ['free_shipping_note', 'Free shipping note', 'input'],
 ];
+const RANK_STATUSES = ['Not ranking yet', 'Tracking…'];
 async function seoTab() {
-  const { data: rows } = await sb.from('settings').select('*');
-  const vals = {}; (rows || []).forEach((r) => (vals[r.key] = r.value));
-  const field = ([key, label, type]) => {
+  main().innerHTML = '<div class="loading">Loading SEO…</div>';
+  // pull latest rank snapshot per query + settings, and kick off the live GSC fetch
+  const [{ data: ranks }, { data: settingRows }] = await Promise.all([
+    sb.from('seo_rankings').select('*').order('sort_order'),
+    sb.from('settings').select('*'),
+  ]);
+  const rows = ranks || [];
+  const vals = {}; (settingRows || []).forEach((r) => (vals[r.key] = r.value));
+
+  const top3 = rows.filter((r) => r.rank != null && r.rank <= 3).length;
+  const top10 = rows.filter((r) => r.rank != null && r.rank <= 10).length;
+  const notRanking = rows.filter((r) => r.rank == null).length;
+  const rankCell = (r) => r.rank == null
+    ? '<span class="muted">Not ranking yet</span>'
+    : `<span style="color:${r.rank <= 3 ? 'var(--green)' : r.rank <= 10 ? 'var(--gold)' : 'var(--text)'};font-weight:700">#${r.rank}</span>`;
+
+  main().innerHTML = `
+    <div class="page-head"><div><h2>SEO</h2><div class="sub">Track Google rankings, see live search data, and learn what moves the needle.</div></div></div>
+
+    <div class="kpis">
+      ${kpiCard('Tracked searches', rows.length, null)}
+      ${kpiCard('Ranking top 3', top3, top3 ? { dir: 'up', text: 'great' } : null)}
+      ${kpiCard('Ranking top 10', top10, null)}
+      ${kpiCard('Not ranking yet', notRanking, null)}
+    </div>
+
+    <div class="panel" style="margin-bottom:18px">
+      <h3>Target keywords <span class="hint">what we want to rank for · edit rank as you check Google</span></h3>
+      <div class="tbl-scroll"><table><thead><tr><th>Search term</th><th>Area</th><th>Rank</th><th>Local pack</th><th>Notes / competitors</th></tr></thead><tbody id="rankBody">
+        ${rows.map((r) => `<tr>
+          <td><b>${esc(r.query)}</b></td>
+          <td class="muted">${esc(r.area || '—')}</td>
+          <td><input class="num-in rank-in" data-id="${r.id}" type="number" min="1" placeholder="—" value="${r.rank ?? ''}" style="width:64px"/></td>
+          <td><input type="checkbox" class="lp-in" data-id="${r.id}" ${r.local_pack ? 'checked' : ''}/></td>
+          <td class="muted" style="max-width:380px;font-size:12px">${esc(r.notes || '')}</td>
+        </tr>`).join('')}
+      </tbody></table></div>
+      <div class="muted" style="font-size:12px;margin-top:10px">Tip: search each term in a Google incognito window and type the position you see (or leave blank if not in the top 20). This is your scoreboard.</div>
+    </div>
+
+    <div class="panel" style="margin-bottom:18px">
+      <h3>🌐 Google Search Console (live) <span class="hint">real clicks, impressions & position — last 28 days</span></h3>
+      <div id="gscBox"><div class="loading" style="padding:24px">Loading live search data…</div></div>
+    </div>
+
+    <div class="panel" style="margin-bottom:18px">
+      <h3>📈 How to get FW Wheels ranked <span class="hint">your playbook</span></h3>
+      <div style="font-size:13.5px;line-height:1.7">
+        <p style="margin-bottom:10px"><b>The 4 levers, in order of payoff for a new wheel store:</b></p>
+        <ol style="margin:0 0 14px 20px;display:flex;flex-direction:column;gap:8px">
+          <li><b>Google Business Profile</b> — free, fastest local win. Create/claim it for FW Wheels so you show up in the map pack for "wheels near me." Add photos, hours, and the website link.</li>
+          <li><b>Brand &amp; model pages</b> — each brand (Aodhan, Vors, Mflow) and popular model (e.g. AH02) should have its own page with the model name in the title. These rank easiest because competition is low. Start with Vors/Mflow (least competitive).</li>
+          <li><b>Fitment content</b> — pages/articles like "5x114.3 wheels" and "wheel offset explained" pull in huge search volume and show off the fitment tool. Answer the questions buyers actually type.</li>
+          <li><b>Backlinks &amp; reviews</b> — get listed on car forums, IG, and supplier directories; collect Google reviews. This is what tips you from page 2 to page 1 over time.</li>
+        </ol>
+        <p class="muted" style="font-size:12.5px">Watch the Search Console table above: when a query shows <b>lots of impressions but high position (20+) and few clicks</b>, that's a keyword you're <i>close</i> on — make/improve a page for it and it'll climb. That's the loop. Track your wins in the keyword table.</p>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Site SEO &amp; store settings <span class="hint">title, meta, announcement bar</span> <button class="btn sm" id="saveSeo" style="width:auto;float:right">Save</button></h3>
+      <div class="grid2" style="margin-top:6px">
+        <div>${SEO_FIELDS.map(field).join('')}</div>
+        <div>${STORE_FIELDS.map(field).join('')}</div>
+      </div>
+      <div class="msg" id="seoMsg"></div>
+    </div>`;
+
+  function field([key, label, type]) {
     const v = esc(vals[key] ?? '');
     return `<div class="seo-field"><label>${label}</label>${type === 'textarea' ? `<textarea data-key="${key}">${v}</textarea>` : `<input data-key="${key}" value="${v}"/>`}</div>`;
-  };
-  main().innerHTML = `
-    <div class="page-head"><div><h2>SEO &amp; Settings</h2><div class="sub">Saved to the database. Storefront reads these on load.</div></div><button class="btn sm" id="saveSeo" style="width:auto">Save all</button></div>
-    <div class="grid2">
-      <div class="panel"><h3>SEO</h3>${SEO_FIELDS.map(field).join('')}</div>
-      <div class="panel"><h3>Store</h3>${STORE_FIELDS.map(field).join('')}</div>
-    </div>
-    <div class="msg" id="seoMsg"></div>`;
+  }
+
+  // inline rank/local-pack edits
+  $$('.rank-in').forEach((el) => el.addEventListener('change', async () => {
+    const rank = el.value === '' ? null : parseInt(el.value, 10);
+    await sb.from('seo_rankings').update({ rank, source: 'manual', checked_at: new Date().toISOString() }).eq('id', el.dataset.id);
+    seoTab();
+  }));
+  $$('.lp-in').forEach((el) => el.addEventListener('change', async () => {
+    await sb.from('seo_rankings').update({ local_pack: el.checked }).eq('id', el.dataset.id);
+  }));
+
+  // settings save
   $('#saveSeo').addEventListener('click', async () => {
     const btn = $('#saveSeo'); btn.textContent = 'Saving…'; btn.disabled = true;
     const updates = $$('[data-key]').map((el) => ({ key: el.dataset.key, value: el.value, updated_at: new Date().toISOString() }));
     const { error } = await sb.from('settings').upsert(updates, { onConflict: 'key' });
-    btn.textContent = 'Save all'; btn.disabled = false;
+    btn.textContent = 'Save'; btn.disabled = false;
     const msg = $('#seoMsg'); msg.className = error ? 'msg err' : 'msg ok'; msg.textContent = error ? error.message : 'Saved.';
     setTimeout(() => (msg.className = 'msg'), 2500);
   });
+
+  // live GSC
+  loadGSC();
+}
+
+async function loadGSC() {
+  const box = $('#gscBox'); if (!box) return;
+  try {
+    const res = await fetch('/api/gsc');
+    const data = await res.json();
+    if (!data.configured) {
+      box.innerHTML = `<div class="empty" style="padding:24px;text-align:left">
+        <b>Not connected yet.</b><br><span class="muted">Live Google data turns on once the Search Console service account is linked to fwwheelz.com. Until then, the keyword table above is your tracker.</span></div>`;
+      return;
+    }
+    if (data.error) { box.innerHTML = `<div class="empty" style="padding:24px">Search Console error: ${esc(data.error)}</div>`; return; }
+    const q = data.queries || [];
+    if (!q.length) { box.innerHTML = '<div class="empty" style="padding:24px">No search impressions yet (new site). Check back as Google starts showing FW Wheels.</div>'; return; }
+    box.innerHTML = `<div class="tbl-scroll"><table><thead><tr><th>Search query</th><th>Clicks</th><th>Impressions</th><th>CTR</th><th>Avg position</th></tr></thead><tbody>
+      ${q.map((r) => `<tr>
+        <td>${esc(r.query)}${r.variants > 1 ? ` <span class="muted">+${r.variants - 1} variant${r.variants > 2 ? 's' : ''}</span>` : ''}</td>
+        <td><b style="color:${r.clicks ? 'var(--green)' : 'var(--muted)'}">${r.clicks}</b></td>
+        <td>${r.impressions.toLocaleString()}</td>
+        <td>${(r.ctr * 100).toFixed(1)}%</td>
+        <td>${r.position.toFixed(1)}</td>
+      </tr>`).join('')}
+    </tbody></table></div>`;
+  } catch (e) {
+    box.innerHTML = `<div class="empty" style="padding:24px">Couldn't load live data: ${esc(e.message)}</div>`;
+  }
 }
 
 /* ---------------- modal ---------------- */
