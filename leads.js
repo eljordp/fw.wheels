@@ -32,8 +32,11 @@
       var emailEl = form.querySelector('[name="email"]');
       var phoneEl = form.querySelector('[name="phone"]');
       var smsEl = form.querySelector('[name="sms"]');
+      var vehicleEl = form.querySelector('[name="vehicle"]');
       var email = emailEl ? emailEl.value.trim() : '';
       var phone = phoneEl ? phoneEl.value.trim() : '';
+      var vehicle = vehicleEl ? vehicleEl.value.trim() : '';
+      if (vehicleEl && !vehicle) { show(msg, 'Tell us what you drive.', false); return; }
       if (!email && !phone) { show(msg, 'Enter an email or phone.', false); return; }
       if (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { show(msg, 'Enter a valid email.', false); return; }
       if (!URL || !ANON) { show(msg, 'Something went wrong. Try later.', false); return; }
@@ -53,19 +56,42 @@
           phone: phone || null,
           sms_opt_in: smsEl ? !!smsEl.checked : false,
           source: form.dataset.source || 'footer',
-          meta: { path: location.pathname },
+          meta: vehicle
+            ? { path: location.pathname, vehicle: vehicle }
+            : { path: location.pathname },
         }),
       }).then(function (r) {
         if (btn) { btn.disabled = false; btn.textContent = btn.dataset.label || 'Join'; }
         if (r.ok) {
           form.reset();
-          show(msg, "You're on the list. We'll hit you with drops & restocks.", true);
+          show(msg, vehicle
+            ? 'Saved your ' + vehicle + " — we'll hit you when wheels for it drop."
+            : "You're on the list. We'll hit you with drops & restocks.", true);
           markSubscribed();
           if (window.fwTrack) window.fwTrack('lead_signup', { meta: { source: form.dataset.source || 'footer' } });
         } else if (r.status === 409) {
-          // already subscribed (unique email) — treat as success and flag
+          // Email already a lead. If they added a car, merge it onto the existing
+          // row so Enay still gets the vehicle (the 409 proves email is unique,
+          // so on_conflict=email is safe here).
+          if (vehicle) {
+            fetch(URL + '/rest/v1/leads?on_conflict=email', {
+              method: 'POST',
+              headers: {
+                apikey: ANON, Authorization: 'Bearer ' + ANON,
+                'Content-Type': 'application/json',
+                Prefer: 'return=minimal,resolution=merge-duplicates',
+              },
+              body: JSON.stringify({
+                email: email || null,
+                source: form.dataset.source || 'footer',
+                meta: { path: location.pathname, vehicle: vehicle },
+              }),
+            });
+          }
           form.reset();
-          show(msg, "You're already on the list — you're good.", true);
+          show(msg, vehicle
+            ? 'Saved your ' + vehicle + " — we'll hit you when wheels for it drop."
+            : "You're already on the list — you're good.", true);
           markSubscribed();
         } else {
           show(msg, 'Could not sign you up. Try again.', false);
@@ -85,10 +111,9 @@
 
   function init() {
     captureCheckoutSuccess();
-    if (isSubscribed()) {
-      hideAllSignupBlocks();
-      return;
-    }
+    // Hide the footer newsletter for returning subscribers, but still wire every
+    // lead form — the garage "save your car" box stays usable for everyone.
+    if (isSubscribed()) hideAllSignupBlocks();
     document.querySelectorAll('form.lead-form').forEach(wire);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

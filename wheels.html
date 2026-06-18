@@ -23,7 +23,7 @@
   <meta name="twitter:title" content="Wheels | Aodhan, Mflow Racing & Vors — FW Wheels">
   <meta name="twitter:description" content="Browse the full FW Wheels catalog: Aodhan, Mflow Racing, and Vors. Compare sizes, finishes, bolt patterns, and offsets, and check fitment for your vehicle.">
   <meta name="twitter:image" content="https://fwwheelz.com/images/hero.jpg">
-  <link rel="stylesheet" href="/styles.css?v=20260617-3">
+  <link rel="stylesheet" href="/styles.css?v=20260617-4">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -641,6 +641,31 @@
     </div>
   </section>
 
+  <!-- Garage / save your car -->
+  <section class="garage" id="garage">
+    <div class="container">
+      <div class="garage-card">
+        <div class="garage-text">
+          <p class="section-kicker">Your Garage</p>
+          <h2 class="section-title">What do you drive?</h2>
+          <p class="section-subtitle">Save your car and we'll show you what fits — plus first dibs when wheels &amp; accessories for it drop or restock.</p>
+        </div>
+        <form class="lead-form garage-form" data-source="garage" novalidate>
+          <label class="form-group" for="garageVehicle">
+            <span>Your car</span>
+            <input type="text" id="garageVehicle" name="vehicle" placeholder="2018 Honda Civic Si" autocomplete="off" required>
+          </label>
+          <label class="form-group" for="garageEmail">
+            <span>Email</span>
+            <input type="email" id="garageEmail" name="email" placeholder="you@email.com" autocomplete="email" required>
+          </label>
+          <button class="btn btn-primary btn-full" type="submit">Save my car</button>
+          <p class="lead-msg" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <!-- About Section -->
   <footer class="footer">
     <div class="container">
@@ -761,7 +786,7 @@
 
 
   <script src="/config.js?v=20260616-6"></script>
-  <script src="/leads.js?v=20260617-2"></script>
+  <script src="/leads.js?v=20260617-3"></script>
   <script src="/analytics.js?v=20260616-6"></script>
   <script src="/script.js?v=20260617-3"></script>
 </body>

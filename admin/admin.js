@@ -500,8 +500,11 @@ async function leadsTab() {
   const week = all.filter((l) => l.created_at >= since7).length;
   const sms = all.filter((l) => l.sms_opt_in).length;
   const notify = all.filter((l) => l.source === 'notify-back-in-stock').length;
-  const srcLabel = (s) => s === 'notify-back-in-stock' ? 'Back-in-stock' : (s === 'footer' ? 'Newsletter' : (s || '—'));
+  const garage = all.filter((l) => l.source === 'garage').length;
+  const srcLabel = (s) => s === 'notify-back-in-stock' ? 'Back-in-stock' : (s === 'footer' ? 'Newsletter' : (s === 'garage' ? 'Garage (car)' : (s || '—')));
   const wanted = (l) => (l.source === 'notify-back-in-stock' && l.meta) ? `${l.meta.name || l.product_slug || ''}${l.meta.size ? ' · ' + l.meta.size : ''}` : '';
+  // Garage leads store the customer's car in meta.vehicle; back-in-stock store the wanted item.
+  const detail = (l) => (l.source === 'garage' && l.meta && l.meta.vehicle) ? l.meta.vehicle : wanted(l);
   main().innerHTML = `
     <div class="page-head"><div><h2>Leads</h2><div class="sub">Email & SMS signups + back-in-stock requests</div></div>${all.length ? '<button class="btn sm" id="leadCsv" style="width:auto">Export CSV</button>' : ''}</div>
     <div class="kpis">
@@ -509,27 +512,28 @@ async function leadsTab() {
       ${kpiCard('New (7 days)', week, { dir: 'up', text: 'last 7 days' })}
       ${kpiCard('SMS opt-ins', sms, { dir: 'up', text: all.length ? `${((sms / all.length) * 100).toFixed(0)}% of list` : '' })}
       ${kpiCard('Back-in-stock requests', notify, { dir: 'up', text: 'demand to restock' })}
+      ${kpiCard('Cars saved', garage, { dir: 'up', text: 'garage signups' })}
     </div>
-    <div class="toolbar"><input class="search" id="lSearch" placeholder="Search email, phone, item…"/>
-      <select id="lSrc"><option value="">All sources</option><option value="footer">Newsletter</option><option value="notify-back-in-stock">Back-in-stock</option></select></div>
-    <div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr><th>Email</th><th>Phone</th><th>SMS</th><th>Source</th><th>Wants restocked</th><th>Date</th></tr></thead><tbody id="lBody"></tbody></table></div></div>`;
+    <div class="toolbar"><input class="search" id="lSearch" placeholder="Search email, phone, car, item…"/>
+      <select id="lSrc"><option value="">All sources</option><option value="footer">Newsletter</option><option value="garage">Garage (car)</option><option value="notify-back-in-stock">Back-in-stock</option></select></div>
+    <div class="tbl-wrap"><div class="tbl-scroll"><table><thead><tr><th>Email</th><th>Phone</th><th>SMS</th><th>Source</th><th>Vehicle / item</th><th>Date</th></tr></thead><tbody id="lBody"></tbody></table></div></div>`;
   const render = () => {
     const q = $('#lSearch').value.toLowerCase(), src = $('#lSrc').value;
-    const rows = all.filter((l) => (!src || l.source === src) && (!q || `${l.email || ''} ${l.phone || ''} ${wanted(l)}`.toLowerCase().includes(q)));
+    const rows = all.filter((l) => (!src || l.source === src) && (!q || `${l.email || ''} ${l.phone || ''} ${detail(l)}`.toLowerCase().includes(q)));
     $('#lBody').innerHTML = rows.map((l) => `<tr>
         <td><b>${esc(l.email || '—')}</b></td>
         <td class="muted">${esc(l.phone || '—')}</td>
         <td>${l.sms_opt_in ? '<span class="pill ok">yes</span>' : '<span class="muted">—</span>'}</td>
-        <td>${l.source === 'notify-back-in-stock' ? `<span class="pill low">${srcLabel(l.source)}</span>` : `<span class="muted">${esc(srcLabel(l.source))}</span>`}</td>
-        <td>${wanted(l) ? esc(wanted(l)) : '<span class="muted">—</span>'}</td>
+        <td>${(l.source === 'notify-back-in-stock' || l.source === 'garage') ? `<span class="pill low">${srcLabel(l.source)}</span>` : `<span class="muted">${esc(srcLabel(l.source))}</span>`}</td>
+        <td>${detail(l) ? esc(detail(l)) : '<span class="muted">—</span>'}</td>
         <td class="muted">${fmtDateTime(l.created_at)}</td>
       </tr>`).join('') || '<tr><td colspan="6" class="empty">No leads yet. They appear when people sign up or ask to be notified when something\'s back.</td></tr>';
   };
   $('#lSearch').addEventListener('input', render); $('#lSrc').addEventListener('change', render); render();
   const csvBtn = $('#leadCsv');
   if (csvBtn) csvBtn.addEventListener('click', () => {
-    const head = 'email,phone,sms_opt_in,source,wants_restocked,created_at\n';
-    const body = all.map((l) => [l.email || '', l.phone || '', l.sms_opt_in, l.source || '', wanted(l), l.created_at].map((v) => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+    const head = 'email,phone,sms_opt_in,source,vehicle_or_item,created_at\n';
+    const body = all.map((l) => [l.email || '', l.phone || '', l.sms_opt_in, l.source || '', detail(l), l.created_at].map((v) => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
     const blob = new Blob([head + body], { type: 'text/csv' });
     const a = document.createElement('a');
     a.href = window.URL.createObjectURL(blob);

@@ -824,6 +824,54 @@ section {
   padding: 24px;
 }
 
+/* Garage — save-your-car lead capture */
+.garage {
+  padding: 88px 0;
+  background: var(--bg);
+}
+
+.garage-card {
+  display: grid;
+  grid-template-columns: 1fr 0.9fr;
+  gap: 34px;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(230,57,70,0.08), rgba(17,17,17,0.98) 40%);
+  padding: 40px;
+}
+
+.garage-text {
+  max-width: 460px;
+}
+
+.garage-form {
+  background: rgba(13,13,13,0.74);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.garage-form .lead-msg {
+  margin: 0;
+  min-height: 1.1em;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+  .garage {
+    padding: 52px 0;
+  }
+  .garage-card {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding: 24px;
+  }
+}
+
 .form-row {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
