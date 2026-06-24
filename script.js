@@ -3,9 +3,11 @@ const SET_OF_4_DISCOUNT = 0.05; // 5% off a full set of 4 wheels
 
 // ===== NAVBAR SCROLL EFFECT =====
 const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 50);
-});
+if (navbar) {
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+}
 
 // ===== MOBILE MENU =====
 const mobileToggle = document.getElementById('mobileToggle');
@@ -13,6 +15,7 @@ const navLinks = document.getElementById('navLinks');
 const navBackdrop = document.getElementById('navBackdrop');
 
 function openMobileMenu() {
+  if (!mobileToggle || !navLinks || !navBackdrop) return;
   mobileToggle.classList.add('active');
   navLinks.classList.add('open');
   navBackdrop.classList.add('active');
@@ -20,20 +23,23 @@ function openMobileMenu() {
 }
 
 function closeMobileMenu() {
+  if (!mobileToggle || !navLinks || !navBackdrop) return;
   mobileToggle.classList.remove('active');
   navLinks.classList.remove('open');
   navBackdrop.classList.remove('active');
   document.body.style.overflow = '';
 }
 
-mobileToggle.addEventListener('click', () => {
-  navLinks.classList.contains('open') ? closeMobileMenu() : openMobileMenu();
-});
+if (mobileToggle && navLinks) {
+  mobileToggle.addEventListener('click', () => {
+    navLinks.classList.contains('open') ? closeMobileMenu() : openMobileMenu();
+  });
+}
 
-navBackdrop.addEventListener('click', closeMobileMenu);
+if (navBackdrop) navBackdrop.addEventListener('click', closeMobileMenu);
 
 // Close menu when a link is clicked
-navLinks.querySelectorAll('a').forEach(link => {
+if (navLinks) navLinks.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', (e) => {
     const href = link.getAttribute('href') || '';
     if (href.startsWith('#') && href.length > 1) {
@@ -2617,7 +2623,7 @@ modalQuoteBtn.addEventListener('click', () => {
     size,
     bolt,
     cb,
-    thread: finderState.lastVehicleSpecs?.thread || ''
+    thread: ''
   };
   updateAccessoryFitmentNote();
 
@@ -2653,10 +2659,7 @@ const accessoryModalSpecs = document.getElementById('accessoryModalSpecs');
 const accessoryAddBtn = document.getElementById('accessoryAddBtn');
 
 function positionAccessoriesSection() {
-  const finder = document.getElementById('vehicle-finder');
-  if (accessorySection && finder && finder.nextElementSibling !== accessorySection) {
-    finder.insertAdjacentElement('afterend', accessorySection);
-  }
+  // Accessory placement is static now; vehicle finder has been removed.
 }
 
 function normalizeMm(value) {
@@ -2703,46 +2706,12 @@ function normalizeThreadPitch(value) {
 }
 
 function getAccessoryRecommendation(product) {
-  const vehicle = finderState.lastVehicleSpecs;
-  const wheel = finderState.lastWheelSelection;
-
-  if (product.fitmentKind === 'lug-nut' || product.fitmentKind === 'lug-bolt') {
-    const thread = normalizeThreadPitch(vehicle?.thread || wheel?.thread || '');
-    const threadOption = product.options
-      .find(opt => opt.id === 'threadPitch')
-      ?.values.find(value => normalizeThreadPitch(value) === thread);
-    if (threadOption) return { threadPitch: threadOption };
-  }
-
-  if (product.fitmentKind === 'hub-ring' && vehicle?.centerBore && wheel?.cb) {
-    const ringOption = findHubRingOption(product, wheel.cb, vehicle.centerBore);
-    if (ringOption) return { ringSize: ringOption };
-  }
-
   return {};
 }
 
 function updateAccessoryFitmentNote() {
   if (!accessoryFitmentNote) return;
-  const vehicle = finderState.lastVehicleSpecs;
-  const wheel = finderState.lastWheelSelection;
-
-  if (vehicle && wheel) {
-    accessoryFitmentNote.innerHTML = `
-      <strong>Fitment context:</strong>
-      ${escapeHtml(vehicle.label || 'Selected vehicle')} uses ${escapeHtml(vehicle.thread || 'unknown thread pitch')};
-      selected wheel center bore is ${escapeHtml(wheel.cb || 'unknown')}mm.
-      Matching options are preselected when available.
-    `;
-  } else if (vehicle) {
-    accessoryFitmentNote.innerHTML = `
-      <strong>Vehicle context:</strong>
-      ${escapeHtml(vehicle.label || 'Selected vehicle')} uses ${escapeHtml(vehicle.thread || 'unknown thread pitch')}.
-      Select a wheel before hub rings can be matched.
-    `;
-  } else {
-    accessoryFitmentNote.textContent = 'Use the vehicle finder first and we can recommend hardware based on thread pitch, center bore, and selected wheel specs.';
-  }
+  accessoryFitmentNote.innerHTML = 'Need exact hardware sizing? <a href="/contact#fitment-contact">Send a fitment question</a> with your vehicle and wheel choice before ordering lug hardware or hub rings.';
 }
 
 function renderAccessoryCards(category = 'all') {
@@ -2969,12 +2938,6 @@ function addSelectedAccessoryToCart() {
 }
 
 function initAccessories() {
-  if (!accessoriesGrid) return; // accessories section not on this page
-  positionAccessoriesSection();
-  initAccessoryTabs();
-  renderAccessoryCards('all');
-  updateAccessoryFitmentNote();
-
   if (accessoryModalClose) accessoryModalClose.addEventListener('click', closeAccessoryModal);
   if (accessoryModal) {
     accessoryModal.addEventListener('click', (e) => {
@@ -2982,6 +2945,12 @@ function initAccessories() {
     });
   }
   if (accessoryAddBtn) accessoryAddBtn.addEventListener('click', addSelectedAccessoryToCart);
+
+  if (!accessoriesGrid) return;
+  positionAccessoriesSection();
+  initAccessoryTabs();
+  renderAccessoryCards('all');
+  updateAccessoryFitmentNote();
 }
 
 // ===== CARD PRICES & SWATCHES =====
@@ -3700,9 +3669,9 @@ document.querySelectorAll('.brand-section, .gallery-carousel, .about-point, .rev
 function buildNavBrands() {
   // Alphabetical brand list
   const brands = [
-    { id: 'aodhan', label: 'Aodhan' },
-    { id: 'mflow',  label: 'MFlow Racing' },
-    { id: 'vors',   label: 'Vors' }
+    { id: 'aodhan', label: 'Aodhan', href: '/wheels/aodhan' },
+    { id: 'mflow',  label: 'MFlow Racing', href: '/wheels/mflow-racing' },
+    { id: 'vors',   label: 'Vors', href: '/wheels/vors' }
   ];
 
   const menu = document.getElementById('navSubMenu');
@@ -3715,7 +3684,7 @@ function buildNavBrands() {
   brands.forEach(brand => {
     const li = document.createElement('li');
     const a = document.createElement('a');
-    a.href = '/wheels#' + brand.id;
+    a.href = brand.href;
     a.className = 'nav-sub-link';
     a.textContent = brand.label;
     if (onWheelsPage) {
@@ -4144,6 +4113,53 @@ async function initVehicleFinder() {
   });
 }
 
+
+function initFitmentContactForm() {
+  const form = document.getElementById('fitmentContactForm');
+  if (!form || form.dataset.wired) return;
+  form.dataset.wired = '1';
+  const msg = document.getElementById('fitmentFormMsg') || form.querySelector('.fitment-form-msg');
+  const btn = form.querySelector('button[type="submit"]');
+
+  function show(text, ok) {
+    if (!msg) return;
+    msg.textContent = text;
+    msg.style.color = ok ? '#3ba776' : '#ff8088';
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    data.path = location.pathname;
+    const required = ['firstName', 'lastName', 'phone', 'email'];
+    if (required.some((field) => !String(data[field] || '').trim())) {
+      show('First name, last name, phone, and email are required.', false);
+      return;
+    }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(data.email || '').trim())) {
+      show('Enter a valid email.', false);
+      return;
+    }
+
+    if (btn) { btn.disabled = true; btn.dataset.label = btn.textContent; btn.textContent = 'Sending...'; }
+    try {
+      const res = await fetch('/api/fitment-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error('request failed');
+      form.reset();
+      show("Sent. FW Wheels will reply directly before you order.", true);
+      if (window.fwTrack) window.fwTrack('fitment_lead', { meta: { path: location.pathname } });
+    } catch (_) {
+      show('Could not send right now. Text (925) 905-6277 or try again.', false);
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = btn.dataset.label || 'Send Fitment Question'; }
+    }
+  });
+}
+
 // ===== CART WIRE-UP =====
 document.addEventListener('DOMContentLoaded', () => {
   // Cart icon click
@@ -4163,7 +4179,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initial badge count
   updateCartBadge();
   initAccessories();
-  initVehicleFinder();
+  initFitmentContactForm();
 });
 
 // "Don't Forget" CTA → jump to the real accessory section

@@ -23,7 +23,7 @@
   <meta name="twitter:title" content="Wheels | Aodhan, Mflow Racing & Vors — FW Wheels">
   <meta name="twitter:description" content="Browse the full FW Wheels catalog: Aodhan, Mflow Racing, and Vors. Compare sizes, finishes, bolt patterns, and offsets, and check fitment for your vehicle.">
   <meta name="twitter:image" content="https://fwwheelz.com/images/hero.jpg">
-  <link rel="stylesheet" href="/styles.css?v=20260617-4">
+  <link rel="stylesheet" href="/styles.css?v=20260620-1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -50,7 +50,7 @@
           <ul class="nav-sub-menu" id="navSubMenu"></ul>
         </li>
         <li><a href="/accessories">Accessories</a></li>
-        <li><a href="/wheels#vehicle-finder">Fitment</a></li>
+        <li><a href="/contact#fitment-contact">Fitment Help</a></li>
         <li><a href="/about">About</a></li>
         <li><a href="/contact">Contact</a></li>
       </ul>
@@ -68,7 +68,7 @@
   <div class="nav-backdrop" id="navBackdrop"></div>
   <section class="brands" id="brands">
     <div class="container">
-      <h2 class="section-title">Our Brands</h2>
+      <h1 class="section-title">Our Brands</h1>
       <p class="section-subtitle">Browse wheels from Aodhan, Mflow Racing, and Vors.</p>
 
       <!-- Brand Filter Tabs -->
@@ -80,8 +80,8 @@
       </div>
 
       <div class="fitment-help" id="fitment-help">
-        <p>Need exact fitment? Use the vehicle finder to match specs against the catalog.</p>
-        <a class="btn btn-primary" href="#vehicle-finder">Open Finder</a>
+        <p>Need exact fitment? Send us your vehicle and wheel choice so FW Wheels can check the details before you order.</p>
+        <a class="btn btn-primary" href="/contact#fitment-contact">Ask Fitment</a>
       </div>
 
       <!-- Series Sub-Tabs (populated by JS) -->
@@ -577,94 +577,37 @@
     </div>
   </section>
 
-  <!-- Vehicle Finder Section -->
-  <section class="vehicle-finder" id="vehicle-finder">
+
+  <section class="fitment-contact-section" id="fitment-contact">
     <div class="container">
-      <div class="finder-shell">
-        <div class="finder-head">
-          <p class="section-kicker">Vehicle Finder</p>
-          <h2 class="section-title">Find Wheels That Match Your Car</h2>
-          <p class="section-subtitle">Powered by vehicle fitment data. Select year, make, model, and trim to compare bolt pattern, center bore, offset range, and matching FW Wheels inventory.</p>
+      <div class="fitment-contact-card">
+        <div class="fitment-contact-copy">
+          <p class="section-kicker">Fitment Questions</p>
+          <h2 class="section-title">Ask FW Wheels Before You Order</h2>
+          <p class="section-subtitle">Send your contact info and what you are trying to build. We will reply directly before you buy wheels, lug hardware, or hub rings.</p>
+          <ul class="fitment-contact-list">
+            <li>Vehicle year, make, model, and trim if you know it</li>
+            <li>Wheel model, size, bolt pattern, and finish you are considering</li>
+            <li>Your goal: clean daily, flush street, aggressive, or full build</li>
+          </ul>
         </div>
-
-        <div class="finder-grid">
-          <form class="finder-form" id="vehicleFinderForm">
-            <div class="form-row">
-              <label class="form-group" for="finderYear">
-                <span>Year</span>
-                <select id="finderYear" name="year" required>
-                  <option value="">Select year</option>
-                </select>
-              </label>
-              <label class="form-group" for="finderMake">
-                <span>Make</span>
-                <select id="finderMake" name="make" required disabled>
-                  <option value="">Select make</option>
-                </select>
-              </label>
-            </div>
-            <div class="form-row">
-              <label class="form-group" for="finderModel">
-                <span>Model</span>
-                <select id="finderModel" name="model" required disabled>
-                  <option value="">Select model</option>
-                </select>
-              </label>
-              <label class="form-group" for="finderModification">
-                <span>Trim / engine</span>
-                <select id="finderModification" name="modification" disabled>
-                  <option value="">Select trim</option>
-                </select>
-              </label>
-            </div>
-            <label class="form-group" for="finderGoal">
-              <span>Fitment goal</span>
-              <select id="finderGoal" name="goal">
-                <option value="daily">Clean daily</option>
-                <option value="flush">Flush street</option>
-                <option value="aggressive">Aggressive</option>
-                <option value="performance">Track/performance</option>
-              </select>
-            </label>
-            <button class="btn btn-primary btn-full" type="submit">Find Matching Wheels</button>
-            <p class="finder-note" id="finderStatus" aria-live="polite">Vehicle data loads when the fitment API key is configured.</p>
-          </form>
-
-          <div class="finder-results" id="finderResults">
-            <div class="finder-empty">
-              <strong>Select a vehicle</strong>
-              <span>Results will show OE specs, safe fitment notes, and catalog matches.</span>
-            </div>
+        <form class="fitment-contact-form" id="fitmentContactForm" novalidate>
+          <div class="form-row">
+            <label class="form-group" for="fitmentFirstName"><span>First name *</span><input type="text" id="fitmentFirstName" name="firstName" autocomplete="given-name" required></label>
+            <label class="form-group" for="fitmentLastName"><span>Last name *</span><input type="text" id="fitmentLastName" name="lastName" autocomplete="family-name" required></label>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Garage / save your car -->
-  <section class="garage" id="garage">
-    <div class="container">
-      <div class="garage-card">
-        <div class="garage-text">
-          <p class="section-kicker">Your Garage</p>
-          <h2 class="section-title">What do you drive?</h2>
-          <p class="section-subtitle">Save your car and we'll show you what fits — plus first dibs when wheels &amp; accessories for it drop or restock.</p>
-        </div>
-        <form class="lead-form garage-form" data-source="garage" novalidate>
-          <label class="form-group" for="garageVehicle">
-            <span>Your car</span>
-            <input type="text" id="garageVehicle" name="vehicle" placeholder="2018 Honda Civic Si" autocomplete="off" required>
-          </label>
-          <label class="form-group" for="garageEmail">
-            <span>Email</span>
-            <input type="email" id="garageEmail" name="email" placeholder="you@email.com" autocomplete="email" required>
-          </label>
-          <button class="btn btn-primary btn-full" type="submit">Save my car</button>
-          <p class="lead-msg" aria-live="polite"></p>
+          <div class="form-row">
+            <label class="form-group" for="fitmentPhone"><span>Phone *</span><input type="tel" id="fitmentPhone" name="phone" autocomplete="tel" required></label>
+            <label class="form-group" for="fitmentEmail"><span>Email *</span><input type="email" id="fitmentEmail" name="email" autocomplete="email" required></label>
+          </div>
+          <label class="form-group" for="fitmentVehicle"><span>Vehicle / build notes</span><textarea id="fitmentVehicle" name="vehicle" rows="4" placeholder="Example: 2018 Honda Civic Si, looking at AH02 in silver, clean daily fitment"></textarea></label>
+          <button class="btn btn-primary btn-full" type="submit">Send Fitment Question</button>
+          <p class="fitment-form-msg" id="fitmentFormMsg" role="status" aria-live="polite"></p>
         </form>
       </div>
     </div>
   </section>
+
 
   <!-- About Section -->
   <footer class="footer">
@@ -691,7 +634,7 @@
         </div>
         <div class="footer-links">
           <a href="/wheels">Brands</a>
-          <a href="/wheels#vehicle-finder">Fitment</a>
+          <a href="/contact#fitment-contact">Fitment Help</a>
           <a href="/accessories">Accessories</a>
           <a href="/shipping">Shipping</a>
           <a href="/returns">Returns</a>
@@ -788,6 +731,6 @@
   <script src="/config.js?v=20260616-6"></script>
   <script src="/leads.js?v=20260617-3"></script>
   <script src="/analytics.js?v=20260616-6"></script>
-  <script src="/script.js?v=20260617-3"></script>
+  <script src="/script.js?v=20260620-1"></script>
 </body>
 </html>

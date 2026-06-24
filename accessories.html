@@ -23,7 +23,7 @@
   <meta name="twitter:title" content="Wheel Accessories | Lug Nuts, Hub Rings & More — FW Wheels">
   <meta name="twitter:description" content="Wheel accessories from FW Wheels: lug nuts, hub rings, valve stems, and lug bolts to complete your aftermarket wheel setup.">
   <meta name="twitter:image" content="https://fwwheelz.com/images/hero.jpg">
-  <link rel="stylesheet" href="/styles.css?v=20260617-4">
+  <link rel="stylesheet" href="/styles.css?v=20260620-1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -50,7 +50,7 @@
           <ul class="nav-sub-menu" id="navSubMenu"></ul>
         </li>
         <li><a href="/accessories">Accessories</a></li>
-        <li><a href="/wheels#vehicle-finder">Fitment</a></li>
+        <li><a href="/contact#fitment-contact">Fitment Help</a></li>
         <li><a href="/about">About</a></li>
         <li><a href="/contact">Contact</a></li>
       </ul>
@@ -68,7 +68,7 @@
   <div class="nav-backdrop" id="navBackdrop"></div>
   <section class="accessories" id="accessories">
     <div class="container">
-      <h2 class="section-title">Accessories</h2>
+      <h1 class="section-title">Accessories</h1>
       <p class="section-subtitle">Lugs, bolts, hub rings, and valve stems with the exact size and color selected before checkout.</p>
       <div class="accessory-tabs" id="accessoryTabs">
         <button class="accessory-tab active" data-category="all">All</button>
@@ -78,7 +78,7 @@
         <button class="accessory-tab" data-category="valve-stems">Valve Stems</button>
       </div>
       <div class="accessory-fitment-note" id="accessoryFitmentNote">
-        Use the vehicle finder first and we can recommend hardware based on thread pitch, center bore, and selected wheel specs.
+        Need exact hardware sizing? Send a fitment question with your vehicle and wheel choice before ordering lug hardware or hub rings.
       </div>
       <div class="accessories-grid" id="accessoriesGrid">
         <div class="accessory-card">
@@ -165,30 +165,37 @@
     </div>
   </section>
 
-  <!-- Garage / save your car -->
-  <section class="garage" id="garage">
+
+  <section class="fitment-contact-section" id="fitment-contact">
     <div class="container">
-      <div class="garage-card">
-        <div class="garage-text">
-          <p class="section-kicker">Your Garage</p>
-          <h2 class="section-title">What do you drive?</h2>
-          <p class="section-subtitle">Save your car and we'll show you what fits — plus first dibs when wheels &amp; accessories for it drop or restock.</p>
+      <div class="fitment-contact-card">
+        <div class="fitment-contact-copy">
+          <p class="section-kicker">Fitment Questions</p>
+          <h2 class="section-title">Ask FW Wheels Before You Order</h2>
+          <p class="section-subtitle">Send your contact info and what you are trying to build. We will reply directly before you buy wheels, lug hardware, or hub rings.</p>
+          <ul class="fitment-contact-list">
+            <li>Vehicle year, make, model, and trim if you know it</li>
+            <li>Wheel model, size, bolt pattern, and finish you are considering</li>
+            <li>Your goal: clean daily, flush street, aggressive, or full build</li>
+          </ul>
         </div>
-        <form class="lead-form garage-form" data-source="garage" novalidate>
-          <label class="form-group" for="garageVehicle">
-            <span>Your car</span>
-            <input type="text" id="garageVehicle" name="vehicle" placeholder="2018 Honda Civic Si" autocomplete="off" required>
-          </label>
-          <label class="form-group" for="garageEmail">
-            <span>Email</span>
-            <input type="email" id="garageEmail" name="email" placeholder="you@email.com" autocomplete="email" required>
-          </label>
-          <button class="btn btn-primary btn-full" type="submit">Save my car</button>
-          <p class="lead-msg" aria-live="polite"></p>
+        <form class="fitment-contact-form" id="fitmentContactForm" novalidate>
+          <div class="form-row">
+            <label class="form-group" for="fitmentFirstName"><span>First name *</span><input type="text" id="fitmentFirstName" name="firstName" autocomplete="given-name" required></label>
+            <label class="form-group" for="fitmentLastName"><span>Last name *</span><input type="text" id="fitmentLastName" name="lastName" autocomplete="family-name" required></label>
+          </div>
+          <div class="form-row">
+            <label class="form-group" for="fitmentPhone"><span>Phone *</span><input type="tel" id="fitmentPhone" name="phone" autocomplete="tel" required></label>
+            <label class="form-group" for="fitmentEmail"><span>Email *</span><input type="email" id="fitmentEmail" name="email" autocomplete="email" required></label>
+          </div>
+          <label class="form-group" for="fitmentVehicle"><span>Vehicle / build notes</span><textarea id="fitmentVehicle" name="vehicle" rows="4" placeholder="Example: 2018 Honda Civic Si, looking at AH02 in silver, clean daily fitment"></textarea></label>
+          <button class="btn btn-primary btn-full" type="submit">Send Fitment Question</button>
+          <p class="fitment-form-msg" id="fitmentFormMsg" role="status" aria-live="polite"></p>
         </form>
       </div>
     </div>
   </section>
+
 
   <!-- Contact Section -->
   <footer class="footer">
@@ -215,7 +222,7 @@
         </div>
         <div class="footer-links">
           <a href="/wheels">Brands</a>
-          <a href="/wheels#vehicle-finder">Fitment</a>
+          <a href="/contact#fitment-contact">Fitment Help</a>
           <a href="/accessories">Accessories</a>
           <a href="/shipping">Shipping</a>
           <a href="/returns">Returns</a>
@@ -312,6 +319,6 @@
   <script src="/config.js?v=20260616-6"></script>
   <script src="/leads.js?v=20260617-3"></script>
   <script src="/analytics.js?v=20260616-6"></script>
-  <script src="/script.js?v=20260617-3"></script>
+  <script src="/script.js?v=20260620-1"></script>
 </body>
 </html>

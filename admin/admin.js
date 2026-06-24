@@ -646,8 +646,8 @@ async function seoTab() {
     </div>
 
     <div class="panel" style="margin-bottom:18px">
-      <h3>Target keywords <span class="hint">what we want to rank for · edit rank as you check Google</span></h3>
-      <div class="tbl-scroll"><table><thead><tr><th>Search term</th><th>Area</th><th>Rank</th><th>Local pack</th><th>Notes / competitors</th></tr></thead><tbody id="rankBody">
+      <h3>Target keywords <span class="hint">check weekly by keyword, device, and geography</span></h3>
+      <div class="tbl-scroll"><table><thead><tr><th>Search term</th><th>Geo / device</th><th>Rank</th><th>Local pack</th><th>Notes / competitors</th></tr></thead><tbody id="rankBody">
         ${rows.map((r) => `<tr>
           <td><b>${esc(r.query)}</b></td>
           <td class="muted">${esc(r.area || '—')}</td>
@@ -667,12 +667,14 @@ async function seoTab() {
     <div class="panel" style="margin-bottom:18px">
       <h3>📈 How to get FW Wheels ranked <span class="hint">your playbook</span></h3>
       <div style="font-size:13.5px;line-height:1.7">
-        <p style="margin-bottom:10px"><b>The 4 levers, in order of payoff for a new wheel store:</b></p>
+        <p style="margin-bottom:10px"><b>The levers, in order of payoff for this phase:</b></p>
         <ol style="margin:0 0 14px 20px;display:flex;flex-direction:column;gap:8px">
-          <li><b>Google Business Profile</b> — free, fastest local win. Create/claim it for FW Wheels so you show up in the map pack for "wheels near me." Add photos, hours, and the website link.</li>
-          <li><b>Brand &amp; model pages</b> — each brand (Aodhan, Vors, Mflow) and popular model (e.g. AH02) should have its own page with the model name in the title. These rank easiest because competition is low. Start with Vors/Mflow (least competitive).</li>
-          <li><b>Fitment content</b> — pages/articles like "5x114.3 wheels" and "wheel offset explained" pull in huge search volume and show off the fitment tool. Answer the questions buyers actually type.</li>
-          <li><b>Backlinks &amp; reviews</b> — get listed on car forums, IG, and supplier directories; collect Google reviews. This is what tips you from page 2 to page 1 over time.</li>
+          <li><b>Brand pages</b> — Vors first, Mflow second, Aodhan third. These pages target lower-competition brand searches and create clean internal links into the catalog.</li>
+          <li><b>Model and fitment pages</b> — AH02, 5x114.3 wheels, and concave wheels get their own pages because buyers search those exact phrases before they are ready to ask for help.</li>
+          <li><b>Schema, titles, and internal links</b> — every SEO page needs a unique title, description, canonical URL, breadcrumb schema, and product/collection context so Google can understand what each page is for.</li>
+          <li><b>Weekly rank tracking</b> — check each target term by desktop/mobile and by real geography. Keep organic rank separate from the local pack so the scoreboard does not lie.</li>
+          <li><b>GBP/local pack offer</b> — Google Business Profile is the "near me" lever, but keep it as a later local SEO service: claim/verify, add photos, hours, website link, services, and review process.</li>
+          <li><b>Backlinks &amp; reviews</b> — supplier directories, forums, Instagram mentions, and real customer reviews are what help the new pages move from indexed to competitive.</li>
         </ol>
         <p class="muted" style="font-size:12.5px">Watch the Search Console table above: when a query shows <b>lots of impressions but high position (20+) and few clicks</b>, that's a keyword you're <i>close</i> on — make/improve a page for it and it'll climb. That's the loop. Track your wins in the keyword table.</p>
       </div>
