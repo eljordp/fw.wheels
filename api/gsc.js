@@ -3,9 +3,73 @@
 // Env (Vercel): GSC_SERVICE_ACCOUNT_JSON (full key JSON), GSC_SITE_URL
 //   e.g. "sc-domain:fwwheelz.com" (Domain property) or "https://fwwheelz.com/"
 const crypto = require('node:crypto');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const TOKEN_URL = 'https://oauth2.googleapis.com/token';
 const SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
+
+function envValue(name) {
+  return String(process.env[name] || '').trim();
+}
+
+function publicSupabaseConfig() {
+  const fromEnv = {
+    url: envValue('SUPABASE_URL') || envValue('FW_SUPABASE_URL'),
+    anon: envValue('SUPABASE_ANON_KEY') || envValue('FW_SUPABASE_ANON_KEY') || envValue('VITE_SUPABASE_ANON_KEY'),
+  };
+  if (fromEnv.url && fromEnv.anon) return fromEnv;
+
+  try {
+    const text = fs.readFileSync(path.join(process.cwd(), 'config.js'), 'utf8');
+    const url = fromEnv.url || text.match(/FW_SUPABASE_URL\s*=\s*['"]([^'"]+)['"]/)?.[1] || '';
+    const anon = fromEnv.anon || text.match(/FW_SUPABASE_ANON\s*=\s*['"]([^'"]+)['"]/)?.[1] || '';
+    if (url && anon) return { url, anon };
+  } catch {}
+
+  return null;
+}
+
+async function requireAdmin(req, res) {
+  const auth = req.headers.authorization || '';
+  const token = auth.replace(/^Bearer\s+/i, '');
+  if (!token) {
+    res.status(401).json({ error: 'Missing admin session.' });
+    return null;
+  }
+
+  const config = publicSupabaseConfig();
+  if (!config) {
+    res.status(500).json({ error: 'Supabase admin auth is not configured.' });
+    return null;
+  }
+
+  const userResp = await fetch(`${config.url}/auth/v1/user`, {
+    headers: {
+      apikey: config.anon,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const user = await userResp.json().catch(() => null);
+  if (!userResp.ok || !user?.email) {
+    res.status(401).json({ error: 'Admin session is invalid or expired.' });
+    return null;
+  }
+
+  const roleResp = await fetch(`${config.url}/rest/v1/admin_users?select=email&email=eq.${encodeURIComponent(user.email)}&limit=1`, {
+    headers: {
+      apikey: config.anon,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const rows = await roleResp.json().catch(() => []);
+  if (!roleResp.ok || !Array.isArray(rows) || rows.length === 0) {
+    res.status(403).json({ error: 'Admin access required.' });
+    return null;
+  }
+
+  return user;
+}
 
 function gscConfig() {
   const raw = process.env.GSC_SERVICE_ACCOUNT_JSON;
@@ -71,6 +135,9 @@ function groupByWordSet(rows) {
 
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
+  if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
+  if (!(await requireAdmin(req, res))) return;
+
   const config = gscConfig();
   if (!config) return res.status(200).json({ configured: false });
   try {

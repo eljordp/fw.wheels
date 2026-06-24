@@ -719,8 +719,13 @@ async function seoTab() {
 async function loadGSC() {
   const box = $('#gscBox'); if (!box) return;
   try {
-    const res = await fetch('/api/gsc');
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session?.access_token) throw new Error('Admin session expired. Sign in again.');
+    const res = await fetch('/api/gsc', {
+      headers: { Authorization: `Bearer ${session.access_token}` },
+    });
     const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Could not verify admin access.');
     if (!data.configured) {
       box.innerHTML = `<div class="empty" style="padding:24px;text-align:left">
         <b>Not connected yet.</b><br><span class="muted">Live Google data turns on once the Search Console service account is linked to fwwheelz.com. Until then, the keyword table above is your tracker.</span></div>`;
