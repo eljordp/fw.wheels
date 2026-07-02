@@ -21,6 +21,7 @@ import csv
 import json
 import os
 import re
+import urllib.request
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -38,6 +39,7 @@ SOURCE_EXPORTS = SOURCE_DIR / "01-source-exports"
 EXTRACTED_TABS = SOURCE_DIR / "02-extracted-tabs"
 OUT_JSON = ROOT / "data" / "wheel-inventory.json"
 OUT_REPORT = ROOT / "data" / "wheel-inventory-report.md"
+OFFICIAL_CATALOG_QTY = 20
 
 MODEL_TO_SLUG = {
     ("AODHAN", "AH01"): "ah01",
@@ -93,6 +95,15 @@ MODEL_TO_SLUG = {
 # Owner/business rules win over broad distributor catalog rows when needed.
 OVERRIDES = {}
 
+OFFICIAL_CATALOG_PRODUCTS = [
+    ("AODHAN", "AH09", "ah09", "https://www.aodhanwheels.com/products/aodhan-wheels-ah09.js"),
+    ("AODHAN", "AH11", "ah11", "https://www.aodhanwheels.com/products/aodhan-wheels-ah11.js"),
+    ("AODHAN", "AHX", "ahx", "https://www.aodhanwheels.com/products/aodhan-wheels-ahx.js"),
+    ("AODHAN", "DS03", "ds03", "https://www.aodhanwheels.com/products/aodhan-wheels-ds03.js"),
+    ("AODHAN", "DSX", "dsx", "https://www.aodhanwheels.com/products/aodhan-wheels-dsx.js"),
+    ("VORS", "UO2", "vors-uo2", "https://www.vorswheels.com/products/uo2.js"),
+]
+
 
 @dataclass
 class SkuRow:
@@ -109,6 +120,7 @@ class SkuRow:
     qty: float = 0
     image: str = ""
     source: str = ""
+    source_status: str = "sourced"
 
 
 @dataclass
@@ -166,6 +178,10 @@ def normalize_offset(value: Any) -> str:
         return f"+{n}" if n > 0 else str(n)
     except ValueError:
         return text if text.startswith(("+", "-")) else f"+{text}" if text.isdigit() else text
+
+
+def normalize_size(value: Any) -> str:
+    return re.sub(r"\s*\([^)]*\)", "", clean(value)).strip()
 
 
 def site_slug(brand: str, model: str) -> str | None:
@@ -426,6 +442,50 @@ def mflow_rows() -> list[SkuRow]:
     )
 
 
+def official_catalog_rows() -> list[SkuRow]:
+    out: list[SkuRow] = []
+    for brand, model, slug, url in OFFICIAL_CATALOG_PRODUCTS:
+        with urllib.request.urlopen(url, timeout=30) as response:
+            product = json.load(response)
+        option_positions = {opt["name"].lower(): opt["position"] for opt in product.get("options", [])}
+        size_pos = option_positions.get("size")
+        color_pos = option_positions.get("color")
+        pcd_pos = next((pos for name, pos in option_positions.items() if "pcd" in name), None)
+        image = clean(product.get("featured_image"))
+
+        for variant in product.get("variants", []):
+            if not variant.get("available"):
+                continue
+            size = normalize_size(variant.get(f"option{size_pos}")) if size_pos else ""
+            finish = normalize_finish(clean(variant.get(f"option{color_pos}"))) if color_pos else ""
+            pcd = clean(variant.get(f"option{pcd_pos}")) if pcd_pos else ""
+            match = re.match(r"(\S+)\s*(?:\|\s*)?([+-]?\d+(?:\.\d+)?)\s*(?:\|\s*)?(\d{2,3}(?:\.\d+)?)?", pcd)
+            bolt_pattern = match.group(1) if match else pcd
+            offset = normalize_offset(match.group(2)) if match else ""
+            center_bore = match.group(3) if match and match.lastindex and match.lastindex >= 3 else ""
+            variant_image = variant.get("featured_image") or {}
+            row_image = clean(variant_image.get("src") if isinstance(variant_image, dict) else "") or image
+            if not size or not finish:
+                continue
+            out.append(SkuRow(
+                brand=brand,
+                model=model,
+                slug=slug,
+                size=size,
+                finish=finish,
+                sku=clean(variant.get("sku")),
+                bolt_pattern=bolt_pattern,
+                offset=offset,
+                center_bore=center_bore,
+                price=parse_number(variant.get("price")) / 100 if variant.get("price") else None,
+                qty=OFFICIAL_CATALOG_QTY,
+                image=row_image,
+                source=f"Official brand catalog / {url.replace('.js', '')}",
+                source_status="official_brand_catalog",
+            ))
+    return out
+
+
 def apply_overrides(rows: list[SkuRow]) -> list[SkuRow]:
     out = []
     for row in rows:
@@ -464,7 +524,7 @@ def build_inventory(rows: list[SkuRow]) -> dict[str, Any]:
             "brand": row.brand,
             "model": row.model,
             "slug": row.slug,
-            "sourceStatus": "sourced",
+            "sourceStatus": row.source_status,
         })
 
     for slug, product in products.items():
@@ -473,6 +533,7 @@ def build_inventory(rows: list[SkuRow]) -> dict[str, Any]:
         for size, variant in sorted(rollups[slug].items()):
             catalog_finishes = sorted(variant.finishes)
             available_finishes = sorted(variant.available_finishes)
+            qty = OFFICIAL_CATALOG_QTY if product["sourceStatus"] == "official_brand_catalog" else variant.qty
             product["variants"][size] = {
                 "size": size,
                 "finishes": available_finishes if available_finishes else catalog_finishes,
@@ -484,8 +545,8 @@ def build_inventory(rows: list[SkuRow]) -> dict[str, Any]:
                 "priceConfigs": variant.price_configs,
                 "finishPrices": dict(sorted(variant.finish_prices.items())),
                 "price": variant.price,
-                "qty": int(variant.qty) if variant.qty == int(variant.qty) else variant.qty,
-                "stockStatus": "in_stock" if variant.qty > 0 else "sold_out",
+                "qty": int(qty) if qty == int(qty) else qty,
+                "stockStatus": "in_stock" if qty > 0 else "sold_out",
                 "skus": variant.skus[:30],
                 "image": variant.image,
             }
@@ -511,6 +572,7 @@ def build_inventory(rows: list[SkuRow]) -> dict[str, Any]:
             "hideNoSourceModels": True,
             "hideUnsupportedSizes": True,
             "useAvailableFinishesWhenPresent": True,
+            "officialCatalogQty": OFFICIAL_CATALOG_QTY,
             "ownerOverrides": OVERRIDES,
         },
         "products": dict(sorted(products.items())),
@@ -520,6 +582,7 @@ def build_inventory(rows: list[SkuRow]) -> dict[str, Any]:
 def write_report(payload: dict[str, Any]) -> None:
     products = payload["products"]
     sourced = [p for p in products.values() if p["sourceStatus"] == "sourced"]
+    official = [p for p in products.values() if p["sourceStatus"] == "official_brand_catalog"]
     missing = [p for p in products.values() if p["sourceStatus"] == "no_source_rows"]
     lines = [
         "# FW Wheels Spreadsheet Inventory Build",
@@ -530,6 +593,8 @@ def write_report(payload: dict[str, Any]) -> None:
         "## Summary",
         f"- Site models tracked: {len(products)}",
         f"- Models with spreadsheet rows: {len(sourced)}",
+        f"- Models added from official brand catalog: {len(official)}",
+        f"- Official catalog temporary quantity: {OFFICIAL_CATALOG_QTY}",
         f"- Models hidden because no source rows: {len(missing)}",
         "",
         "## Hidden Because No Source Rows",
@@ -547,6 +612,14 @@ def write_report(payload: dict[str, Any]) -> None:
         variant_count = len(product["variants"])
         finish_count = len({f for variant in product["variants"].values() for f in variant["finishes"]})
         lines.append(f"- {product['brand']} {product['model']} (`{product['slug']}`): {variant_count} sizes, {finish_count} sellable finishes")
+    lines += ["", "## Official Brand Catalog Models"]
+    if official:
+        for product in official:
+            variant_count = len(product["variants"])
+            finish_count = len({f for variant in product["variants"].values() for f in variant["finishes"]})
+            lines.append(f"- {product['brand']} {product['model']} (`{product['slug']}`): {variant_count} sizes, {finish_count} sellable finishes")
+    else:
+        lines.append("- None")
     OUT_REPORT.write_text("\n".join(lines) + "\n")
 
 
@@ -561,17 +634,18 @@ def main() -> None:
     if missing:
         raise SystemExit("Missing source export(s):\n" + "\n".join(missing))
 
-    rows = apply_overrides(aodhan_rows() + vors_rows() + mflow_rows())
+    rows = apply_overrides(aodhan_rows() + vors_rows() + mflow_rows() + official_catalog_rows())
     payload = build_inventory(rows)
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
     OUT_JSON.write_text(json.dumps(payload, indent=2) + "\n")
     write_report(payload)
 
     sourced = sum(1 for p in payload["products"].values() if p["sourceStatus"] == "sourced")
+    official = sum(1 for p in payload["products"].values() if p["sourceStatus"] == "official_brand_catalog")
     hidden = sum(1 for p in payload["products"].values() if p["sourceStatus"] == "no_source_rows")
     print(f"Wrote {OUT_JSON}")
     print(f"Wrote {OUT_REPORT}")
-    print(f"Sourced models: {sourced}; hidden no-source models: {hidden}")
+    print(f"Sourced models: {sourced}; official catalog models: {official}; hidden no-source models: {hidden}")
 
 
 if __name__ == "__main__":

@@ -3616,7 +3616,7 @@ function fwApplySpreadsheetInventory(payload) {
 
   Object.entries(products).forEach(([slug, product]) => {
     if (!wheelData[slug]) return;
-    if (product.sourceStatus !== 'sourced') {
+    if (!['sourced', 'official_brand_catalog'].includes(product.sourceStatus)) {
       if (hideNoSource) hiddenWheels.add(slug);
       return;
     }

@@ -1,20 +1,17 @@
 # FW Wheels Spreadsheet Inventory Build
 
-Generated: `2026-07-02T03:49:13.717944+00:00`
+Generated: `2026-07-02T04:41:37.187244+00:00`
 Source folder: `/Users/jp/Documents/New project/tmp/fw-wheels-drive-audit`
 
 ## Summary
 - Site models tracked: 48
 - Models with spreadsheet rows: 42
-- Models hidden because no source rows: 6
+- Models added from official brand catalog: 6
+- Official catalog temporary quantity: 20
+- Models hidden because no source rows: 0
 
 ## Hidden Because No Source Rows
-- AODHAN AH09 (`ah09`)
-- AODHAN AH11 (`ah11`)
-- AODHAN AHX (`ahx`)
-- AODHAN DS03 (`ds03`)
-- AODHAN DSX (`dsx`)
-- VORS UO2 (`vors-uo2`)
+- None
 
 ## Owner Overrides
 
@@ -61,3 +58,11 @@ Source folder: `/Users/jp/Documents/New project/tmp/fw-wheels-drive-audit`
 - VORS TR4 (`vors-tr4`): 10 sizes, 5 sellable finishes
 - VORS TR88 (`vors-tr88`): 8 sizes, 3 sellable finishes
 - VORS VR8 (`vors-vr8`): 7 sizes, 3 sellable finishes
+
+## Official Brand Catalog Models
+- AODHAN AH09 (`ah09`): 2 sizes, 4 sellable finishes
+- AODHAN AH11 (`ah11`): 4 sizes, 4 sellable finishes
+- AODHAN AHX (`ahx`): 4 sizes, 4 sellable finishes
+- AODHAN DS03 (`ds03`): 1 sizes, 3 sellable finishes
+- AODHAN DSX (`dsx`): 6 sizes, 3 sellable finishes
+- VORS UO2 (`vors-uo2`): 1 sizes, 1 sellable finishes

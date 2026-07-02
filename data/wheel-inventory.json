@@ -1,10 +1,11 @@
 {
-  "generatedAt": "2026-07-02T03:49:13.717944+00:00",
+  "generatedAt": "2026-07-02T04:41:37.187244+00:00",
   "sourceDir": "/Users/jp/Documents/New project/tmp/fw-wheels-drive-audit",
   "policy": {
     "hideNoSourceModels": true,
     "hideUnsupportedSizes": true,
     "useAvailableFinishesWhenPresent": true,
+    "officialCatalogQty": 20,
     "ownerOverrides": {}
   },
   "products": {
@@ -4612,25 +4613,1290 @@
       "brand": "AODHAN",
       "model": "AH09",
       "slug": "ah09",
-      "sourceStatus": "no_source_rows",
-      "sources": [],
-      "variants": {}
+      "sourceStatus": "official_brand_catalog",
+      "sources": [
+        "Official brand catalog / https://www.aodhanwheels.com/products/aodhan-wheels-ah09"
+      ],
+      "variants": {
+        "18x8.5": {
+          "size": "18x8.5",
+          "finishes": [
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "catalogFinishes": [
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "availableFinishes": [
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "boltPatterns": [
+            "5x108",
+            "5x112",
+            "5x114.3"
+          ],
+          "offsets": [
+            "+35"
+          ],
+          "boltConfigs": [
+            {
+              "bolt": "5x108",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x112",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "cb": "73.1"
+            }
+          ],
+          "priceConfigs": [
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x108",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x108",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x108",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 249.75
+            }
+          ],
+          "finishPrices": {
+            "Matte Black": 249.75,
+            "Matte Bronze": 249.75,
+            "Silver Machined Face": 249.75
+          },
+          "price": 249.75,
+          "qty": 20,
+          "stockStatus": "in_stock",
+          "skus": [
+            "AH91885510835SMF_P",
+            "AH91885511235SMF_D",
+            "AH91885511235SMF_P",
+            "AH91885511435SMF_D",
+            "AH91885511435SMF_P",
+            "AH91885510835MB_D",
+            "AH91885510835MB_P",
+            "AH91885511235MB_D",
+            "AH91885511435MB_D",
+            "AH91885511435MB_P",
+            "AH91885510835BZ_P",
+            "AH91885511235BZ_D",
+            "AH91885511235BZ_P"
+          ],
+          "image": "https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH09_1885_MS_P_03.jpg?v=1749494596"
+        },
+        "18x9.5": {
+          "size": "18x9.5",
+          "finishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "catalogFinishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "availableFinishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "boltPatterns": [
+            "5x100",
+            "5x112",
+            "5x114.3"
+          ],
+          "offsets": [
+            "+35"
+          ],
+          "boltConfigs": [
+            {
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x112",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x100",
+              "offset": "+35",
+              "cb": "73.1"
+            }
+          ],
+          "priceConfigs": [
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Hyper Black",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Hyper Black",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x100",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x100",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 249.75
+            }
+          ],
+          "finishPrices": {
+            "Hyper Black": 249.75,
+            "Matte Black": 249.75,
+            "Matte Bronze": 249.75,
+            "Silver Machined Face": 249.75
+          },
+          "price": 249.75,
+          "qty": 20,
+          "stockStatus": "in_stock",
+          "skus": [
+            "AH91895511435SMF_D",
+            "AH91895511435SMF_P",
+            "AH91895511235HB_D",
+            "AH91895511435HB_D",
+            "AH91895510035MB_D",
+            "AH91895510035MB_P",
+            "AH91895511435MB_P",
+            "AH91895510035BZ_D",
+            "AH91895511435BZ_D"
+          ],
+          "image": "https://cdn.shopify.com/s/files/1/0037/3194/7631/products/AH09_1895_MS_D_03.jpg?v=1749494596"
+        }
+      }
     },
     "ah11": {
       "brand": "AODHAN",
       "model": "AH11",
       "slug": "ah11",
-      "sourceStatus": "no_source_rows",
-      "sources": [],
-      "variants": {}
+      "sourceStatus": "official_brand_catalog",
+      "sources": [
+        "Official brand catalog / https://www.aodhanwheels.com/products/aodhan-wheels-ah11"
+      ],
+      "variants": {
+        "18x8.5": {
+          "size": "18x8.5",
+          "finishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "catalogFinishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "availableFinishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "boltPatterns": [
+            "5x112",
+            "5x114.3",
+            "5x120"
+          ],
+          "offsets": [
+            "+35"
+          ],
+          "boltConfigs": [
+            {
+              "bolt": "5x112",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x120",
+              "offset": "+35",
+              "cb": "72.6"
+            }
+          ],
+          "priceConfigs": [
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Hyper Black",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Hyper Black",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 249.75
+            }
+          ],
+          "finishPrices": {
+            "Hyper Black": 249.75,
+            "Matte Black": 249.75,
+            "Matte Bronze": 249.75,
+            "Silver Machined Face": 249.75
+          },
+          "price": 249.75,
+          "qty": 20,
+          "stockStatus": "in_stock",
+          "skus": [
+            "AH111885511235SMF",
+            "AH111885511435SMF",
+            "AH111885512035SMF",
+            "AH111885511235HB",
+            "AH111885512035HB",
+            "AH111885511235MB",
+            "AH111885511435MB",
+            "AH111885512035MB",
+            "AH111885511235BZ",
+            "AH111885511435BZ",
+            "AH111885512035BZ"
+          ],
+          "image": "https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH11_1885_MS_03.jpg?v=1749494550"
+        },
+        "18x9.5": {
+          "size": "18x9.5",
+          "finishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "catalogFinishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "availableFinishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "boltPatterns": [
+            "5x114.3",
+            "5x120"
+          ],
+          "offsets": [
+            "+35"
+          ],
+          "boltConfigs": [
+            {
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x120",
+              "offset": "+35",
+              "cb": "72.6"
+            }
+          ],
+          "priceConfigs": [
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Hyper Black",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 249.75
+            }
+          ],
+          "finishPrices": {
+            "Hyper Black": 249.75,
+            "Matte Black": 249.75,
+            "Matte Bronze": 249.75,
+            "Silver Machined Face": 249.75
+          },
+          "price": 249.75,
+          "qty": 20,
+          "stockStatus": "in_stock",
+          "skus": [
+            "AH111895511435SMF",
+            "AH111895512035SMF",
+            "AH111895512035HB",
+            "AH111895512035MB",
+            "AH111895512035BZ"
+          ],
+          "image": "https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH11_1895_MS_03.jpg?v=1749494550"
+        },
+        "19x8.5": {
+          "size": "19x8.5",
+          "finishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "catalogFinishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "availableFinishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "boltPatterns": [
+            "5x112",
+            "5x114.3",
+            "5x120"
+          ],
+          "offsets": [
+            "+35"
+          ],
+          "boltConfigs": [
+            {
+              "bolt": "5x112",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x120",
+              "offset": "+35",
+              "cb": "72.6"
+            }
+          ],
+          "priceConfigs": [
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Hyper Black",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Hyper Black",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Hyper Black",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 299.75
+            }
+          ],
+          "finishPrices": {
+            "Hyper Black": 299.75,
+            "Matte Black": 299.75,
+            "Matte Bronze": 299.75,
+            "Silver Machined Face": 299.75
+          },
+          "price": 299.75,
+          "qty": 20,
+          "stockStatus": "in_stock",
+          "skus": [
+            "AH111985511235SMF",
+            "AH111985511435SMF",
+            "AH111985512035SMF",
+            "AH111985511235HB",
+            "AH111985511435HB",
+            "AH111985512035HB",
+            "AH111985511235MB",
+            "AH111985511435MB",
+            "AH111985512035MB",
+            "AH111985511235BZ",
+            "AH111985511435BZ",
+            "AH111985512035BZ"
+          ],
+          "image": "https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH11_1885_MS_03.jpg?v=1749494550"
+        },
+        "19x9.5": {
+          "size": "19x9.5",
+          "finishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "catalogFinishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "availableFinishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "boltPatterns": [
+            "5x112",
+            "5x114.3",
+            "5x120"
+          ],
+          "offsets": [
+            "+35"
+          ],
+          "boltConfigs": [
+            {
+              "bolt": "5x112",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x120",
+              "offset": "+35",
+              "cb": "72.6"
+            }
+          ],
+          "priceConfigs": [
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Hyper Black",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Hyper Black",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 299.75
+            }
+          ],
+          "finishPrices": {
+            "Hyper Black": 299.75,
+            "Matte Black": 299.75,
+            "Matte Bronze": 299.75,
+            "Silver Machined Face": 299.75
+          },
+          "price": 299.75,
+          "qty": 20,
+          "stockStatus": "in_stock",
+          "skus": [
+            "AH111995511235SMF",
+            "AH111995511435SMF",
+            "AH111995512035SMF",
+            "AH111995511235HB",
+            "AH111995512035HB",
+            "AH111995511235MB",
+            "AH111995511435MB",
+            "AH111995512035MB",
+            "AH111995511235BZ",
+            "AH111995511435BZ",
+            "AH111995512035BZ"
+          ],
+          "image": "https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH11_1895_MS_03.jpg?v=1749494550"
+        }
+      }
     },
     "ahx": {
       "brand": "AODHAN",
       "model": "AHX",
       "slug": "ahx",
-      "sourceStatus": "no_source_rows",
-      "sources": [],
-      "variants": {}
+      "sourceStatus": "official_brand_catalog",
+      "sources": [
+        "Official brand catalog / https://www.aodhanwheels.com/products/aodhan-wheels-ahx"
+      ],
+      "variants": {
+        "18x8.5": {
+          "size": "18x8.5",
+          "finishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "catalogFinishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "availableFinishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "boltPatterns": [
+            "5x112",
+            "5x114.3",
+            "5x120"
+          ],
+          "offsets": [
+            "+35"
+          ],
+          "boltConfigs": [
+            {
+              "bolt": "5x112",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x120",
+              "offset": "+35",
+              "cb": "72.6"
+            }
+          ],
+          "priceConfigs": [
+            {
+              "finish": "Hyper Black",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Hyper Black",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Hyper Black",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 249.75
+            }
+          ],
+          "finishPrices": {
+            "Hyper Black": 249.75,
+            "Matte Black": 249.75,
+            "Matte Bronze": 249.75,
+            "Silver Machined Face": 249.75
+          },
+          "price": 249.75,
+          "qty": 20,
+          "stockStatus": "in_stock",
+          "skus": [
+            "AHX1885511235HB",
+            "AHX1885511435HB",
+            "AHX1885512035HB",
+            "AHX1885511235MB",
+            "AHX1885511435MB",
+            "AHX1885512035MB",
+            "AHX1885511235BZ",
+            "AHX1885511435BZ",
+            "AHX1885511235SMF",
+            "AHX1885511435SMF",
+            "AHX1885512035SMF"
+          ],
+          "image": "https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AHX_1885_HBLK_03.jpg?v=1752518439"
+        },
+        "18x9.5": {
+          "size": "18x9.5",
+          "finishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "catalogFinishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "availableFinishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "boltPatterns": [
+            "5x114.3",
+            "5x120"
+          ],
+          "offsets": [
+            "+35"
+          ],
+          "boltConfigs": [
+            {
+              "bolt": "5x120",
+              "offset": "+35",
+              "cb": "72.6"
+            },
+            {
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "cb": "73.1"
+            }
+          ],
+          "priceConfigs": [
+            {
+              "finish": "Hyper Black",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 249.75
+            }
+          ],
+          "finishPrices": {
+            "Hyper Black": 249.75,
+            "Matte Black": 249.75,
+            "Matte Bronze": 249.75,
+            "Silver Machined Face": 249.75
+          },
+          "price": 249.75,
+          "qty": 20,
+          "stockStatus": "in_stock",
+          "skus": [
+            "AHX1895512035HB",
+            "AHX1895512035MB",
+            "AHX1895511435BZ",
+            "AHX1895512035BZ",
+            "AHX1895511435SMF",
+            "AHX1895512035SMF"
+          ],
+          "image": "https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AHX_1895_HBLK_03.jpg?v=1752518439"
+        },
+        "19x8.5": {
+          "size": "19x8.5",
+          "finishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "catalogFinishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "availableFinishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "boltPatterns": [
+            "5x112",
+            "5x114.3",
+            "5x120"
+          ],
+          "offsets": [
+            "+35"
+          ],
+          "boltConfigs": [
+            {
+              "bolt": "5x112",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x120",
+              "offset": "+35",
+              "cb": "72.6"
+            }
+          ],
+          "priceConfigs": [
+            {
+              "finish": "Hyper Black",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Hyper Black",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Hyper Black",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 299.75
+            }
+          ],
+          "finishPrices": {
+            "Hyper Black": 299.75,
+            "Matte Black": 299.75,
+            "Matte Bronze": 299.75,
+            "Silver Machined Face": 299.75
+          },
+          "price": 299.75,
+          "qty": 20,
+          "stockStatus": "in_stock",
+          "skus": [
+            "AHX1985511235HB",
+            "AHX1985511435HB",
+            "AHX1985512035HB",
+            "AHX1985511235MB",
+            "AHX1985511435MB",
+            "AHX1985512035MB",
+            "AHX1985511235BZ",
+            "AHX1985511435BZ",
+            "AHX1985512035BZ",
+            "AHX1985511235SMF",
+            "AHX1985511435SMF",
+            "AHX1985512035SMF"
+          ],
+          "image": "https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AHX_1985_HBLK_03.jpg?v=1752518439"
+        },
+        "19x9.5": {
+          "size": "19x9.5",
+          "finishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "catalogFinishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "availableFinishes": [
+            "Hyper Black",
+            "Matte Black",
+            "Matte Bronze",
+            "Silver Machined Face"
+          ],
+          "boltPatterns": [
+            "5x112",
+            "5x114.3",
+            "5x120"
+          ],
+          "offsets": [
+            "+35"
+          ],
+          "boltConfigs": [
+            {
+              "bolt": "5x112",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x120",
+              "offset": "+35",
+              "cb": "72.6"
+            }
+          ],
+          "priceConfigs": [
+            {
+              "finish": "Hyper Black",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Hyper Black",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Hyper Black",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Black",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Matte Bronze",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Silver Machined Face",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 299.75
+            }
+          ],
+          "finishPrices": {
+            "Hyper Black": 299.75,
+            "Matte Black": 299.75,
+            "Matte Bronze": 299.75,
+            "Silver Machined Face": 299.75
+          },
+          "price": 299.75,
+          "qty": 20,
+          "stockStatus": "in_stock",
+          "skus": [
+            "AHX1995511235HB",
+            "AHX1995511435HB",
+            "AHX1995512035HB",
+            "AHX1995511235MB",
+            "AHX1995511435MB",
+            "AHX1995512035MB",
+            "AHX1995511235BZ",
+            "AHX1995511435BZ",
+            "AHX1995512035BZ",
+            "AHX1995511235SMF",
+            "AHX1995511435SMF",
+            "AHX1995512035SMF"
+          ],
+          "image": "https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AHX_1995_HBLK_03.jpg?v=1752518439"
+        }
+      }
     },
     "ds01": {
       "brand": "AODHAN",
@@ -5991,9 +7257,102 @@
       "brand": "AODHAN",
       "model": "DS03",
       "slug": "ds03",
-      "sourceStatus": "no_source_rows",
-      "sources": [],
-      "variants": {}
+      "sourceStatus": "official_brand_catalog",
+      "sources": [
+        "Official brand catalog / https://www.aodhanwheels.com/products/aodhan-wheels-ds03"
+      ],
+      "variants": {
+        "18x9.5": {
+          "size": "18x9.5",
+          "finishes": [
+            "Black Vacuum",
+            "Silver w/Machined Face",
+            "Vacuum Chrome"
+          ],
+          "catalogFinishes": [
+            "Black Vacuum",
+            "Silver w/Machined Face",
+            "Vacuum Chrome"
+          ],
+          "availableFinishes": [
+            "Black Vacuum",
+            "Silver w/Machined Face",
+            "Vacuum Chrome"
+          ],
+          "boltPatterns": [
+            "5x100",
+            "5x114.3"
+          ],
+          "offsets": [
+            "+30",
+            "+35"
+          ],
+          "boltConfigs": [
+            {
+              "bolt": "5x100",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x114.3",
+              "offset": "+30",
+              "cb": "73.1"
+            }
+          ],
+          "priceConfigs": [
+            {
+              "finish": "Silver w/Machined Face",
+              "bolt": "5x100",
+              "offset": "+35",
+              "price": 249.75
+            },
+            {
+              "finish": "Silver w/Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+30",
+              "price": 249.75
+            },
+            {
+              "finish": "Black Vacuum",
+              "bolt": "5x114.3",
+              "offset": "+30",
+              "price": 299.75
+            },
+            {
+              "finish": "Vacuum Chrome",
+              "bolt": "5x100",
+              "offset": "+35",
+              "price": 299.75
+            },
+            {
+              "finish": "Vacuum Chrome",
+              "bolt": "5x114.3",
+              "offset": "+30",
+              "price": 299.75
+            }
+          ],
+          "finishPrices": {
+            "Black Vacuum": 299.75,
+            "Silver w/Machined Face": 249.75,
+            "Vacuum Chrome": 299.75
+          },
+          "price": 249.75,
+          "qty": 20,
+          "stockStatus": "in_stock",
+          "skus": [
+            "DS31895510035SMF_D",
+            "DS31895510035SMF_P",
+            "DS318955114330SMF_D",
+            "DS318955114330SMF_P",
+            "DS318955114330VB_P",
+            "DS31895510035VC_D",
+            "DS31895510035VC_P",
+            "DS318955114330VC_D",
+            "DS318955114330VC_P"
+          ],
+          "image": "https://cdn.shopify.com/s/files/1/0037/3194/7631/files/DS03_1895_MS_03D.jpg?v=1749494676"
+        }
+      }
     },
     "ds05": {
       "brand": "AODHAN",
@@ -9106,9 +10465,587 @@
       "brand": "AODHAN",
       "model": "DSX",
       "slug": "dsx",
-      "sourceStatus": "no_source_rows",
-      "sources": [],
-      "variants": {}
+      "sourceStatus": "official_brand_catalog",
+      "sources": [
+        "Official brand catalog / https://www.aodhanwheels.com/products/aodhan-wheels-dsx"
+      ],
+      "variants": {
+        "18x10.5": {
+          "size": "18x10.5",
+          "finishes": [
+            "Bronze w/Machined Lip",
+            "Gloss Black W /Gold Rivets",
+            "Silver w/Machined Face"
+          ],
+          "catalogFinishes": [
+            "Bronze w/Machined Lip",
+            "Gloss Black W /Gold Rivets",
+            "Silver w/Machined Face"
+          ],
+          "availableFinishes": [
+            "Bronze w/Machined Lip",
+            "Gloss Black W /Gold Rivets",
+            "Silver w/Machined Face"
+          ],
+          "boltPatterns": [
+            "5x114.3"
+          ],
+          "offsets": [
+            "+15",
+            "+22"
+          ],
+          "boltConfigs": [
+            {
+              "bolt": "5x114.3",
+              "offset": "+22",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x114.3",
+              "offset": "+15",
+              "cb": "73.1"
+            }
+          ],
+          "priceConfigs": [
+            {
+              "finish": "Bronze w/Machined Lip",
+              "bolt": "5x114.3",
+              "offset": "+22",
+              "price": 206.06
+            },
+            {
+              "finish": "Bronze w/Machined Lip",
+              "bolt": "5x114.3",
+              "offset": "+15",
+              "price": 206.06
+            },
+            {
+              "finish": "Gloss Black W /Gold Rivets",
+              "bolt": "5x114.3",
+              "offset": "+22",
+              "price": 206.06
+            },
+            {
+              "finish": "Gloss Black W /Gold Rivets",
+              "bolt": "5x114.3",
+              "offset": "+15",
+              "price": 206.06
+            },
+            {
+              "finish": "Silver w/Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+22",
+              "price": 206.06
+            },
+            {
+              "finish": "Silver w/Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+15",
+              "price": 206.06
+            }
+          ],
+          "finishPrices": {
+            "Bronze w/Machined Lip": 206.06,
+            "Gloss Black W /Gold Rivets": 206.06,
+            "Silver w/Machined Face": 206.06
+          },
+          "price": 206.06,
+          "qty": 20,
+          "stockStatus": "in_stock",
+          "skus": [
+            "DSX18105511422BZ",
+            "DSX18105511415BZ",
+            "DSX18105511422GB",
+            "DSX18105511415GB",
+            "DSX18105511422SMF",
+            "DSX18105511415SMF"
+          ],
+          "image": "https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DSX_18105_BZML_03.jpg?v=1749494544"
+        },
+        "18x8.5": {
+          "size": "18x8.5",
+          "finishes": [
+            "Gloss Black W /Gold Rivets",
+            "Silver w/Machined Face"
+          ],
+          "catalogFinishes": [
+            "Gloss Black W /Gold Rivets",
+            "Silver w/Machined Face"
+          ],
+          "availableFinishes": [
+            "Gloss Black W /Gold Rivets",
+            "Silver w/Machined Face"
+          ],
+          "boltPatterns": [
+            "5x100",
+            "5x114.3"
+          ],
+          "offsets": [
+            "+35"
+          ],
+          "boltConfigs": [
+            {
+              "bolt": "5x100",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "cb": "73.1"
+            }
+          ],
+          "priceConfigs": [
+            {
+              "finish": "Gloss Black W /Gold Rivets",
+              "bolt": "5x100",
+              "offset": "+35",
+              "price": 206.06
+            },
+            {
+              "finish": "Gloss Black W /Gold Rivets",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 206.06
+            },
+            {
+              "finish": "Silver w/Machined Face",
+              "bolt": "5x100",
+              "offset": "+35",
+              "price": 206.06
+            },
+            {
+              "finish": "Silver w/Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 206.06
+            }
+          ],
+          "finishPrices": {
+            "Gloss Black W /Gold Rivets": 206.06,
+            "Silver w/Machined Face": 206.06
+          },
+          "price": 206.06,
+          "qty": 20,
+          "stockStatus": "in_stock",
+          "skus": [
+            "DSX1885510035GB",
+            "DSX1885511435GB",
+            "DSX1885510035SMF",
+            "DSX1885511435SMF"
+          ],
+          "image": "https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DSX_1885_GB_03.jpg?v=1749494545"
+        },
+        "18x9.5": {
+          "size": "18x9.5",
+          "finishes": [
+            "Bronze w/Machined Lip",
+            "Gloss Black W /Gold Rivets",
+            "Silver w/Machined Face"
+          ],
+          "catalogFinishes": [
+            "Bronze w/Machined Lip",
+            "Gloss Black W /Gold Rivets",
+            "Silver w/Machined Face"
+          ],
+          "availableFinishes": [
+            "Bronze w/Machined Lip",
+            "Gloss Black W /Gold Rivets",
+            "Silver w/Machined Face"
+          ],
+          "boltPatterns": [
+            "5x100",
+            "5x114.3"
+          ],
+          "offsets": [
+            "+15",
+            "+22",
+            "+30",
+            "+35"
+          ],
+          "boltConfigs": [
+            {
+              "bolt": "5x100",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x114.3",
+              "offset": "+30",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x114.3",
+              "offset": "+22",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x114.3",
+              "offset": "+15",
+              "cb": "73.1"
+            }
+          ],
+          "priceConfigs": [
+            {
+              "finish": "Bronze w/Machined Lip",
+              "bolt": "5x100",
+              "offset": "+35",
+              "price": 206.06
+            },
+            {
+              "finish": "Bronze w/Machined Lip",
+              "bolt": "5x114.3",
+              "offset": "+30",
+              "price": 206.06
+            },
+            {
+              "finish": "Bronze w/Machined Lip",
+              "bolt": "5x114.3",
+              "offset": "+22",
+              "price": 206.06
+            },
+            {
+              "finish": "Bronze w/Machined Lip",
+              "bolt": "5x114.3",
+              "offset": "+15",
+              "price": 206.06
+            },
+            {
+              "finish": "Gloss Black W /Gold Rivets",
+              "bolt": "5x100",
+              "offset": "+35",
+              "price": 206.06
+            },
+            {
+              "finish": "Gloss Black W /Gold Rivets",
+              "bolt": "5x114.3",
+              "offset": "+30",
+              "price": 206.06
+            },
+            {
+              "finish": "Gloss Black W /Gold Rivets",
+              "bolt": "5x114.3",
+              "offset": "+22",
+              "price": 206.06
+            },
+            {
+              "finish": "Gloss Black W /Gold Rivets",
+              "bolt": "5x114.3",
+              "offset": "+15",
+              "price": 206.06
+            },
+            {
+              "finish": "Silver w/Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+30",
+              "price": 206.06
+            },
+            {
+              "finish": "Silver w/Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+22",
+              "price": 206.06
+            },
+            {
+              "finish": "Silver w/Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+15",
+              "price": 206.06
+            }
+          ],
+          "finishPrices": {
+            "Bronze w/Machined Lip": 206.06,
+            "Gloss Black W /Gold Rivets": 206.06,
+            "Silver w/Machined Face": 206.06
+          },
+          "price": 206.06,
+          "qty": 20,
+          "stockStatus": "in_stock",
+          "skus": [
+            "DSX1895510035BZ",
+            "DSX1895511430BZ",
+            "DSX1895511422BZ",
+            "DSX1895511415BZ",
+            "DSX1895510035GB",
+            "DSX1895511430GB",
+            "DSX1895511422GB",
+            "DSX1895511415GB",
+            "DSX1895511430SMF",
+            "DSX1895511422SMF",
+            "DSX1895511415SMF"
+          ],
+          "image": "https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DSX_1895_BZML_03.jpg?v=1749494544"
+        },
+        "19x11": {
+          "size": "19x11",
+          "finishes": [
+            "Bronze w/Machined Lip",
+            "Gloss Black W /Gold Rivets",
+            "Silver w/Machined Face"
+          ],
+          "catalogFinishes": [
+            "Bronze w/Machined Lip",
+            "Gloss Black W /Gold Rivets",
+            "Silver w/Machined Face"
+          ],
+          "availableFinishes": [
+            "Bronze w/Machined Lip",
+            "Gloss Black W /Gold Rivets",
+            "Silver w/Machined Face"
+          ],
+          "boltPatterns": [
+            "5x114.3"
+          ],
+          "offsets": [
+            "+15",
+            "+22"
+          ],
+          "boltConfigs": [
+            {
+              "bolt": "5x114.3",
+              "offset": "+22",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x114.3",
+              "offset": "+15",
+              "cb": "73.1"
+            }
+          ],
+          "priceConfigs": [
+            {
+              "finish": "Bronze w/Machined Lip",
+              "bolt": "5x114.3",
+              "offset": "+22",
+              "price": 224.81
+            },
+            {
+              "finish": "Bronze w/Machined Lip",
+              "bolt": "5x114.3",
+              "offset": "+15",
+              "price": 224.81
+            },
+            {
+              "finish": "Gloss Black W /Gold Rivets",
+              "bolt": "5x114.3",
+              "offset": "+22",
+              "price": 224.81
+            },
+            {
+              "finish": "Gloss Black W /Gold Rivets",
+              "bolt": "5x114.3",
+              "offset": "+15",
+              "price": 224.81
+            },
+            {
+              "finish": "Silver w/Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+22",
+              "price": 224.81
+            },
+            {
+              "finish": "Silver w/Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+15",
+              "price": 224.81
+            }
+          ],
+          "finishPrices": {
+            "Bronze w/Machined Lip": 224.81,
+            "Gloss Black W /Gold Rivets": 224.81,
+            "Silver w/Machined Face": 224.81
+          },
+          "price": 224.81,
+          "qty": 20,
+          "stockStatus": "in_stock",
+          "skus": [
+            "DSX1911511422BZ",
+            "DSX1911511415BZ",
+            "DSX1911511422GB",
+            "DSX1911511415GB",
+            "DSX1911511422SMF",
+            "DSX1911511415SMF"
+          ],
+          "image": "https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DSX_1911_BZML_03.jpg?v=1749494544"
+        },
+        "19x8.5": {
+          "size": "19x8.5",
+          "finishes": [
+            "Bronze w/Machined Lip",
+            "Gloss Black W /Gold Rivets",
+            "Silver w/Machined Face"
+          ],
+          "catalogFinishes": [
+            "Bronze w/Machined Lip",
+            "Gloss Black W /Gold Rivets",
+            "Silver w/Machined Face"
+          ],
+          "availableFinishes": [
+            "Bronze w/Machined Lip",
+            "Gloss Black W /Gold Rivets",
+            "Silver w/Machined Face"
+          ],
+          "boltPatterns": [
+            "5x114.3"
+          ],
+          "offsets": [
+            "+35"
+          ],
+          "boltConfigs": [
+            {
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "cb": "73.1"
+            }
+          ],
+          "priceConfigs": [
+            {
+              "finish": "Bronze w/Machined Lip",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 224.81
+            },
+            {
+              "finish": "Gloss Black W /Gold Rivets",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 224.81
+            },
+            {
+              "finish": "Silver w/Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+35",
+              "price": 224.81
+            }
+          ],
+          "finishPrices": {
+            "Bronze w/Machined Lip": 224.81,
+            "Gloss Black W /Gold Rivets": 224.81,
+            "Silver w/Machined Face": 224.81
+          },
+          "price": 224.81,
+          "qty": 20,
+          "stockStatus": "in_stock",
+          "skus": [
+            "DSX1985511435BZ",
+            "DSX1985511435GB",
+            "DSX1985511435SMF"
+          ],
+          "image": "https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DSX_1985_BZML_03.jpg?v=1749494544"
+        },
+        "19x9.5": {
+          "size": "19x9.5",
+          "finishes": [
+            "Bronze w/Machined Lip",
+            "Gloss Black W /Gold Rivets",
+            "Silver w/Machined Face"
+          ],
+          "catalogFinishes": [
+            "Bronze w/Machined Lip",
+            "Gloss Black W /Gold Rivets",
+            "Silver w/Machined Face"
+          ],
+          "availableFinishes": [
+            "Bronze w/Machined Lip",
+            "Gloss Black W /Gold Rivets",
+            "Silver w/Machined Face"
+          ],
+          "boltPatterns": [
+            "5x114.3"
+          ],
+          "offsets": [
+            "+15",
+            "+22",
+            "+30"
+          ],
+          "boltConfigs": [
+            {
+              "bolt": "5x114.3",
+              "offset": "+22",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x114.3",
+              "offset": "+15",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x114.3",
+              "offset": "+30",
+              "cb": "73.1"
+            }
+          ],
+          "priceConfigs": [
+            {
+              "finish": "Bronze w/Machined Lip",
+              "bolt": "5x114.3",
+              "offset": "+22",
+              "price": 224.81
+            },
+            {
+              "finish": "Bronze w/Machined Lip",
+              "bolt": "5x114.3",
+              "offset": "+15",
+              "price": 224.81
+            },
+            {
+              "finish": "Gloss Black W /Gold Rivets",
+              "bolt": "5x114.3",
+              "offset": "+30",
+              "price": 224.81
+            },
+            {
+              "finish": "Gloss Black W /Gold Rivets",
+              "bolt": "5x114.3",
+              "offset": "+22",
+              "price": 224.81
+            },
+            {
+              "finish": "Gloss Black W /Gold Rivets",
+              "bolt": "5x114.3",
+              "offset": "+15",
+              "price": 224.81
+            },
+            {
+              "finish": "Silver w/Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+30",
+              "price": 224.81
+            },
+            {
+              "finish": "Silver w/Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+22",
+              "price": 224.81
+            },
+            {
+              "finish": "Silver w/Machined Face",
+              "bolt": "5x114.3",
+              "offset": "+15",
+              "price": 224.81
+            }
+          ],
+          "finishPrices": {
+            "Bronze w/Machined Lip": 224.81,
+            "Gloss Black W /Gold Rivets": 224.81,
+            "Silver w/Machined Face": 224.81
+          },
+          "price": 224.81,
+          "qty": 20,
+          "stockStatus": "in_stock",
+          "skus": [
+            "DSX1995511422BZ",
+            "DSX1995511415BZ",
+            "DSX1995511430GB",
+            "DSX1995511422GB",
+            "DSX1995511415GB",
+            "DSX1995511430SMF",
+            "DSX1995511422SMF",
+            "DSX1995511415SMF"
+          ],
+          "image": "https://cdn.shopify.com/s/files/1/0037/3194/7631/products/DSX_1995_BZML_03.jpg?v=1749494544"
+        }
+      }
     },
     "mf01": {
       "brand": "MFLOW",
@@ -25248,9 +27185,107 @@
       "brand": "VORS",
       "model": "UO2",
       "slug": "vors-uo2",
-      "sourceStatus": "no_source_rows",
-      "sources": [],
-      "variants": {}
+      "sourceStatus": "official_brand_catalog",
+      "sources": [
+        "Official brand catalog / https://www.vorswheels.com/products/uo2"
+      ],
+      "variants": {
+        "19x8.5": {
+          "size": "19x8.5",
+          "finishes": [
+            "Hyper Silver"
+          ],
+          "catalogFinishes": [
+            "Hyper Silver"
+          ],
+          "availableFinishes": [
+            "Hyper Silver"
+          ],
+          "boltPatterns": [
+            "5x108",
+            "5x110",
+            "5x112",
+            "5x115",
+            "5x120"
+          ],
+          "offsets": [
+            "+35"
+          ],
+          "boltConfigs": [
+            {
+              "bolt": "5x108",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x110",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x112",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x115",
+              "offset": "+35",
+              "cb": "73.1"
+            },
+            {
+              "bolt": "5x120",
+              "offset": "+35",
+              "cb": "73.1"
+            }
+          ],
+          "priceConfigs": [
+            {
+              "finish": "Hyper Silver",
+              "bolt": "5x108",
+              "offset": "+35",
+              "price": 290.0
+            },
+            {
+              "finish": "Hyper Silver",
+              "bolt": "5x110",
+              "offset": "+35",
+              "price": 290.0
+            },
+            {
+              "finish": "Hyper Silver",
+              "bolt": "5x112",
+              "offset": "+35",
+              "price": 290.0
+            },
+            {
+              "finish": "Hyper Silver",
+              "bolt": "5x115",
+              "offset": "+35",
+              "price": 290.0
+            },
+            {
+              "finish": "Hyper Silver",
+              "bolt": "5x120",
+              "offset": "+35",
+              "price": 290.0
+            }
+          ],
+          "finishPrices": {
+            "Hyper Silver": 290.0
+          },
+          "price": 290.0,
+          "qty": 20,
+          "stockStatus": "in_stock",
+          "skus": [
+            "UO02198551435HS/508",
+            "UO02198551435HS/510",
+            "UO02198551435HS/512",
+            "UO02198551435HS/515",
+            "UO02198551435HS/520"
+          ],
+          "image": "https://cdn.shopify.com/s/files/1/0859/3725/8814/files/UO2_18X85_MB_1.jpg?v=1762488607"
+        }
+      }
     },
     "vors-vr8": {
       "brand": "VORS",
