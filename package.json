@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "vercel:dev": "vercel dev"
+    "vercel:dev": "vercel dev",
+    "inventory:build": "python3 tools/build-wheel-inventory.py"
   },
   "dependencies": {
     "stripe": "^17.0.0"

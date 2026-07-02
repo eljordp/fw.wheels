@@ -2306,12 +2306,9 @@ function updateModalVariant(wheelId, size, preferred = {}) {
   const variant = getVariantData(wheel, size);
   const finishImgMap = buildFinishImageMap(wheel, wheelId);
   const variantFinishes = (variant.finishes || []).map(canonicalFinishName);
-  const finishOptions = [
-    ...new Set([
-      ...variantFinishes,
-      ...Object.keys(finishImgMap).map(canonicalFinishName)
-    ])
-  ];
+  const finishOptions = variantFinishes.length
+    ? [...new Set(variantFinishes)]
+    : [...new Set(Object.keys(finishImgMap).map(canonicalFinishName))];
   const preferredFinish = preferred.finish ? canonicalFinishName(preferred.finish) : '';
   const selectedFinish = preferredFinish && finishOptions.includes(preferredFinish)
     ? preferredFinish
@@ -3461,8 +3458,7 @@ function applyWheelCards() {
 
   const finishChoices = [
     ...new Set([
-      ...finishes,
-      ...Object.keys(finishImgMap).map(canonicalFinishName)
+      ...(finishes.size ? finishes : Object.keys(finishImgMap).map(canonicalFinishName))
     ])
   ];
   const imageBackedFinishes = finishChoices.filter(f => getFinishImage(finishImgMap, f));
@@ -3533,6 +3529,88 @@ function priceRangeStr(slug) {
   return (mn === mx ? `$${mn}` : `$${mn} – $${mx}`) + ' /wheel';
 }
 
+function fwApplySourceVariant(slug, size, sourceVariant) {
+  const wheel = wheelData[slug];
+  if (!wheel || !sourceVariant) return;
+  wheel.variants = wheel.variants || {};
+  const existing = wheel.variants[size] || {};
+  const finishes = Array.isArray(sourceVariant.finishes) ? sourceVariant.finishes.filter(Boolean) : [];
+  const boltPatterns = Array.isArray(sourceVariant.boltPatterns) ? sourceVariant.boltPatterns.filter(Boolean) : [];
+  const offsets = Array.isArray(sourceVariant.offsets) ? sourceVariant.offsets.filter(Boolean) : [];
+  const boltConfigs = Array.isArray(sourceVariant.boltConfigs) ? sourceVariant.boltConfigs.filter(c => c && c.bolt && c.offset) : [];
+
+  wheel.variants[size] = {
+    ...existing,
+    finishes: finishes.length ? finishes : (existing.finishes || []),
+    boltPatterns: boltPatterns.length ? boltPatterns : (existing.boltPatterns || []),
+    offsets: offsets.length ? offsets : (existing.offsets || []),
+    image: sourceVariant.image || existing.image || '',
+  };
+
+  if (boltConfigs.length) {
+    wheelBoltConfigs[slug] = wheelBoltConfigs[slug] || {};
+    wheelBoltConfigs[slug][size] = boltConfigs;
+  }
+
+  if (sourceVariant.price && Number(sourceVariant.price) > 0) {
+    wheelPrices[slug] = wheelPrices[slug] || {};
+    wheelPrices[slug][size] = Number(sourceVariant.price);
+  }
+
+  const stockKey = slug + '|' + size;
+  const qty = Number(sourceVariant.qty || 0);
+  if (sourceVariant.stockStatus === 'sold_out' || qty <= 0) {
+    FW_SOLD_OUT.add(stockKey);
+    FW_LOW.delete(stockKey);
+  } else {
+    FW_SOLD_OUT.delete(stockKey);
+    if (qty <= 4) FW_LOW.set(stockKey, qty);
+    else FW_LOW.delete(stockKey);
+  }
+}
+
+function fwApplySpreadsheetInventory(payload) {
+  const products = payload && payload.products;
+  if (!products || typeof products !== 'object') return;
+  const hideNoSource = !payload.policy || payload.policy.hideNoSourceModels !== false;
+
+  Object.entries(products).forEach(([slug, product]) => {
+    if (!wheelData[slug]) return;
+    if (product.sourceStatus === 'manual_catalog') return;
+    if (product.sourceStatus !== 'sourced') {
+      if (hideNoSource) hiddenWheels.add(slug);
+      return;
+    }
+
+    const sourceVariants = product.variants || {};
+    const nextVariants = {};
+    Object.entries(sourceVariants).forEach(([size, sourceVariant]) => {
+      fwApplySourceVariant(slug, size, sourceVariant);
+      if (wheelData[slug].variants && wheelData[slug].variants[size]) {
+        nextVariants[size] = wheelData[slug].variants[size];
+      }
+    });
+
+    if (Object.keys(nextVariants).length) {
+      wheelData[slug].variants = nextVariants;
+      wheelData[slug].priceRange = priceRangeStr(slug) || wheelData[slug].priceRange;
+    } else if (hideNoSource) {
+      hiddenWheels.add(slug);
+    }
+  });
+
+  applyWheelCards();
+}
+
+async function syncCatalogFromSheets() {
+  try {
+    const res = await fetch('/data/wheel-inventory.json', { cache: 'no-store' });
+    if (!res.ok) return;
+    const payload = await res.json();
+    fwApplySpreadsheetInventory(payload);
+  } catch (e) { /* keep built-in/Supabase catalog */ }
+}
+
 // Inject a card for an admin-added product that has no static HTML card.
 function injectDbProductCard(slug, brandSecId) {
   const section = document.querySelector(`.brand-section[data-brand="${brandSecId}"]`);
@@ -3600,6 +3678,10 @@ async function syncCatalogFromDB() {
 
       // Keep every size visible (so "notify me when back" can show); flag sold-out ones.
       variants.forEach(v => {
+        const existingVariant = wheelData[p.slug].variants[v.size] || {};
+        const dbFinishes = Array.isArray(v.finishes) ? v.finishes : [];
+        const dbBoltPatterns = Array.isArray(v.bolt_patterns) ? v.bolt_patterns : [];
+        const dbOffsets = Array.isArray(v.offsets) ? v.offsets : [];
         const soldOut = v.active === false || (v.track_stock && Number(v.stock) <= 0);
         const key = p.slug + '|' + v.size;
         if (soldOut) FW_SOLD_OUT.add(key); else FW_SOLD_OUT.delete(key);
@@ -3610,16 +3692,15 @@ async function syncCatalogFromDB() {
         } else { FW_LOW.delete(key); }
         wheelPrices[p.slug][v.size] = Number(v.price);
         if (v.price_overrides) colorPriceOverrides[p.slug] = v.price_overrides;
-        if (isNew) {
-          wheelData[p.slug].variants[v.size] = {
-            finishes: Array.isArray(v.finishes) ? v.finishes : [],
-            boltPatterns: Array.isArray(v.bolt_patterns) ? v.bolt_patterns : [],
-            offsets: Array.isArray(v.offsets) ? v.offsets : [],
-            boltOffsets: v.bolt_offsets || undefined,
-            image: v.image || (Array.isArray(p.images) ? p.images[0] : '') || '',
-          };
-          if (v.bolt_configs) wheelBoltConfigs[p.slug][v.size] = v.bolt_configs;
-        }
+        wheelData[p.slug].variants[v.size] = {
+          ...existingVariant,
+          finishes: dbFinishes.length ? dbFinishes : (existingVariant.finishes || []),
+          boltPatterns: dbBoltPatterns.length ? dbBoltPatterns : (existingVariant.boltPatterns || []),
+          offsets: dbOffsets.length ? dbOffsets : (existingVariant.offsets || []),
+          boltOffsets: v.bolt_offsets || existingVariant.boltOffsets,
+          image: v.image || existingVariant.image || (Array.isArray(p.images) ? p.images[0] : '') || '',
+        };
+        if (v.bolt_configs) wheelBoltConfigs[p.slug][v.size] = v.bolt_configs;
       });
 
       wheelData[p.slug].priceRange = priceRangeStr(p.slug);
@@ -3640,7 +3721,7 @@ async function syncCatalogFromDB() {
     if (typeof renderAccessoryCards === 'function') { try { renderAccessoryCards('all'); } catch (e) {} }
   } catch (e) { /* keep built-in catalog */ }
 }
-syncCatalogFromDB();
+syncCatalogFromDB().finally(syncCatalogFromSheets);
 
 // ===== SCROLL ANIMATIONS =====
 const observerOptions = {
