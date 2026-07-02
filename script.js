@@ -3467,6 +3467,8 @@ const cardFinishPreferences = {
     'Vacuum Chrome (PVD)',
     'Vacuum Chrome',
     'PVD Chrome',
+    'Matte Gray',
+    'Matte Gunmetal',
     'Gloss White',
     'White'
   ],
