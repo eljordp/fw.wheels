@@ -3915,6 +3915,12 @@ function fwApplySourceVariant(slug, size, sourceVariant) {
   const finishes = Array.isArray(sourceVariant.finishes) ? sourceVariant.finishes.filter(Boolean) : [];
   const catalogFinishes = Array.isArray(sourceVariant.catalogFinishes) ? sourceVariant.catalogFinishes.filter(Boolean) : [];
   const availableFinishes = Array.isArray(sourceVariant.availableFinishes) ? sourceVariant.availableFinishes.filter(Boolean) : [];
+  const mergedCatalogFinishes = uniqueCanonicalFinishes([
+    ...(existing.catalogFinishes || []),
+    ...(existing.finishes || []),
+    ...finishes,
+    ...catalogFinishes
+  ]);
   const boltPatterns = Array.isArray(sourceVariant.boltPatterns) ? sourceVariant.boltPatterns.filter(Boolean) : [];
   const offsets = Array.isArray(sourceVariant.offsets) ? sourceVariant.offsets.filter(Boolean) : [];
   const boltConfigs = Array.isArray(sourceVariant.boltConfigs) ? sourceVariant.boltConfigs.filter(c => c && c.bolt && c.offset) : [];
@@ -3922,7 +3928,7 @@ function fwApplySourceVariant(slug, size, sourceVariant) {
   wheel.variants[size] = {
     ...existing,
     finishes: (catalogFinishes.length ? catalogFinishes : finishes).length ? (catalogFinishes.length ? catalogFinishes : finishes) : (existing.finishes || []),
-    catalogFinishes: catalogFinishes.length ? catalogFinishes : (existing.catalogFinishes || finishes || []),
+    catalogFinishes: mergedCatalogFinishes.length ? mergedCatalogFinishes : (existing.catalogFinishes || finishes || []),
     availableFinishes: availableFinishes.length ? availableFinishes : (existing.availableFinishes || finishes || []),
     boltPatterns: boltPatterns.length ? boltPatterns : (existing.boltPatterns || []),
     offsets: offsets.length ? offsets : (existing.offsets || []),
