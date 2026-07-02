@@ -3519,6 +3519,28 @@ function pickCardDefaultFinish(id, finishes, finishImgMap) {
   ) || finishes.find(finish => getFinishImage(finishImgMap, finish)) || finishes[0];
 }
 
+function getCardFinishRank(id, finish) {
+  const preferences = modelCardFinishPreferences[id] || cardFinishPreferences[getWheelBrand(id)] || [];
+  const normalized = normalizeFinishKey(finish);
+  const exactIndex = preferences.findIndex(preference => normalizeFinishKey(preference) === normalized);
+  if (exactIndex > -1) return exactIndex;
+
+  const looseIndex = preferences.findIndex(preference => {
+    const preferred = normalizeFinishKey(preference);
+    return normalized.includes(preferred) || preferred.includes(normalized);
+  });
+  if (looseIndex > -1) return looseIndex + 0.25;
+
+  return preferences.length + 100;
+}
+
+function sortCardFinishes(id, finishes) {
+  return [...finishes].sort((a, b) => {
+    const rankDelta = getCardFinishRank(id, a) - getCardFinishRank(id, b);
+    return rankDelta || a.localeCompare(b);
+  });
+}
+
 let hiddenWheels = new Set();
 const FW_SOLD_OUT = new Set(); // "slug|size" entries that are out of stock
 const FW_LOW = new Map(); // "slug|size" -> units left, for low-stock urgency
@@ -3601,7 +3623,7 @@ function applyWheelCards() {
       ...(finishes.length ? finishes : Object.keys(finishImgMap).map(canonicalFinishName))
     ])
   ];
-  const finishOptions = finishChoices;
+  const finishOptions = sortCardFinishes(id, finishChoices);
   const activeFinish = pickCardDefaultFinish(id, finishOptions, finishImgMap);
   const arr = activeFinish
     ? [activeFinish, ...finishOptions.filter(f => f !== activeFinish)]
@@ -3982,7 +4004,7 @@ function injectDbProductCard(slug, brandSecId) {
   const grid = group.querySelector('.wheel-grid');
   if (grid.querySelector(`[data-wheel="${slug}"]`)) return;
   const w = wheelData[slug];
-  const img = (w.images && w.images[0]) || '';
+  const img = getInitialWheelCardImage(w, slug) || (w.images && w.images[0]) || '';
   const card = document.createElement('div');
   card.className = 'wheel-card';
   card.dataset.wheel = slug;
