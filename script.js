@@ -4470,8 +4470,8 @@ function initQuickFitmentForm() {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(form).entries());
     const note = [
-      data.vehicle ? `Vehicle: ${data.vehicle}` : '',
-      data.goal ? `Wheel goal: ${data.goal}` : ''
+      data.vehicle ? `Build notes: ${data.vehicle}` : '',
+      data.goal ? `Wheel interest: ${data.goal}` : ''
     ].filter(Boolean).join('\n');
 
     if (note) sessionStorage.setItem('fwQuickFitmentNote', note);
