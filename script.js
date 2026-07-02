@@ -3444,14 +3444,14 @@ function getFinishImage(map, finish) {
   if (match) return map[match];
 
   const familyTests = [
-    () => target.includes('silver') || target.includes('machined') || target.includes('chrome'),
+    () => target.includes('silver') || target.includes('chrome'),
     key => target.includes('bronze'),
     key => target.includes('gold'),
     key => target.includes('white'),
     key => target.includes('black') || target.includes('gunmetal') || target.includes('gray')
   ];
   const familyMatchers = [
-    key => key.includes('silver') || key.includes('machined') || key.includes('chrome'),
+    key => key.includes('silver') || key.includes('chrome'),
     key => key.includes('bronze'),
     key => key.includes('gold'),
     key => key.includes('white'),
@@ -4083,6 +4083,11 @@ async function syncCatalogFromDB() {
       variants.forEach(v => {
         const existingVariant = wheelData[p.slug].variants[v.size] || {};
         const dbFinishes = Array.isArray(v.finishes) ? v.finishes : [];
+        const mergedCatalogFinishes = uniqueCanonicalFinishes([
+          ...(existingVariant.catalogFinishes || []),
+          ...(existingVariant.finishes || []),
+          ...dbFinishes
+        ]);
         const dbBoltPatterns = Array.isArray(v.bolt_patterns) ? v.bolt_patterns : [];
         const dbOffsets = Array.isArray(v.offsets) ? v.offsets : [];
         const soldOut = v.active === false || (v.track_stock && Number(v.stock) <= 0);
@@ -4098,7 +4103,7 @@ async function syncCatalogFromDB() {
         wheelData[p.slug].variants[v.size] = {
           ...existingVariant,
           finishes: dbFinishes.length ? dbFinishes : (existingVariant.finishes || []),
-          catalogFinishes: dbFinishes.length ? dbFinishes : (existingVariant.catalogFinishes || existingVariant.finishes || []),
+          catalogFinishes: mergedCatalogFinishes.length ? mergedCatalogFinishes : (existingVariant.catalogFinishes || existingVariant.finishes || []),
           availableFinishes: soldOut ? [] : (dbFinishes.length ? dbFinishes : (existingVariant.availableFinishes || existingVariant.finishes || [])),
           boltPatterns: dbBoltPatterns.length ? dbBoltPatterns : (existingVariant.boltPatterns || []),
           offsets: dbOffsets.length ? dbOffsets : (existingVariant.offsets || []),
