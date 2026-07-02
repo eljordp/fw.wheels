@@ -2326,14 +2326,20 @@ function updateModalVariant(wheelId, size, preferred = {}) {
   const wheel = wheelData[wheelId];
   const variant = getVariantData(wheel, size);
   const finishImgMap = buildFinishImageMap(wheel, wheelId);
-  const variantFinishes = (variant.finishes || []).map(canonicalFinishName);
+  const variantFinishes = getVariantCatalogFinishes(variant);
+  const availableFinishes = getVariantAvailableFinishes(variant);
   const finishOptions = variantFinishes.length
     ? [...new Set(variantFinishes)]
     : [...new Set(Object.keys(finishImgMap).map(canonicalFinishName))];
   const preferredFinish = preferred.finish ? canonicalFinishName(preferred.finish) : '';
-  const selectedFinish = preferredFinish && finishOptions.includes(preferredFinish)
+  const purchasableFinishOptions = availableFinishes.length
+    ? finishOptions.filter(finish => availableFinishes.some(available => normalizeFinishKey(available) === normalizeFinishKey(finish)))
+    : finishOptions;
+  const selectedFinish = preferredFinish
+      && finishOptions.includes(preferredFinish)
+      && !isFinishSoldOutForSize(wheel, size, preferredFinish)
     ? preferredFinish
-    : pickCardDefaultFinish(wheelId, finishOptions, finishImgMap);
+    : pickCardDefaultFinish(wheelId, purchasableFinishOptions.length ? purchasableFinishOptions : finishOptions, finishImgMap);
 
   // Get bolt configs from inventory data, fall back to variant data
   const configs = (wheelBoltConfigs[wheelId] && wheelBoltConfigs[wheelId][size]) || null;
@@ -2385,9 +2391,10 @@ function updateModalVariant(wheelId, size, preferred = {}) {
     <div class="spec-group">
       <div class="spec-label">Finish</div>
       <div class="spec-chips" id="finishChips">
-        ${finishOptions.map(f =>
-          `<span class="spec-chip spec-chip--selectable${f === selectedFinish ? ' spec-chip--active' : ''}" data-finish="${f}">${f}</span>`
-        ).join('')}
+        ${finishOptions.map(f => {
+          const soldOut = isFinishSoldOutForSize(wheel, size, f);
+          return `<span class="spec-chip spec-chip--selectable${f === selectedFinish ? ' spec-chip--active' : ''}${soldOut ? ' spec-chip--sold-out' : ''}" data-finish="${f}" data-sold-out="${soldOut ? 'true' : 'false'}">${f}${soldOut ? ' <small>Sold out</small>' : ''}</span>`;
+        }).join('')}
       </div>
     </div>
     ${boltHtml}
@@ -2402,6 +2409,12 @@ function updateModalVariant(wheelId, size, preferred = {}) {
   // Finish chip click → swap modal image + update price
   dynamicSpecs.querySelectorAll('#finishChips .spec-chip--selectable').forEach(chip => {
     chip.addEventListener('click', () => {
+      if (chip.dataset.soldOut === 'true') {
+        const finish = chip.dataset.finish;
+        const image = getWheelDisplayImage(wheel, wheelId, size, finish);
+        if (image) modalImages.innerHTML = `<img decoding="async" src="${image}" alt="${wheel.name} - ${finish}" loading="lazy">`;
+        return;
+      }
       dynamicSpecs.querySelectorAll('#finishChips .spec-chip--selectable').forEach(c => c.classList.remove('spec-chip--active'));
       chip.classList.add('spec-chip--active');
       const finish = chip.dataset.finish;
@@ -3052,6 +3065,58 @@ function normalizeFinishKey(finish) {
     .trim();
 }
 
+function uniqueCanonicalFinishes(values = []) {
+  return [...new Set((values || []).filter(Boolean).map(canonicalFinishName))];
+}
+
+function getVariantCatalogFinishes(variant = {}) {
+  return uniqueCanonicalFinishes(
+    (variant.catalogFinishes && variant.catalogFinishes.length) ? variant.catalogFinishes : (variant.finishes || [])
+  );
+}
+
+function getVariantAvailableFinishes(variant = {}) {
+  return uniqueCanonicalFinishes(
+    (variant.availableFinishes && variant.availableFinishes.length) ? variant.availableFinishes : (variant.finishes || [])
+  );
+}
+
+function getWheelCatalogFinishes(wheel) {
+  const finishes = new Set();
+  Object.values(wheel?.variants || {}).forEach(variant => {
+    getVariantCatalogFinishes(variant).forEach(finish => finishes.add(finish));
+  });
+  return [...finishes];
+}
+
+function getWheelAvailableFinishes(wheel) {
+  const finishes = new Set();
+  Object.values(wheel?.variants || {}).forEach(variant => {
+    if (variant.stockStatus === 'sold_out' || Number(variant.qty || 0) <= 0) return;
+    getVariantAvailableFinishes(variant).forEach(finish => finishes.add(finish));
+  });
+  return [...finishes];
+}
+
+function isFinishSoldOutForSize(wheel, size, finish) {
+  const variant = getVariantData(wheel, size);
+  if (!variant || !finish) return false;
+  if (variant.stockStatus === 'sold_out' || Number(variant.qty || 0) <= 0) return true;
+  const available = getVariantAvailableFinishes(variant);
+  if (!available.length) return false;
+  const target = normalizeFinishKey(finish);
+  return !available.some(item => normalizeFinishKey(item) === target);
+}
+
+function isFinishSoldOutForWheel(wheel, finish) {
+  if (!wheel || !finish) return false;
+  const target = normalizeFinishKey(finish);
+  return !Object.values(wheel.variants || {}).some(variant => {
+    if (variant.stockStatus === 'sold_out' || Number(variant.qty || 0) <= 0) return false;
+    return getVariantAvailableFinishes(variant).some(item => normalizeFinishKey(item) === target);
+  });
+}
+
 // Static finish→image map per model (from Shopify API scrape)
 const finishImages = {
   // AH Series
@@ -3417,7 +3482,13 @@ const cardFinishPreferences = {
     'Satin Silver'
   ],
   vors: [
+    'Bronze',
+    'Matte Bronze',
+    'Gold',
+    'Gold Vacuum',
+    'Gold Vacuum (PVD)',
     'Silver Machined',
+    'Silver Machined Face',
     'Silver',
     'Hyper Silver',
     'Satin Silver',
@@ -3455,13 +3526,8 @@ function fwLowLeft(slug, size) { return FW_LOW.get(slug + '|' + size); }
 
 function getInitialWheelCardImage(wheel, id) {
   const finishMap = buildFinishImageMap(wheel, id);
-  const finishes = new Set();
-  if (wheel && wheel.variants) {
-    Object.values(wheel.variants).forEach(variant => {
-      (variant.finishes || []).forEach(finish => finishes.add(canonicalFinishName(finish)));
-    });
-  }
-  const preferred = pickCardDefaultFinish(id, [...finishes], finishMap);
+  const finishes = getWheelCatalogFinishes(wheel);
+  const preferred = pickCardDefaultFinish(id, finishes, finishMap);
   return getFinishImage(finishMap, preferred)
     || (wheel.images && wheel.images[0])
     || Object.values(wheel.variants || {}).find(variant => variant.image)?.image
@@ -3522,14 +3588,7 @@ function applyWheelCards() {
   const swatchEl = card.querySelector('.wheel-swatches');
   if (!swatchEl) return;
   swatchEl.innerHTML = '';
-  const finishes = new Set();
-  if (wheel.variants) {
-    Object.values(wheel.variants).forEach(v => {
-      if (v.finishes) v.finishes.forEach(f => finishes.add(canonicalFinishName(f)));
-    });
-  } else if (wheel.finishes) {
-    wheel.finishes.forEach(f => finishes.add(canonicalFinishName(f)));
-  }
+  const finishes = getWheelCatalogFinishes(wheel);
 
   const finishImgMap = buildFinishImageMap(wheel, id);
   const cardImg = card.querySelector('.wheel-img-wrap img');
@@ -3537,21 +3596,21 @@ function applyWheelCards() {
 
   const finishChoices = [
     ...new Set([
-      ...(finishes.size ? finishes : Object.keys(finishImgMap).map(canonicalFinishName))
+      ...(finishes.length ? finishes : Object.keys(finishImgMap).map(canonicalFinishName))
     ])
   ];
-  const imageBackedFinishes = finishChoices.filter(f => getFinishImage(finishImgMap, f));
-  const finishOptions = imageBackedFinishes.length ? imageBackedFinishes : finishChoices;
+  const finishOptions = finishChoices;
   const activeFinish = pickCardDefaultFinish(id, finishOptions, finishImgMap);
   const arr = activeFinish
     ? [activeFinish, ...finishOptions.filter(f => f !== activeFinish)]
     : finishOptions;
   const maxShow = 6;
   arr.slice(0, maxShow).forEach((f, i) => {
+    const soldOut = isFinishSoldOutForWheel(wheel, f);
     const dot = document.createElement('span');
-    dot.className = 'wheel-swatch';
+    dot.className = 'wheel-swatch' + (soldOut ? ' wheel-swatch--sold-out' : '');
     dot.style.background = getFinishColor(f);
-    dot.title = f;
+    dot.title = soldOut ? `${f} - Sold out` : f;
 
     // Make clickable
     dot.addEventListener('click', (e) => {
@@ -3602,7 +3661,7 @@ function getWheelMeta(wheel) {
 
   variants.forEach(([, variant]) => {
     (variant.boltPatterns || []).forEach(bolt => bolts.add(bolt));
-    (variant.finishes || []).forEach(finish => finishes.add(canonicalFinishName(finish)));
+    getVariantCatalogFinishes(variant).forEach(finish => finishes.add(canonicalFinishName(finish)));
     if (Number(variant.qty) > 0) qty += Number(variant.qty);
   });
 
@@ -3802,13 +3861,17 @@ function fwApplySourceVariant(slug, size, sourceVariant) {
   wheel.variants = wheel.variants || {};
   const existing = wheel.variants[size] || {};
   const finishes = Array.isArray(sourceVariant.finishes) ? sourceVariant.finishes.filter(Boolean) : [];
+  const catalogFinishes = Array.isArray(sourceVariant.catalogFinishes) ? sourceVariant.catalogFinishes.filter(Boolean) : [];
+  const availableFinishes = Array.isArray(sourceVariant.availableFinishes) ? sourceVariant.availableFinishes.filter(Boolean) : [];
   const boltPatterns = Array.isArray(sourceVariant.boltPatterns) ? sourceVariant.boltPatterns.filter(Boolean) : [];
   const offsets = Array.isArray(sourceVariant.offsets) ? sourceVariant.offsets.filter(Boolean) : [];
   const boltConfigs = Array.isArray(sourceVariant.boltConfigs) ? sourceVariant.boltConfigs.filter(c => c && c.bolt && c.offset) : [];
 
   wheel.variants[size] = {
     ...existing,
-    finishes: finishes.length ? finishes : (existing.finishes || []),
+    finishes: (catalogFinishes.length ? catalogFinishes : finishes).length ? (catalogFinishes.length ? catalogFinishes : finishes) : (existing.finishes || []),
+    catalogFinishes: catalogFinishes.length ? catalogFinishes : (existing.catalogFinishes || finishes || []),
+    availableFinishes: availableFinishes.length ? availableFinishes : (existing.availableFinishes || finishes || []),
     boltPatterns: boltPatterns.length ? boltPatterns : (existing.boltPatterns || []),
     offsets: offsets.length ? offsets : (existing.offsets || []),
     qty: Number(sourceVariant.qty || 0),
@@ -3983,6 +4046,8 @@ async function syncCatalogFromDB() {
         wheelData[p.slug].variants[v.size] = {
           ...existingVariant,
           finishes: dbFinishes.length ? dbFinishes : (existingVariant.finishes || []),
+          catalogFinishes: dbFinishes.length ? dbFinishes : (existingVariant.catalogFinishes || existingVariant.finishes || []),
+          availableFinishes: soldOut ? [] : (dbFinishes.length ? dbFinishes : (existingVariant.availableFinishes || existingVariant.finishes || [])),
           boltPatterns: dbBoltPatterns.length ? dbBoltPatterns : (existingVariant.boltPatterns || []),
           offsets: dbOffsets.length ? dbOffsets : (existingVariant.offsets || []),
           boltOffsets: v.bolt_offsets || existingVariant.boltOffsets,

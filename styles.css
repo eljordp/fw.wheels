@@ -1494,6 +1494,24 @@ section {
   box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--text);
 }
 
+.wheel-swatch--sold-out {
+  position: relative;
+  opacity: 0.42;
+}
+
+.wheel-swatch--sold-out::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  top: 50%;
+  height: 2px;
+  background: #e63946;
+  transform: rotate(-35deg);
+  transform-origin: center;
+  border-radius: 999px;
+}
+
 .wheel-swatch-more {
   font-size: 0.7rem;
   color: #606060;
@@ -1769,6 +1787,25 @@ section {
   color: #fff;
   border-color: var(--gold);
   font-weight: 600;
+}
+
+.spec-chip--sold-out {
+  opacity: 0.52;
+  text-decoration: line-through;
+}
+
+.spec-chip--sold-out small {
+  margin-left: 6px;
+  color: var(--accent-hover);
+  font-size: 0.58rem;
+  font-weight: 800;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.spec-chip--sold-out:hover {
+  border-color: var(--border);
+  color: var(--text-muted);
 }
 
 .spec-chip--dual::after {
