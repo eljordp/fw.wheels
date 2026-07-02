@@ -3441,7 +3441,30 @@ function getFinishImage(map, finish) {
 
   const target = normalizeFinishKey(canonical);
   const match = Object.keys(map).find(key => normalizeFinishKey(key) === target);
-  return match ? map[match] : '';
+  if (match) return map[match];
+
+  const familyTests = [
+    () => target.includes('silver') || target.includes('machined') || target.includes('chrome'),
+    key => target.includes('bronze'),
+    key => target.includes('gold'),
+    key => target.includes('white'),
+    key => target.includes('black') || target.includes('gunmetal') || target.includes('gray')
+  ];
+  const familyMatchers = [
+    key => key.includes('silver') || key.includes('machined') || key.includes('chrome'),
+    key => key.includes('bronze'),
+    key => key.includes('gold'),
+    key => key.includes('white'),
+    key => key.includes('black') || key.includes('gunmetal') || key.includes('gray')
+  ];
+
+  for (let i = 0; i < familyTests.length; i += 1) {
+    if (!familyTests[i](target)) continue;
+    const familyMatch = Object.keys(map).find(key => familyMatchers[i](normalizeFinishKey(key)));
+    if (familyMatch) return map[familyMatch];
+  }
+
+  return '';
 }
 
 function getWheelDisplayImage(wheel, wheelId, size, finish = '') {
@@ -3458,6 +3481,8 @@ const cardFinishPreferences = {
     'Silver W/Machined Face',
     'Silver w/ Machined Lip',
     'Silver w/Machined Lip',
+    'Silver Machined Lip',
+    'Silver Machined Lip w/Chrome Rivets',
     'Gloss Silver Machined Face',
     'Machined Silver',
     'Silver Machined',
@@ -3474,6 +3499,7 @@ const cardFinishPreferences = {
   ],
   mflow: [
     'Hyper Silver Machine Tip',
+    'Hyper Silver Machined Tip',
     'Hyper Silver Machined Face',
     'Hyper Silver',
     'Chrome',
@@ -3491,6 +3517,8 @@ const cardFinishPreferences = {
     'Gold Vacuum (PVD)',
     'Silver Machined',
     'Silver Machined Face',
+    'Silver Machined Lip',
+    'Silver Machined Lip w/Chrome Rivets',
     'Silver',
     'Hyper Silver',
     'Satin Silver',
