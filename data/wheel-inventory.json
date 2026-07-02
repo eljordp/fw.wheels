@@ -1,26 +1,11 @@
 {
-  "generatedAt": "2026-07-02T03:20:58.645080+00:00",
+  "generatedAt": "2026-07-02T03:36:20.578060+00:00",
   "sourceDir": "/Users/jp/Documents/New project/tmp/fw-wheels-drive-audit",
   "policy": {
     "hideNoSourceModels": true,
     "hideUnsupportedSizes": true,
     "useAvailableFinishesWhenPresent": true,
-    "ownerOverrides": {
-      "vors-tr4": {
-        "allowed_finishes": [
-          "Gloss Black"
-        ],
-        "reason": "Owner confirmed FW should only sell/show VORS TR4 in Gloss Black."
-      }
-    },
-    "manualCatalogModels": {
-      "ah09": "No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available.",
-      "ah11": "No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available.",
-      "ahx": "No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available.",
-      "ds03": "No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available.",
-      "dsx": "No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available.",
-      "vors-uo2": "No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available."
-    }
+    "ownerOverrides": {}
   },
   "products": {
     "aff1": {
@@ -2492,28 +2477,25 @@
       "brand": "AODHAN",
       "model": "AH09",
       "slug": "ah09",
-      "sourceStatus": "manual_catalog",
+      "sourceStatus": "no_source_rows",
       "sources": [],
-      "variants": {},
-      "note": "No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available."
+      "variants": {}
     },
     "ah11": {
       "brand": "AODHAN",
       "model": "AH11",
       "slug": "ah11",
-      "sourceStatus": "manual_catalog",
+      "sourceStatus": "no_source_rows",
       "sources": [],
-      "variants": {},
-      "note": "No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available."
+      "variants": {}
     },
     "ahx": {
       "brand": "AODHAN",
       "model": "AHX",
       "slug": "ahx",
-      "sourceStatus": "manual_catalog",
+      "sourceStatus": "no_source_rows",
       "sources": [],
-      "variants": {},
-      "note": "No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available."
+      "variants": {}
     },
     "ds01": {
       "brand": "AODHAN",
@@ -3178,10 +3160,9 @@
       "brand": "AODHAN",
       "model": "DS03",
       "slug": "ds03",
-      "sourceStatus": "manual_catalog",
+      "sourceStatus": "no_source_rows",
       "sources": [],
-      "variants": {},
-      "note": "No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available."
+      "variants": {}
     },
     "ds05": {
       "brand": "AODHAN",
@@ -4748,10 +4729,9 @@
       "brand": "AODHAN",
       "model": "DSX",
       "slug": "dsx",
-      "sourceStatus": "manual_catalog",
+      "sourceStatus": "no_source_rows",
       "sources": [],
-      "variants": {},
-      "note": "No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available."
+      "variants": {}
     },
     "mf01": {
       "brand": "MFLOW",
@@ -10088,13 +10068,25 @@
         "17x8": {
           "size": "17x8",
           "finishes": [
-            "Gloss Black"
+            "Bronze",
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "catalogFinishes": [
-            "Gloss Black"
+            "Bronze",
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "availableFinishes": [
-            "Gloss Black"
+            "Bronze",
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "boltPatterns": [
             "4x100/4x114.3",
@@ -10175,33 +10167,64 @@
             }
           ],
           "price": 210.0,
-          "qty": 660,
+          "qty": 2414,
           "stockStatus": "in_stock",
           "skus": [
             "TR04178050035BK",
             "TR04178050035BK-505",
+            "TR04178050035HB",
+            "TR04178050035HB-505",
+            "TR04178050035SF",
+            "TR04178050035SF-505",
+            "TR04178050035W",
+            "TR04178050035W-505",
             "TR04178051435BK",
             "TR04178051435BK-508",
             "TR04178051435BK-510",
             "TR04178051435BK-512",
             "TR04178051435BK-515",
             "TR04178051435BK-520",
-            "TR0417808H35BK",
-            "TR0417808H35BK-408",
-            "TR0417808H35BK-498"
+            "TR04178051435BR",
+            "TR04178051435BR-508",
+            "TR04178051435BR-510",
+            "TR04178051435BR-512",
+            "TR04178051435BR-515",
+            "TR04178051435BR-520",
+            "TR04178051435HB",
+            "TR04178051435HB-508",
+            "TR04178051435HB-510",
+            "TR04178051435HB-512",
+            "TR04178051435HB-515",
+            "TR04178051435HB-520",
+            "TR04178051435SF",
+            "TR04178051435SF-508",
+            "TR04178051435SF-510",
+            "TR04178051435SF-512"
           ],
           "image": "https://mrr-wheels.s3.us-west-2.amazonaws.com/VORS/TR4_18X85_BK_1.jpg"
         },
         "17x9": {
           "size": "17x9",
           "finishes": [
-            "Gloss Black"
+            "Bronze",
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "catalogFinishes": [
-            "Gloss Black"
+            "Bronze",
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "availableFinishes": [
-            "Gloss Black"
+            "Bronze",
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "boltPatterns": [
             "5x100",
@@ -10259,30 +10282,58 @@
             }
           ],
           "price": 210.0,
-          "qty": 364,
+          "qty": 1876,
           "stockStatus": "in_stock",
           "skus": [
             "TR04179050030BK",
             "TR04179050030BK-505",
+            "TR04179050030HB",
+            "TR04179050030HB-505",
+            "TR04179050030W",
+            "TR04179050030W-505",
             "TR04179051430BK",
             "TR04179051430BK-508",
             "TR04179051430BK-510",
             "TR04179051430BK-512",
             "TR04179051430BK-515",
-            "TR04179051430BK-520"
+            "TR04179051430BK-520",
+            "TR04179051430BR",
+            "TR04179051430BR-508",
+            "TR04179051430BR-510",
+            "TR04179051430BR-512",
+            "TR04179051430BR-515",
+            "TR04179051430BR-520",
+            "TR04179051430HB",
+            "TR04179051430HB-508",
+            "TR04179051430HB-510",
+            "TR04179051430HB-512",
+            "TR04179051430HB-515",
+            "TR04179051430HB-520",
+            "TR04179051430SF",
+            "TR04179051430SF-508",
+            "TR04179051430SF-510",
+            "TR04179051430SF-512",
+            "TR04179051430SF-515",
+            "TR04179051430SF-520"
           ],
           "image": "https://mrr-wheels.s3.us-west-2.amazonaws.com/VORS/TR4_17X9_BK_1.jpg"
         },
         "18x10.5": {
           "size": "18x10.5",
           "finishes": [
-            "Gloss Black"
+            "Gloss Black",
+            "Hyper Black",
+            "White"
           ],
           "catalogFinishes": [
-            "Gloss Black"
+            "Gloss Black",
+            "Hyper Black",
+            "White"
           ],
           "availableFinishes": [
-            "Gloss Black"
+            "Gloss Black",
+            "Hyper Black",
+            "White"
           ],
           "boltPatterns": [
             "5x108",
@@ -10328,7 +10379,7 @@
             }
           ],
           "price": 255.0,
-          "qty": 360,
+          "qty": 810,
           "stockStatus": "in_stock",
           "skus": [
             "TR0418A551422BK",
@@ -10336,20 +10387,44 @@
             "TR0418A551422BK-510",
             "TR0418A551422BK-512",
             "TR0418A551422BK-515",
-            "TR0418A551422BK-520"
+            "TR0418A551422BK-520",
+            "TR0418A551422HB",
+            "TR0418A551422HB-508",
+            "TR0418A551422HB-510",
+            "TR0418A551422HB-512",
+            "TR0418A551422HB-515",
+            "TR0418A551422HB-520",
+            "TR0418A551422W",
+            "TR0418A551422W-508",
+            "TR0418A551422W-510",
+            "TR0418A551422W-512",
+            "TR0418A551422W-515",
+            "TR0418A551422W-520"
           ],
           "image": "https://mrr-wheels.s3.us-west-2.amazonaws.com/VORS/TR4_18X105_BK_1.jpg"
         },
         "18x8.5": {
           "size": "18x8.5",
           "finishes": [
-            "Gloss Black"
+            "Bronze",
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "catalogFinishes": [
-            "Gloss Black"
+            "Bronze",
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "availableFinishes": [
-            "Gloss Black"
+            "Bronze",
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "boltPatterns": [
             "5x100",
@@ -10407,30 +10482,64 @@
             }
           ],
           "price": 235.0,
-          "qty": 480,
+          "qty": 2324,
           "stockStatus": "in_stock",
           "skus": [
             "TR04188550035BK",
             "TR04188550035BK-505",
+            "TR04188550035BR",
+            "TR04188550035BR-505",
+            "TR04188550035HB",
+            "TR04188550035HB-505",
+            "TR04188550035SF",
+            "TR04188550035SF-505",
+            "TR04188550035W",
+            "TR04188550035W-505",
             "TR04188551435BK",
             "TR04188551435BK-508",
             "TR04188551435BK-510",
             "TR04188551435BK-512",
             "TR04188551435BK-515",
-            "TR04188551435BK-520"
+            "TR04188551435BK-520",
+            "TR04188551435BR",
+            "TR04188551435BR-508",
+            "TR04188551435BR-510",
+            "TR04188551435BR-512",
+            "TR04188551435BR-515",
+            "TR04188551435BR-520",
+            "TR04188551435HB",
+            "TR04188551435HB-508",
+            "TR04188551435HB-510",
+            "TR04188551435HB-512",
+            "TR04188551435HB-515",
+            "TR04188551435HB-520",
+            "TR04188551435SF",
+            "TR04188551435SF-508"
           ],
           "image": "https://mrr-wheels.s3.us-west-2.amazonaws.com/VORS/TR4_18X85_BK_1.jpg"
         },
         "18x9.5": {
           "size": "18x9.5",
           "finishes": [
-            "Gloss Black"
+            "Bronze",
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "catalogFinishes": [
-            "Gloss Black"
+            "Bronze",
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "availableFinishes": [
-            "Gloss Black"
+            "Bronze",
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "boltPatterns": [
             "5x100",
@@ -10519,36 +10628,58 @@
             }
           ],
           "price": 235.0,
-          "qty": 840,
+          "qty": 3086,
           "stockStatus": "in_stock",
           "skus": [
             "TR04189550035BK",
             "TR04189550035BK-505",
+            "TR04189550035HB",
+            "TR04189550035HB-505",
+            "TR04189550035W",
+            "TR04189550035W-505",
             "TR04189551422BK",
             "TR04189551422BK-508",
             "TR04189551422BK-510",
             "TR04189551422BK-512",
             "TR04189551422BK-515",
             "TR04189551422BK-520",
-            "TR04189551435BK",
-            "TR04189551435BK-508",
-            "TR04189551435BK-510",
-            "TR04189551435BK-512",
-            "TR04189551435BK-515",
-            "TR04189551435BK-520"
+            "TR04189551422BR",
+            "TR04189551422BR-508",
+            "TR04189551422BR-510",
+            "TR04189551422BR-512",
+            "TR04189551422BR-515",
+            "TR04189551422BR-520",
+            "TR04189551422HB",
+            "TR04189551422HB-508",
+            "TR04189551422HB-510",
+            "TR04189551422HB-512",
+            "TR04189551422HB-515",
+            "TR04189551422HB-520",
+            "TR04189551422SF",
+            "TR04189551422SF-508",
+            "TR04189551422SF-510",
+            "TR04189551422SF-512",
+            "TR04189551422SF-515",
+            "TR04189551422SF-520"
           ],
           "image": "https://mrr-wheels.s3.us-west-2.amazonaws.com/VORS/TR4_18X95_BK_1.jpg"
         },
         "19x10.5": {
           "size": "19x10.5",
           "finishes": [
-            "Gloss Black"
+            "Gloss Black",
+            "Hyper Black",
+            "White"
           ],
           "catalogFinishes": [
-            "Gloss Black"
+            "Gloss Black",
+            "Hyper Black",
+            "White"
           ],
           "availableFinishes": [
-            "Gloss Black"
+            "Gloss Black",
+            "Hyper Black",
+            "White"
           ],
           "boltPatterns": [
             "5x108",
@@ -10594,7 +10725,7 @@
             }
           ],
           "price": 280.0,
-          "qty": 264,
+          "qty": 318,
           "stockStatus": "in_stock",
           "skus": [
             "TR0419A551422BK",
@@ -10602,20 +10733,42 @@
             "TR0419A551422BK-510",
             "TR0419A551422BK-512",
             "TR0419A551422BK-515",
-            "TR0419A551422BK-520"
+            "TR0419A551422BK-520",
+            "TR0419A551422HB",
+            "TR0419A551422HB-508",
+            "TR0419A551422HB-510",
+            "TR0419A551422HB-512",
+            "TR0419A551422HB-515",
+            "TR0419A551422HB-520",
+            "TR0419A551422W",
+            "TR0419A551422W-508",
+            "TR0419A551422W-510",
+            "TR0419A551422W-512",
+            "TR0419A551422W-515",
+            "TR0419A551422W-520"
           ],
           "image": "https://mrr-wheels.s3.us-west-2.amazonaws.com/VORS/TR4_19X105_BK_1.jpg"
         },
         "19x8.5": {
           "size": "19x8.5",
           "finishes": [
-            "Gloss Black"
+            "Bronze",
+            "Gloss Black",
+            "Hyper Black",
+            "White"
           ],
           "catalogFinishes": [
-            "Gloss Black"
+            "Bronze",
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "availableFinishes": [
-            "Gloss Black"
+            "Bronze",
+            "Gloss Black",
+            "Hyper Black",
+            "White"
           ],
           "boltPatterns": [
             "5x108",
@@ -10661,7 +10814,7 @@
             }
           ],
           "price": 260.0,
-          "qty": 360,
+          "qty": 1440,
           "stockStatus": "in_stock",
           "skus": [
             "TR04198551435BK",
@@ -10669,20 +10822,56 @@
             "TR04198551435BK-510",
             "TR04198551435BK-512",
             "TR04198551435BK-515",
-            "TR04198551435BK-520"
+            "TR04198551435BK-520",
+            "TR04198551435BR",
+            "TR04198551435BR-508",
+            "TR04198551435BR-510",
+            "TR04198551435BR-512",
+            "TR04198551435BR-515",
+            "TR04198551435BR-520",
+            "TR04198551435HB",
+            "TR04198551435HB-508",
+            "TR04198551435HB-510",
+            "TR04198551435HB-512",
+            "TR04198551435HB-515",
+            "TR04198551435HB-520",
+            "TR04198551435SF",
+            "TR04198551435SF-508",
+            "TR04198551435SF-510",
+            "TR04198551435SF-512",
+            "TR04198551435SF-515",
+            "TR04198551435SF-520",
+            "TR04198551435W",
+            "TR04198551435W-508",
+            "TR04198551435W-510",
+            "TR04198551435W-512",
+            "TR04198551435W-515",
+            "TR04198551435W-520"
           ],
           "image": "https://mrr-wheels.s3.us-west-2.amazonaws.com/VORS/TR4_19X85_BK_1.jpg"
         },
         "19x9.5": {
           "size": "19x9.5",
           "finishes": [
-            "Gloss Black"
+            "Bronze",
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "catalogFinishes": [
-            "Gloss Black"
+            "Bronze",
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "availableFinishes": [
-            "Gloss Black"
+            "Bronze",
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "boltPatterns": [
             "5x108",
@@ -10759,7 +10948,7 @@
             }
           ],
           "price": 260.0,
-          "qty": 360,
+          "qty": 2886,
           "stockStatus": "in_stock",
           "skus": [
             "TR04199551422BK",
@@ -10768,25 +10957,52 @@
             "TR04199551422BK-512",
             "TR04199551422BK-515",
             "TR04199551422BK-520",
-            "TR04199551435BK",
-            "TR04199551435BK-508",
-            "TR04199551435BK-510",
-            "TR04199551435BK-512",
-            "TR04199551435BK-515",
-            "TR04199551435BK-520"
+            "TR04199551422BR",
+            "TR04199551422BR-508",
+            "TR04199551422BR-510",
+            "TR04199551422BR-512",
+            "TR04199551422BR-515",
+            "TR04199551422BR-520",
+            "TR04199551422HB",
+            "TR04199551422HB-508",
+            "TR04199551422HB-510",
+            "TR04199551422HB-512",
+            "TR04199551422HB-515",
+            "TR04199551422HB-520",
+            "TR04199551422SF",
+            "TR04199551422SF-508",
+            "TR04199551422SF-510",
+            "TR04199551422SF-512",
+            "TR04199551422SF-515",
+            "TR04199551422SF-520",
+            "TR04199551422W",
+            "TR04199551422W-508",
+            "TR04199551422W-510",
+            "TR04199551422W-512",
+            "TR04199551422W-515",
+            "TR04199551422W-520"
           ],
           "image": "https://mrr-wheels.s3.us-west-2.amazonaws.com/VORS/TR4_19X95_BK_1.jpg"
         },
         "20x8.5": {
           "size": "20x8.5",
           "finishes": [
-            "Gloss Black"
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "catalogFinishes": [
-            "Gloss Black"
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "availableFinishes": [
-            "Gloss Black"
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "boltPatterns": [
             "5x108",
@@ -10832,7 +11048,7 @@
             }
           ],
           "price": null,
-          "qty": 360,
+          "qty": 978,
           "stockStatus": "in_stock",
           "skus": [
             "TR04208551435BK",
@@ -10840,20 +11056,47 @@
             "TR04208551435BK-510",
             "TR04208551435BK-512",
             "TR04208551435BK-515",
-            "TR04208551435BK-520"
+            "TR04208551435BK-520",
+            "TR04208551435HB",
+            "TR04208551435HB-508",
+            "TR04208551435HB-510",
+            "TR04208551435HB-512",
+            "TR04208551435HB-515",
+            "TR04208551435HB-520",
+            "TR04208551435SF",
+            "TR04208551435SF-508",
+            "TR04208551435SF-510",
+            "TR04208551435SF-512",
+            "TR04208551435SF-515",
+            "TR04208551435SF-520",
+            "TR04208551435W",
+            "TR04208551435W-508",
+            "TR04208551435W-510",
+            "TR04208551435W-512",
+            "TR04208551435W-515",
+            "TR04208551435W-520"
           ],
           "image": "https://mrr-wheels.s3.us-west-2.amazonaws.com/VORS/TR4_20X85_BK_1.jpg"
         },
         "20x9.5": {
           "size": "20x9.5",
           "finishes": [
-            "Gloss Black"
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "catalogFinishes": [
-            "Gloss Black"
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "availableFinishes": [
-            "Gloss Black"
+            "Gloss Black",
+            "Hyper Black",
+            "Silver Machined Face",
+            "White"
           ],
           "boltPatterns": [
             "5x108",
@@ -10899,7 +11142,7 @@
             }
           ],
           "price": null,
-          "qty": 360,
+          "qty": 918,
           "stockStatus": "in_stock",
           "skus": [
             "TR04209551435BK",
@@ -10907,16 +11150,28 @@
             "TR04209551435BK-510",
             "TR04209551435BK-512",
             "TR04209551435BK-515",
-            "TR04209551435BK-520"
+            "TR04209551435BK-520",
+            "TR04209551435HB",
+            "TR04209551435HB-508",
+            "TR04209551435HB-510",
+            "TR04209551435HB-512",
+            "TR04209551435HB-515",
+            "TR04209551435HB-520",
+            "TR04209551435SF",
+            "TR04209551435SF-508",
+            "TR04209551435SF-510",
+            "TR04209551435SF-512",
+            "TR04209551435SF-515",
+            "TR04209551435SF-520",
+            "TR04209551435W",
+            "TR04209551435W-508",
+            "TR04209551435W-510",
+            "TR04209551435W-512",
+            "TR04209551435W-515",
+            "TR04209551435W-520"
           ],
           "image": "https://mrr-wheels.s3.us-west-2.amazonaws.com/VORS/TR4_20X95_BK_1.jpg"
         }
-      },
-      "override": {
-        "allowed_finishes": [
-          "Gloss Black"
-        ],
-        "reason": "Owner confirmed FW should only sell/show VORS TR4 in Gloss Black."
       }
     },
     "vors-tr88": {
@@ -11614,10 +11869,9 @@
       "brand": "VORS",
       "model": "UO2",
       "slug": "vors-uo2",
-      "sourceStatus": "manual_catalog",
+      "sourceStatus": "no_source_rows",
       "sources": [],
-      "variants": {},
-      "note": "No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available."
+      "variants": {}
     },
     "vors-vr8": {
       "brand": "VORS",

@@ -1,27 +1,22 @@
 # FW Wheels Spreadsheet Inventory Build
 
-Generated: `2026-07-02T03:20:58.645080+00:00`
+Generated: `2026-07-02T03:36:20.578060+00:00`
 Source folder: `/Users/jp/Documents/New project/tmp/fw-wheels-drive-audit`
 
 ## Summary
 - Site models tracked: 48
 - Models with spreadsheet rows: 42
-- Models kept by manual catalog override: 6
-- Models hidden because no source rows: 0
-
-## Manual Catalog Models
-- AODHAN AH09 (`ah09`): No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available.
-- AODHAN AH11 (`ah11`): No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available.
-- AODHAN AHX (`ahx`): No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available.
-- AODHAN DS03 (`ds03`): No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available.
-- AODHAN DSX (`dsx`): No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available.
-- VORS UO2 (`vors-uo2`): No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available.
+- Models hidden because no source rows: 6
 
 ## Hidden Because No Source Rows
-- None
+- AODHAN AH09 (`ah09`)
+- AODHAN AH11 (`ah11`)
+- AODHAN AHX (`ahx`)
+- AODHAN DS03 (`ds03`)
+- AODHAN DSX (`dsx`)
+- VORS UO2 (`vors-uo2`)
 
 ## Owner Overrides
-- `vors-tr4`: allowed finishes = Gloss Black; reason = Owner confirmed FW should only sell/show VORS TR4 in Gloss Black.
 
 ## Sourced Models
 - AODHAN AFF1 (`aff1`): 2 sizes, 3 sellable finishes
@@ -63,6 +58,6 @@ Source folder: `/Users/jp/Documents/New project/tmp/fw-wheels-drive-audit`
 - VORS TR10 (`vors-tr10`): 6 sizes, 2 sellable finishes
 - VORS TR14 (`vors-tr14`): 1 sizes, 1 sellable finishes
 - VORS TR37 (`vors-tr37`): 6 sizes, 5 sellable finishes
-- VORS TR4 (`vors-tr4`): 10 sizes, 1 sellable finishes
+- VORS TR4 (`vors-tr4`): 10 sizes, 5 sellable finishes
 - VORS TR88 (`vors-tr88`): 8 sizes, 3 sellable finishes
 - VORS VR8 (`vors-vr8`): 7 sizes, 3 sellable finishes

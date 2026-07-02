@@ -90,22 +90,8 @@ MODEL_TO_SLUG = {
     ("VORS", "UO2"): "vors-uo2",
 }
 
-# Owner/business rules win over broad distributor catalog rows.
-OVERRIDES = {
-    "vors-tr4": {
-        "allowed_finishes": ["Gloss Black"],
-        "reason": "Owner confirmed FW should only sell/show VORS TR4 in Gloss Black.",
-    }
-}
-
-MANUAL_CATALOG_MODELS = {
-    "ah09": "No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available.",
-    "ah11": "No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available.",
-    "ahx": "No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available.",
-    "ds03": "No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available.",
-    "dsx": "No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available.",
-    "vors-uo2": "No matching spreadsheet rows found; keep existing site catalog visible until supplier rows are available.",
-}
+# Owner/business rules win over broad distributor catalog rows when needed.
+OVERRIDES = {}
 
 
 @dataclass
@@ -482,17 +468,6 @@ def build_inventory(rows: list[SkuRow]) -> dict[str, Any]:
 
     for (_brand, _model), slug in MODEL_TO_SLUG.items():
         if slug not in products:
-            if slug in MANUAL_CATALOG_MODELS:
-                products[slug] = {
-                    "brand": _brand,
-                    "model": _model,
-                    "slug": slug,
-                    "sourceStatus": "manual_catalog",
-                    "sources": [],
-                    "variants": {},
-                    "note": MANUAL_CATALOG_MODELS[slug],
-                }
-                continue
             products[slug] = {
                 "brand": _brand,
                 "model": _model,
@@ -510,7 +485,6 @@ def build_inventory(rows: list[SkuRow]) -> dict[str, Any]:
             "hideUnsupportedSizes": True,
             "useAvailableFinishesWhenPresent": True,
             "ownerOverrides": OVERRIDES,
-            "manualCatalogModels": MANUAL_CATALOG_MODELS,
         },
         "products": dict(sorted(products.items())),
     }
@@ -519,7 +493,6 @@ def build_inventory(rows: list[SkuRow]) -> dict[str, Any]:
 def write_report(payload: dict[str, Any]) -> None:
     products = payload["products"]
     sourced = [p for p in products.values() if p["sourceStatus"] == "sourced"]
-    manual = [p for p in products.values() if p["sourceStatus"] == "manual_catalog"]
     missing = [p for p in products.values() if p["sourceStatus"] == "no_source_rows"]
     lines = [
         "# FW Wheels Spreadsheet Inventory Build",
@@ -530,17 +503,7 @@ def write_report(payload: dict[str, Any]) -> None:
         "## Summary",
         f"- Site models tracked: {len(products)}",
         f"- Models with spreadsheet rows: {len(sourced)}",
-        f"- Models kept by manual catalog override: {len(manual)}",
         f"- Models hidden because no source rows: {len(missing)}",
-        "",
-        "## Manual Catalog Models",
-    ]
-    if manual:
-        for product in manual:
-            lines.append(f"- {product['brand']} {product['model']} (`{product['slug']}`): {product['note']}")
-    else:
-        lines.append("- None")
-    lines += [
         "",
         "## Hidden Because No Source Rows",
     ]
@@ -578,11 +541,10 @@ def main() -> None:
     write_report(payload)
 
     sourced = sum(1 for p in payload["products"].values() if p["sourceStatus"] == "sourced")
-    manual = sum(1 for p in payload["products"].values() if p["sourceStatus"] == "manual_catalog")
     hidden = sum(1 for p in payload["products"].values() if p["sourceStatus"] == "no_source_rows")
     print(f"Wrote {OUT_JSON}")
     print(f"Wrote {OUT_REPORT}")
-    print(f"Sourced models: {sourced}; manual catalog models: {manual}; hidden no-source models: {hidden}")
+    print(f"Sourced models: {sourced}; hidden no-source models: {hidden}")
 
 
 if __name__ == "__main__":

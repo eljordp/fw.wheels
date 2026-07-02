@@ -3576,7 +3576,6 @@ function fwApplySpreadsheetInventory(payload) {
 
   Object.entries(products).forEach(([slug, product]) => {
     if (!wheelData[slug]) return;
-    if (product.sourceStatus === 'manual_catalog') return;
     if (product.sourceStatus !== 'sourced') {
       if (hideNoSource) hiddenWheels.add(slug);
       return;
