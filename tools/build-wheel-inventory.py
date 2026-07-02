@@ -118,6 +118,8 @@ class VariantRollup:
     bolt_patterns: set[str] = field(default_factory=set)
     offsets: set[str] = field(default_factory=set)
     bolt_configs: list[dict[str, str]] = field(default_factory=list)
+    price_configs: list[dict[str, Any]] = field(default_factory=list)
+    finish_prices: dict[str, float] = field(default_factory=dict)
     price: float | None = None
     qty: float = 0
     skus: list[str] = field(default_factory=list)
@@ -195,6 +197,30 @@ def add_bolt_configs(variant: VariantRollup, bolt_pattern: str, offset: str, cen
             variant.bolt_configs.append(item)
 
 
+def add_price_configs(variant: VariantRollup, finish: str, bolt_pattern: str, offset: str, price: float | None) -> None:
+    if not price:
+        return
+    if not variant.price or price < variant.price:
+        variant.price = price
+    if finish and (finish not in variant.finish_prices or price < variant.finish_prices[finish]):
+        variant.finish_prices[finish] = price
+
+    bolts = split_dual_bolt(bolt_pattern)
+    if not bolts and bolt_pattern:
+        bolts = [bolt_pattern]
+    if not bolts:
+        bolts = [""]
+    for bolt in bolts:
+        item = {
+            "finish": finish,
+            "bolt": bolt,
+            "offset": offset,
+            "price": price,
+        }
+        if item not in variant.price_configs:
+            variant.price_configs.append(item)
+
+
 def header_index(headers: list[str]) -> dict[str, int]:
     idx: dict[str, int] = {}
     for i, header in enumerate(headers):
@@ -242,7 +268,7 @@ def aodhan_rows() -> list[SkuRow]:
             bolt_pattern=clean(row[idx.get("PCD", -1)]),
             offset=normalize_offset(row[idx.get("Offset", -1)]),
             center_bore=clean(row[idx.get("Hub Bore", -1)]),
-            price=parse_number(row[idx.get("MAP (Resale)", -1)]) or None,
+            price=parse_number(row[idx.get("MAP (Resale)", -1)]) or parse_number(row[idx.get("MSRP", -1)]) or None,
             qty=qty,
             image=clean(row[idx.get("Picture", -1)]),
             source="A Spec Wheels Inventory.xlsx / AodHan",
@@ -284,7 +310,7 @@ def vors_rows() -> list[SkuRow]:
                 bolt_pattern=clean(row[idx.get("PCD", -1)]),
                 offset=normalize_offset(row[idx.get("ET", -1)]),
                 center_bore=clean(row[idx.get("CB", -1)]),
-                price=parse_number(row[idx.get("MAP", -1)]) or None,
+                price=parse_number(row[idx.get("MAP", -1)]) or parse_number(row[idx.get("MSRP", -1)]) or None,
                 qty=qty,
                 image=clean(row[idx.get("Pic Link 1", -1)]),
                 source=label,
@@ -326,7 +352,7 @@ def mflow_rows_from_tsv(path: Path, source: str) -> list[SkuRow]:
             bolt_pattern=parse_mflow_bolt(description),
             offset=parse_mflow_offset(description),
             center_bore=parse_mflow_cb(description),
-            price=parse_number(row[idx.get("MAP(retail price)", -1)]) or None,
+            price=parse_number(row[idx.get("MAP(retail price)", -1)]) or parse_number(row[idx.get("MSRP", -1)]) or None,
             qty=max(0, parse_number(row[idx.get("In Stock", -1)])),
             image="",
             source=source,
@@ -430,8 +456,7 @@ def build_inventory(rows: list[SkuRow]) -> dict[str, Any]:
         variant.qty += row.qty
         if row.sku and row.sku not in variant.skus:
             variant.skus.append(row.sku)
-        if row.price and not variant.price:
-            variant.price = row.price
+        add_price_configs(variant, row.finish, row.bolt_pattern, row.offset, row.price)
         if row.image and not variant.image:
             variant.image = row.image
         product_sources[row.slug].add(row.source)
@@ -456,6 +481,8 @@ def build_inventory(rows: list[SkuRow]) -> dict[str, Any]:
                 "boltPatterns": sorted(variant.bolt_patterns),
                 "offsets": sorted(variant.offsets, key=lambda v: parse_number(v)),
                 "boltConfigs": variant.bolt_configs,
+                "priceConfigs": variant.price_configs,
+                "finishPrices": dict(sorted(variant.finish_prices.items())),
                 "price": variant.price,
                 "qty": int(variant.qty) if variant.qty == int(variant.qty) else variant.qty,
                 "stockStatus": "in_stock" if variant.qty > 0 else "sold_out",

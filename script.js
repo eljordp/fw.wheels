@@ -1310,6 +1310,8 @@ const colorPriceOverrides = {
   }
 };
 
+const wheelPriceConfigs = {};
+
 // ===== BOLT CONFIGS (from Enay's inventory — source of truth for bolt+offset+center bore) =====
 // Each config: { bolt, offset, cb } — replaces separate boltPatterns/offsets/boltOffsets
 const wheelBoltConfigs = {
@@ -1660,8 +1662,23 @@ function getVariantData(wheel, size) {
 }
 
 // Get exact per-wheel price for a given size and optional color
-function getWheelPrice(wheelId, size, color) {
+function getWheelPrice(wheelId, size, color, bolt, offset) {
   const priceMap = wheelPrices[wheelId];
+  const skuPrices = wheelPriceConfigs[wheelId] && wheelPriceConfigs[wheelId][size];
+  if (Array.isArray(skuPrices) && skuPrices.length) {
+    const exact = skuPrices.find(item =>
+      (!color || item.finish === color) &&
+      (!bolt || item.bolt === bolt) &&
+      (!offset || item.offset === offset)
+    );
+    if (exact && Number(exact.price) > 0) return Number(exact.price);
+
+    const finishMatch = color ? skuPrices.find(item => item.finish === color && Number(item.price) > 0) : null;
+    if (finishMatch) return Number(finishMatch.price);
+
+    const firstPrice = skuPrices.find(item => Number(item.price) > 0);
+    if (firstPrice) return Number(firstPrice.price);
+  }
   if (!priceMap) return null;
 
   // Check color-specific override first
@@ -2218,7 +2235,10 @@ function openWheelModal(wheelId, preferred = {}) {
     const currentSize = document.getElementById('sizeSelect').value;
     const activeFinish = document.querySelector('#finishChips .spec-chip--active');
     const color = activeFinish ? activeFinish.dataset.finish : null;
-    const price = getWheelPrice(wheelId, currentSize, color);
+    const activeConfig = document.querySelector('#boltConfigChips .spec-chip--active');
+    const bolt = activeConfig ? activeConfig.dataset.bolt : '';
+    const offset = activeConfig ? activeConfig.dataset.offset : '';
+    const price = getWheelPrice(wheelId, currentSize, color, bolt, offset);
     const qtyEl = document.getElementById('qtyValue');
     const q = parseInt(qtyEl.textContent);
     const priceEl = document.getElementById('perWheelPrice');
@@ -2401,6 +2421,7 @@ function updateModalVariant(wheelId, size, preferred = {}) {
       if (chip.dataset.cb && cbDisplay) {
         cbDisplay.textContent = chip.dataset.cb + 'mm';
       }
+      if (window._fwUpdatePrice) window._fwUpdatePrice();
     });
   });
 
@@ -2607,7 +2628,7 @@ modalQuoteBtn.addEventListener('click', () => {
   const bolt = activeConfig ? activeConfig.dataset.bolt : '';
   const offset = activeConfig ? activeConfig.dataset.offset : '';
   const cb = activeConfig ? activeConfig.dataset.cb : '';
-  const price = getWheelPrice(wheelId, size, finish);
+  const price = getWheelPrice(wheelId, size, finish, bolt, offset);
   if (!price) return;
 
   // Use the currently displayed modal image
@@ -3555,6 +3576,25 @@ function fwApplySourceVariant(slug, size, sourceVariant) {
   if (sourceVariant.price && Number(sourceVariant.price) > 0) {
     wheelPrices[slug] = wheelPrices[slug] || {};
     wheelPrices[slug][size] = Number(sourceVariant.price);
+  }
+  if (sourceVariant.finishPrices && typeof sourceVariant.finishPrices === 'object') {
+    colorPriceOverrides[slug] = colorPriceOverrides[slug] || {};
+    Object.entries(sourceVariant.finishPrices).forEach(([finish, price]) => {
+      if (!finish || !Number(price)) return;
+      colorPriceOverrides[slug][finish] = colorPriceOverrides[slug][finish] || {};
+      colorPriceOverrides[slug][finish][size] = Number(price);
+    });
+  }
+  if (Array.isArray(sourceVariant.priceConfigs) && sourceVariant.priceConfigs.length) {
+    wheelPriceConfigs[slug] = wheelPriceConfigs[slug] || {};
+    wheelPriceConfigs[slug][size] = sourceVariant.priceConfigs
+      .filter(item => item && Number(item.price) > 0)
+      .map(item => ({
+        finish: item.finish || '',
+        bolt: item.bolt || '',
+        offset: item.offset || '',
+        price: Number(item.price),
+      }));
   }
 
   const stockKey = slug + '|' + size;
