@@ -3510,11 +3510,6 @@ const cardFinishPreferences = {
     'Satin Silver'
   ],
   vors: [
-    'Bronze',
-    'Matte Bronze',
-    'Gold',
-    'Gold Vacuum',
-    'Gold Vacuum (PVD)',
     'Silver Machined',
     'Silver Machined Face',
     'Silver Machined Lip',
@@ -3525,6 +3520,11 @@ const cardFinishPreferences = {
     'Chrome',
     'Gloss White',
     'White',
+    'Bronze',
+    'Matte Bronze',
+    'Gold',
+    'Gold Vacuum',
+    'Gold Vacuum (PVD)',
     'Gun Metal',
     'Gunmetal'
   ]
