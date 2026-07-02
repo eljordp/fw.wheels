@@ -671,7 +671,7 @@ const wheelData = {
     centerBore: '73.1mm',
     priceRange: '$224 /wheel',
     images: [
-      'https://www.mflowracing.com/cdn/shop/files/MFR4HyperSilverMachinedTip.jpg?v=1771542352&width=800',
+      'https://images.customwheeloffset.com/wheels-compressed/mflowracing/mfr4/mfr4_hypersilvermachined_white.jpg',
       'https://unleashedwheels.com/cdn/shop/files/mflow-racing-mfr4-matte-black-unleashedwheels.jpg?v=1743713898&width=800',
       'https://unleashedwheels.com/cdn/shop/files/mflow-racing-mfr4-matte-bronze-unleashedwheels.jpg?v=1743711412&width=800'
     ],
@@ -3269,7 +3269,7 @@ const finishImages = {
     'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF3-1885-MATT_20BRONZE-1.jpg?v=1757108280&width=800'
   },
   mfr4: {
-    'Hyper Silver Machine Tip': 'https://www.mflowracing.com/cdn/shop/files/MFR4HyperSilverMachinedTip.jpg?v=1771542352&width=800',
+    'Hyper Silver Machine Tip': 'https://images.customwheeloffset.com/wheels-compressed/mflowracing/mfr4/mfr4_hypersilvermachined_white.jpg',
     'Matte Black Machine Lip': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MFR4-1885-MATT_BLACK_MACHINED_LIP-1-p.jpg?v=1757108271&width=800',
     'Matte Bronze Machined Lip': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MFR4-1985-MATT_BRONZE_MACHINED_LIP-1-p.jpg?v=1757108269&width=800'
   },
