@@ -196,6 +196,7 @@ brandTabs.forEach(tab => {
 
     // Populate model jump dropdown
     populateModelJump(brand);
+    applyCatalogFilters();
   });
 });
 
@@ -3444,6 +3445,7 @@ function pickCardDefaultFinish(id, finishes, finishImgMap) {
 let hiddenWheels = new Set();
 const FW_SOLD_OUT = new Set(); // "slug|size" entries that are out of stock
 const FW_LOW = new Map(); // "slug|size" -> units left, for low-stock urgency
+let catalogFiltersReady = false;
 function fwIsSoldOut(slug, size) { return FW_SOLD_OUT.has(slug + '|' + size); }
 function fwLowLeft(slug, size) { return FW_LOW.get(slug + '|' + size); }
 function applyWheelCards() {
@@ -3527,9 +3529,178 @@ function applyWheelCards() {
   if (cardImg && activeImage) {
     cardImg.src = activeImage.replace('width=800', 'width=400');
   }
+  enhanceWheelCard(card, id, wheel, arr);
   });
+  populateCatalogFilters();
+  applyCatalogFilters();
 }
 applyWheelCards();
+
+function getWheelMeta(wheel) {
+  const variants = wheel && wheel.variants ? Object.entries(wheel.variants) : [];
+  const sizes = variants.map(([size]) => size).filter(Boolean);
+  const diameters = [...new Set(sizes.map(size => (size.match(/^(\d+)/) || [])[1]).filter(Boolean))];
+  const bolts = new Set();
+  const finishes = new Set();
+  let qty = 0;
+
+  variants.forEach(([, variant]) => {
+    (variant.boltPatterns || []).forEach(bolt => bolts.add(bolt));
+    (variant.finishes || []).forEach(finish => finishes.add(canonicalFinishName(finish)));
+    if (Number(variant.qty) > 0) qty += Number(variant.qty);
+  });
+
+  const prices = [...(wheel.priceRange || '').matchAll(/\$(\d[\d,]*)/g)]
+    .map(match => Number(match[1].replace(/,/g, '')))
+    .filter(Boolean);
+
+  return {
+    sizes,
+    diameters,
+    bolts: [...bolts],
+    finishes: [...finishes],
+    minPrice: prices.length ? Math.min(...prices) : 0,
+    maxPrice: prices.length ? Math.max(...prices) : 0,
+    qty
+  };
+}
+
+function sourceLabel(sourceStatus) {
+  if (sourceStatus === 'sourced') return 'Supplier inventory';
+  if (sourceStatus === 'official_brand_catalog') return 'Official catalog';
+  return 'Fitment check';
+}
+
+function enhanceWheelCard(card, id, wheel, finishList = []) {
+  const info = card.querySelector('.wheel-card-info');
+  if (!info) return;
+
+  const meta = getWheelMeta(wheel);
+  card.dataset.search = `${wheel.name || id} ${(wheel.series || '')} ${meta.finishes.join(' ')} ${meta.bolts.join(' ')}`.toLowerCase();
+  card.dataset.diameters = meta.diameters.join(',');
+  card.dataset.bolts = meta.bolts.join(',');
+  card.dataset.finishes = meta.finishes.join('|').toLowerCase();
+  card.dataset.minPrice = String(meta.minPrice || 0);
+  card.dataset.model = (wheel.name || id).toLowerCase();
+
+  const existingMeta = info.querySelector('.wheel-card-meta');
+  if (existingMeta) existingMeta.remove();
+
+  const primarySizes = meta.sizes.slice(0, 3).join(', ');
+  const moreSizes = meta.sizes.length > 3 ? ` +${meta.sizes.length - 3}` : '';
+  const primaryBolts = meta.bolts.slice(0, 2).join(', ');
+  const finishCount = finishList.length || meta.finishes.length;
+  const qtyLabel = meta.qty > 0 ? `${meta.qty} variants` : 'Check availability';
+
+  const metaEl = document.createElement('div');
+  metaEl.className = 'wheel-card-meta';
+  metaEl.innerHTML = `
+    <div class="wheel-card-badges">
+      <span>${sourceLabel(wheel.sourceStatus)}</span>
+      <span>${qtyLabel}</span>
+    </div>
+    <div class="wheel-card-specs">
+      <span>${primarySizes || 'Sizes vary'}${moreSizes}</span>
+      <span>${primaryBolts || 'Bolt options'}</span>
+      <span>${finishCount || 1} finish${finishCount === 1 ? '' : 'es'}</span>
+    </div>
+    <button class="wheel-card-cta" type="button">View details</button>
+  `;
+  info.appendChild(metaEl);
+}
+
+function populateCatalogFilters() {
+  const toolbar = document.getElementById('catalogToolbar');
+  if (!toolbar || catalogFiltersReady) return;
+  const diameterSelect = document.getElementById('diameterFilter');
+  const boltSelect = document.getElementById('boltFilter');
+  const finishSelect = document.getElementById('finishFilter');
+  const diameterSet = new Set();
+  const boltSet = new Set();
+  const finishSet = new Set();
+
+  Object.entries(wheelData).forEach(([id, wheel]) => {
+    if (hiddenWheels.has(id)) return;
+    const meta = getWheelMeta(wheel);
+    meta.diameters.forEach(value => diameterSet.add(value));
+    meta.bolts.forEach(value => boltSet.add(value));
+    meta.finishes.forEach(value => finishSet.add(value));
+  });
+
+  function fill(select, values, labeler = value => value) {
+    if (!select || select.options.length > 1) return;
+    [...values].sort((a, b) => String(a).localeCompare(String(b), undefined, { numeric: true })).forEach(value => {
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = labeler(value);
+      select.appendChild(option);
+    });
+  }
+
+  fill(diameterSelect, diameterSet, value => `${value}"`);
+  fill(boltSelect, boltSet);
+  fill(finishSelect, finishSet);
+
+  toolbar.querySelectorAll('input, select').forEach(control => {
+    control.addEventListener('input', applyCatalogFilters);
+    control.addEventListener('change', applyCatalogFilters);
+  });
+  catalogFiltersReady = true;
+}
+
+function getActiveBrandFilter() {
+  const active = document.querySelector('.brand-tab.active');
+  return active ? active.dataset.brand || 'all' : 'all';
+}
+
+function cardMatchesBrand(card, brand) {
+  if (!brand || brand === 'all') return true;
+  const section = card.closest('.brand-section');
+  return section && section.dataset.brand === brand;
+}
+
+function applyCatalogFilters() {
+  const toolbar = document.getElementById('catalogToolbar');
+  const resultCount = document.getElementById('catalogResultCount');
+  if (!toolbar) return;
+
+  const q = (document.getElementById('wheelSearch')?.value || '').trim().toLowerCase();
+  const diameter = document.getElementById('diameterFilter')?.value || '';
+  const bolt = document.getElementById('boltFilter')?.value || '';
+  const finish = (document.getElementById('finishFilter')?.value || '').toLowerCase();
+  const sort = document.getElementById('sortFilter')?.value || 'featured';
+  const brand = getActiveBrandFilter();
+  let visible = 0;
+
+  document.querySelectorAll('.wheel-card[data-wheel]').forEach(card => {
+    const id = card.dataset.wheel;
+    const matches = !hiddenWheels.has(id)
+      && cardMatchesBrand(card, brand)
+      && (!q || (card.dataset.search || '').includes(q))
+      && (!diameter || (card.dataset.diameters || '').split(',').includes(diameter))
+      && (!bolt || (card.dataset.bolts || '').split(',').includes(bolt))
+      && (!finish || (card.dataset.finishes || '').includes(finish));
+    card.classList.toggle('catalog-filtered-out', !matches);
+    if (matches) visible += 1;
+  });
+
+  if (sort !== 'featured') {
+    document.querySelectorAll('.wheel-grid').forEach(grid => {
+      const cards = Array.from(grid.querySelectorAll('.wheel-card[data-wheel]'));
+      cards.sort((a, b) => {
+        if (sort === 'model-asc') return (a.dataset.model || '').localeCompare(b.dataset.model || '');
+        const ap = Number(a.dataset.minPrice || 0);
+        const bp = Number(b.dataset.minPrice || 0);
+        return sort === 'price-desc' ? bp - ap : ap - bp;
+      });
+      cards.forEach(card => grid.appendChild(card));
+    });
+  }
+
+  if (resultCount) {
+    resultCount.textContent = `${visible} wheel${visible === 1 ? '' : 's'} showing.`;
+  }
+}
 
 // ===== LIVE CATALOG SYNC (admin edits → storefront) =====
 // Progressive enhancement: page already rendered with built-in catalog above.
@@ -3565,6 +3736,8 @@ function fwApplySourceVariant(slug, size, sourceVariant) {
     finishes: finishes.length ? finishes : (existing.finishes || []),
     boltPatterns: boltPatterns.length ? boltPatterns : (existing.boltPatterns || []),
     offsets: offsets.length ? offsets : (existing.offsets || []),
+    qty: Number(sourceVariant.qty || 0),
+    stockStatus: sourceVariant.stockStatus || existing.stockStatus || '',
     image: sourceVariant.image || existing.image || '',
   };
 
@@ -3621,6 +3794,7 @@ function fwApplySpreadsheetInventory(payload) {
       return;
     }
 
+    wheelData[slug].sourceStatus = product.sourceStatus;
     const sourceVariants = product.variants || {};
     const nextVariants = {};
     Object.entries(sourceVariants).forEach(([size, sourceVariant]) => {
@@ -4240,6 +4414,13 @@ function initFitmentContactForm() {
   form.dataset.wired = '1';
   const msg = document.getElementById('fitmentFormMsg') || form.querySelector('.fitment-form-msg');
   const btn = form.querySelector('button[type="submit"]');
+  const storedNote = sessionStorage.getItem('fwQuickFitmentNote');
+  const noteField = form.querySelector('[name="vehicle"]');
+
+  if (storedNote && noteField && !noteField.value) {
+    noteField.value = storedNote;
+    sessionStorage.removeItem('fwQuickFitmentNote');
+  }
 
   function show(text, ok) {
     if (!msg) return;
@@ -4280,6 +4461,24 @@ function initFitmentContactForm() {
   });
 }
 
+function initQuickFitmentForm() {
+  const form = document.getElementById('quickFitmentForm');
+  if (!form || form.dataset.wired) return;
+  form.dataset.wired = '1';
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    const note = [
+      data.vehicle ? `Vehicle: ${data.vehicle}` : '',
+      data.goal ? `Wheel goal: ${data.goal}` : ''
+    ].filter(Boolean).join('\n');
+
+    if (note) sessionStorage.setItem('fwQuickFitmentNote', note);
+    window.location.href = form.dataset.target || '/contact#fitment-contact';
+  });
+}
+
 // ===== CART WIRE-UP =====
 document.addEventListener('DOMContentLoaded', () => {
   // Cart icon click
@@ -4300,6 +4499,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateCartBadge();
   initAccessories();
   initFitmentContactForm();
+  initQuickFitmentForm();
 });
 
 // "Don't Forget" CTA → jump to the real accessory section

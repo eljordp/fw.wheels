@@ -23,10 +23,10 @@
   <meta name="twitter:title" content="FW Wheels — Wheels That Actually Fit Your Car">
   <meta name="twitter:description" content="Shop aftermarket wheels from Aodhan, Vors & Mflow Racing. Get the right size, offset & bolt pattern the first time — free fitment guidance on every order.">
   <meta name="twitter:image" content="https://fwwheelz.com/images/hero.jpg">
-  <link rel="stylesheet" href="/styles.css?v=20260620-1">
+  <link rel="stylesheet" href="/styles.css?v=20260702-1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- Navigation -->
@@ -66,6 +66,14 @@
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
+  <div class="trust-strip" aria-label="FW Wheels customer trust highlights">
+    <div class="container trust-strip-inner">
+      <span>Fitment checked before you order</span>
+      <span>Text us: <a href="tel:9259056277">(925) 905-6277</a></span>
+      <span>4,545 Instagram followers</span>
+      <span>Free shipping on wheel orders</span>
+    </div>
+  </div>
   <section class="hero" id="home">
     <video class="hero-video" autoplay muted loop playsinline poster="images/hero.jpg">
       <source src="images/hero.mp4" type="video/mp4">
@@ -74,7 +82,18 @@
     <div class="hero-content">
       <p class="hero-tagline">Certified Friendly Neighborhood</p>
       <h1 class="hero-title">Aftermarket Wheels & Fitment Help</h1>
-      <p class="hero-subtitle">Premium aftermarket wheels. From refined street setups to full forged builds — We Got It All.</p>
+      <p class="hero-subtitle">Tell us your car, pick your wheel, and FW Wheels will help check size, offset, bolt pattern, and finish before you order.</p>
+      <form class="quick-fitment" id="quickFitmentForm" data-target="/contact#fitment-contact">
+        <label>
+          <span>Vehicle</span>
+          <input type="text" name="vehicle" placeholder="2018 Civic Si" autocomplete="off">
+        </label>
+        <label>
+          <span>Wheel Goal</span>
+          <input type="text" name="goal" placeholder="AH02 silver, clean daily" autocomplete="off">
+        </label>
+        <button class="btn btn-primary" type="submit">Check Fitment</button>
+      </form>
       <div class="hero-actions">
         <a href="/wheels" class="btn btn-primary">Shop Brands</a>
         <a href="/contact#fitment-contact" class="btn btn-outline">Fitment Questions</a>
@@ -85,13 +104,32 @@
           <span class="stat-label">Premium Brands</span>
         </div>
         <div class="stat">
-          <span class="stat-number">50+</span>
-          <span class="stat-label">Wheel Models</span>
+          <span class="stat-number">48</span>
+          <span class="stat-label">Live Catalog Wheels</span>
         </div>
         <div class="stat">
-          <span class="stat-number">$648</span>
-          <span class="stat-label">Set of 4 From</span>
+          <span class="stat-number">383</span>
+          <span class="stat-label">Instagram Posts</span>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="social-proof" id="fw-builds">
+    <div class="container social-proof-grid">
+      <div class="social-proof-copy">
+        <p class="section-kicker">From @fw.wheels</p>
+        <h2 class="section-title left">Built around real fitment conversations.</h2>
+        <p>FW's Instagram profile is the stronger trust signal: 4,545 followers, 383 posts, DM ordering, and the same “Certified Friendly Neighborhood Wheel &amp; Tire” positioning customers already see before they buy.</p>
+        <div class="social-proof-actions">
+          <a class="btn btn-primary" href="https://www.instagram.com/fw.wheels/" target="_blank" rel="noopener">View Instagram</a>
+          <a class="btn btn-outline" href="/contact#fitment-contact">DM-Style Fitment Help</a>
+        </div>
+      </div>
+      <div class="build-shot-grid" aria-label="FW Wheels visual samples">
+        <img src="images/hero.jpg" alt="FW Wheels featured vehicle" loading="lazy">
+        <img src="https://cdn.shopify.com/s/files/1/0037/3194/7631/files/AH02_1895_SML_01.jpg?width=600" alt="Aodhan wheel closeup" loading="lazy">
+        <img src="https://cdn.shopify.com/s/files/1/0859/3725/8814/files/TR4_18X85_S_1.jpg?v=1769836819&width=600" alt="Vors TR4 wheel closeup" loading="lazy">
       </div>
     </div>
   </section>
@@ -330,6 +368,6 @@
   <script src="/config.js?v=20260616-6"></script>
   <script src="/leads.js?v=20260617-3"></script>
   <script src="/analytics.js?v=20260616-6"></script>
-  <script src="/script.js?v=20260620-1"></script>
+  <script src="/script.js?v=20260702-1"></script>
 </body>
 </html>

@@ -23,10 +23,10 @@
   <meta name="twitter:title" content="Wheels | Aodhan, Mflow Racing & Vors — FW Wheels">
   <meta name="twitter:description" content="Browse the full FW Wheels catalog: Aodhan, Mflow Racing, and Vors. Compare sizes, finishes, bolt patterns, and offsets, and check fitment for your vehicle.">
   <meta name="twitter:image" content="https://fwwheelz.com/images/hero.jpg">
-  <link rel="stylesheet" href="/styles.css?v=20260620-1">
+  <link rel="stylesheet" href="/styles.css?v=20260702-1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- Navigation -->
@@ -66,10 +66,62 @@
     </div>
   </nav>
   <div class="nav-backdrop" id="navBackdrop"></div>
+  <div class="trust-strip" aria-label="FW Wheels customer trust highlights">
+    <div class="container trust-strip-inner">
+      <span>Spreadsheet-backed inventory</span>
+      <span>Text fitment help: <a href="tel:9259056277">(925) 905-6277</a></span>
+      <span>Aodhan, Mflow Racing &amp; Vors</span>
+      <span>Free shipping on wheel orders</span>
+    </div>
+  </div>
   <section class="brands" id="brands">
     <div class="container">
-      <h1 class="section-title">Our Brands</h1>
-      <p class="section-subtitle">Browse wheels from Aodhan, Mflow Racing, and Vors.</p>
+      <div class="catalog-hero">
+        <div>
+          <p class="section-kicker">Shop Wheels</p>
+          <h1 class="section-title left">Find wheels that fit.</h1>
+          <p class="catalog-hero-copy">Browse live FW Wheels inventory from Aodhan, Mflow Racing, and Vors. Filter by brand, size, bolt pattern, finish, and price, then ask fitment before checkout if anything is close.</p>
+        </div>
+        <div class="catalog-hero-card">
+          <strong>Need exact fitment?</strong>
+          <span>Send your vehicle and wheel choice. FW checks size, offset, bolt pattern, center bore, and hardware before you order.</span>
+          <a class="btn btn-primary" href="/contact#fitment-contact">Ask Fitment</a>
+        </div>
+      </div>
+
+      <form class="catalog-toolbar" id="catalogToolbar" role="search">
+        <label class="catalog-search">
+          <span>Search model</span>
+          <input type="search" id="wheelSearch" placeholder="Search AH02, TR4, MF01..." autocomplete="off">
+        </label>
+        <label>
+          <span>Diameter</span>
+          <select id="diameterFilter">
+            <option value="">All sizes</option>
+          </select>
+        </label>
+        <label>
+          <span>Bolt pattern</span>
+          <select id="boltFilter">
+            <option value="">All bolts</option>
+          </select>
+        </label>
+        <label>
+          <span>Finish</span>
+          <select id="finishFilter">
+            <option value="">All finishes</option>
+          </select>
+        </label>
+        <label>
+          <span>Sort</span>
+          <select id="sortFilter">
+            <option value="featured">Featured</option>
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
+            <option value="model-asc">Model A-Z</option>
+          </select>
+        </label>
+      </form>
 
       <!-- Brand Filter Tabs -->
       <div class="brand-tabs">
@@ -80,7 +132,7 @@
       </div>
 
       <div class="fitment-help" id="fitment-help">
-        <p>Need exact fitment? Send us your vehicle and wheel choice so FW Wheels can check the details before you order.</p>
+        <p><span id="catalogResultCount">Loading wheels...</span> Need exact fitment? Send us your vehicle and wheel choice so FW Wheels can check the details before you order.</p>
         <a class="btn btn-primary" href="/contact#fitment-contact">Ask Fitment</a>
       </div>
 
@@ -731,6 +783,6 @@
   <script src="/config.js?v=20260616-6"></script>
   <script src="/leads.js?v=20260617-3"></script>
   <script src="/analytics.js?v=20260616-6"></script>
-  <script src="/script.js?v=20260620-1"></script>
+  <script src="/script.js?v=20260702-1"></script>
 </body>
 </html>
