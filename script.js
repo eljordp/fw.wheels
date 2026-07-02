@@ -3429,6 +3429,10 @@ const cardFinishPreferences = {
   ]
 };
 
+const modelCardFinishPreferences = {
+  mf04: ['Machined Silver', 'Matte Bronze', 'Matte Black']
+};
+
 function getWheelBrand(id) {
   if (id.startsWith('vors-')) return 'vors';
   if (id.startsWith('mf')) return 'mflow';
@@ -3436,7 +3440,7 @@ function getWheelBrand(id) {
 }
 
 function pickCardDefaultFinish(id, finishes, finishImgMap) {
-  const preferences = cardFinishPreferences[getWheelBrand(id)] || [];
+  const preferences = modelCardFinishPreferences[id] || cardFinishPreferences[getWheelBrand(id)] || [];
   return preferences.find(finish =>
     finishes.includes(canonicalFinishName(finish)) && getFinishImage(finishImgMap, finish)
   ) || finishes.find(finish => getFinishImage(finishImgMap, finish)) || finishes[0];
