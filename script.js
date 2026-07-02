@@ -3700,6 +3700,25 @@ function populateCatalogFilters() {
   catalogFiltersReady = true;
 }
 
+function initMobileCatalogControls() {
+  const toolbar = document.getElementById('catalogToolbar');
+  const filterBtn = document.getElementById('mobileFilterToggle');
+  const sortBtn = document.getElementById('mobileSortToggle');
+  if (!toolbar || !filterBtn || !sortBtn) return;
+
+  function setPanel(panel) {
+    const className = panel === 'filters' ? 'mobile-filters-open' : 'mobile-sort-open';
+    const isOpen = toolbar.classList.contains(className);
+    toolbar.classList.remove('mobile-filters-open', 'mobile-sort-open');
+    toolbar.classList.toggle(className, !isOpen);
+    filterBtn.setAttribute('aria-expanded', String(!isOpen && panel === 'filters'));
+    sortBtn.setAttribute('aria-expanded', String(!isOpen && panel === 'sort'));
+  }
+
+  filterBtn.addEventListener('click', () => setPanel('filters'));
+  sortBtn.addEventListener('click', () => setPanel('sort'));
+}
+
 function getActiveBrandFilter() {
   const active = document.querySelector('.brand-tab.active');
   return active ? active.dataset.brand || 'all' : 'all';
@@ -4549,6 +4568,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initial badge count
   updateCartBadge();
+  initMobileCatalogControls();
   initAccessories();
   initFitmentContactForm();
   initQuickFitmentForm();

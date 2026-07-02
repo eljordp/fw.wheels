@@ -23,7 +23,7 @@
   <meta name="twitter:title" content="Wheels | Aodhan, Mflow Racing & Vors — FW Wheels">
   <meta name="twitter:description" content="Browse the full FW Wheels catalog: Aodhan, Mflow Racing, and Vors. Compare sizes, finishes, bolt patterns, and offsets, and check fitment for your vehicle.">
   <meta name="twitter:image" content="https://fwwheelz.com/images/hero.jpg">
-  <link rel="stylesheet" href="/styles.css?v=20260702-3">
+  <link rel="stylesheet" href="/styles.css?v=20260702-4">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
@@ -68,10 +68,10 @@
   <div class="nav-backdrop" id="navBackdrop"></div>
   <div class="trust-strip" aria-label="FW Wheels customer trust highlights">
     <div class="container trust-strip-inner">
-      <span>Spreadsheet-backed inventory</span>
-      <span>Text wheel help: <a href="tel:9259056277">(925) 905-6277</a></span>
-      <span>Aodhan, Mflow Racing &amp; Vors</span>
-      <span>Free shipping on wheel orders</span>
+      <span>Inventory-backed</span>
+      <span><a href="tel:9259056277">Text FW</a></span>
+      <span>3 wheel brands</span>
+      <span>Free shipping</span>
     </div>
   </div>
   <section class="brands" id="brands">
@@ -79,8 +79,8 @@
       <div class="catalog-hero">
         <div>
           <p class="section-kicker">Shop Wheels</p>
-          <h1 class="section-title left">Shop live wheel inventory.</h1>
-          <p class="catalog-hero-copy">Browse FW Wheels inventory from Aodhan, Mflow Racing, and Vors. Filter by brand, size, bolt pattern, finish, and price, then message FW with your build notes if you want manual guidance.</p>
+          <h1 class="section-title left">Shop Wheels</h1>
+          <p class="catalog-hero-copy">Aodhan, Mflow Racing, and Vors inventory. Filter fast, then text FW if you want help narrowing options.</p>
         </div>
         <div class="catalog-hero-card">
           <strong>Need help choosing?</strong>
@@ -89,30 +89,35 @@
         </div>
       </div>
 
+      <div class="mobile-catalog-actions">
+        <button class="mobile-filter-btn" id="mobileFilterToggle" type="button" aria-expanded="false" aria-controls="catalogToolbar">Filters</button>
+        <button class="mobile-filter-btn" id="mobileSortToggle" type="button" aria-expanded="false" aria-controls="catalogToolbar">Sort</button>
+      </div>
+
       <form class="catalog-toolbar" id="catalogToolbar" role="search">
         <label class="catalog-search">
           <span>Search model</span>
           <input type="search" id="wheelSearch" placeholder="Search AH02, TR4, MF01..." autocomplete="off">
         </label>
-        <label>
+        <label class="catalog-filter-field">
           <span>Diameter</span>
           <select id="diameterFilter">
             <option value="">All sizes</option>
           </select>
         </label>
-        <label>
+        <label class="catalog-filter-field">
           <span>Bolt pattern</span>
           <select id="boltFilter">
             <option value="">All bolts</option>
           </select>
         </label>
-        <label>
+        <label class="catalog-filter-field">
           <span>Finish</span>
           <select id="finishFilter">
             <option value="">All finishes</option>
           </select>
         </label>
-        <label>
+        <label class="catalog-sort-field">
           <span>Sort</span>
           <select id="sortFilter">
             <option value="featured">Featured</option>
@@ -132,7 +137,7 @@
       </div>
 
       <div class="fitment-help" id="fitment-help">
-        <p><span id="catalogResultCount">Loading wheels...</span> Need guidance? Send your vehicle, setup, and wheel choice so FW Wheels can help narrow it down.</p>
+        <p><span id="catalogResultCount">Loading wheels...</span></p>
         <a class="btn btn-primary" href="/contact#fitment-contact">Ask FW</a>
       </div>
 
@@ -783,6 +788,6 @@
   <script src="/config.js?v=20260616-6"></script>
   <script src="/leads.js?v=20260617-3"></script>
   <script src="/analytics.js?v=20260616-6"></script>
-  <script src="/script.js?v=20260702-3"></script>
+  <script src="/script.js?v=20260702-4"></script>
 </body>
 </html>

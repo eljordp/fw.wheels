@@ -910,6 +910,22 @@ img {
   min-width: 0;
 }
 
+.mobile-catalog-actions {
+  display: none;
+}
+
+.mobile-filter-btn {
+  min-height: 42px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: #151515;
+  color: #fff;
+  font: 800 0.72rem var(--font-body);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
 section {
   scroll-margin-top: 86px;
 }
@@ -2906,15 +2922,18 @@ section {
   }
 
   .trust-strip-inner {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .trust-strip span {
-    display: block;
-    min-height: 38px;
-    padding: 8px 10px;
-    font-size: 0.66rem;
-    line-height: 1.35;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 7px 5px;
+    font-size: 0.58rem;
+    line-height: 1.15;
+    text-align: center;
   }
 
   /* Mobile nav */
@@ -3045,7 +3064,7 @@ section {
 
   /* Sections */
   .brands {
-    padding: 48px 0;
+    padding: 24px 0 42px;
   }
 
   .catalog-hero,
@@ -3055,33 +3074,75 @@ section {
   }
 
   .catalog-hero {
-    margin-top: 18px;
+    margin: 12px 0 12px;
+    gap: 10px;
   }
 
   .catalog-hero .section-title {
-    font-size: 1.85rem;
+    font-size: 2rem;
     line-height: 1.12;
     overflow-wrap: anywhere;
   }
 
-  .catalog-hero-copy,
-  .catalog-hero-card span,
+  .catalog-hero-copy {
+    max-width: none;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    margin-bottom: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
   .fitment-help p {
     overflow-wrap: anywhere;
     word-break: break-word;
-    max-width: 34ch;
+    max-width: none;
   }
 
-  .catalog-hero-card,
+  .catalog-hero-card {
+    display: none;
+  }
+
   .catalog-toolbar {
-    width: calc(100% - 8px);
+    width: 100%;
     max-width: 100%;
     overflow: hidden;
   }
 
+  .mobile-catalog-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin: 10px 0 8px;
+    width: 100%;
+    max-width: 100%;
+  }
+
   .catalog-toolbar {
-    position: static;
+    position: sticky;
+    top: 62px;
+    z-index: 95;
     grid-template-columns: 1fr;
+    gap: 8px;
+    margin: 0 0 12px;
+    padding: 10px;
+    border-radius: var(--radius-sm);
+  }
+
+  .catalog-toolbar .catalog-filter-field,
+  .catalog-toolbar .catalog-sort-field {
+    display: none;
+  }
+
+  .catalog-toolbar.mobile-filters-open .catalog-filter-field,
+  .catalog-toolbar.mobile-sort-open .catalog-sort-field {
+    display: flex;
+  }
+
+  .catalog-toolbar input,
+  .catalog-toolbar select {
+    min-height: 42px;
+    font-size: 16px;
   }
 
   .build-shot-grid {
@@ -3128,12 +3189,13 @@ section {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    width: calc(100% + 32px);
-    margin-left: -16px;
-    margin-bottom: 24px;
-    padding: 0 16px 8px;
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-bottom: 12px;
+    padding: 0 0 8px;
     gap: 6px;
-    scroll-padding-inline: 16px;
+    scroll-padding-inline: 0;
   }
 
   .brand-tabs::-webkit-scrollbar {
@@ -3142,17 +3204,32 @@ section {
 
   .brand-tab {
     flex-shrink: 0;
-    padding: 8px 18px;
-    font-size: 0.72rem;
-    min-height: 44px;
+    padding: 8px 14px;
+    font-size: 0.68rem;
+    min-height: 40px;
     display: flex;
     align-items: center;
   }
 
   .fitment-help {
-    flex-direction: column;
-    gap: 12px;
-    margin: -6px auto 26px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin: 4px 0 14px;
+    text-align: left;
+  }
+
+  .fitment-help p {
+    margin: 0;
+    font-size: 0.78rem;
+  }
+
+  .fitment-help .btn {
+    min-height: 38px;
+    padding: 9px 13px;
+    font-size: 0.68rem;
+    white-space: nowrap;
   }
 
   .vehicle-finder,
@@ -3215,12 +3292,13 @@ section {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    width: calc(100% + 32px);
-    margin-left: -16px;
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
     margin-bottom: 20px;
-    padding: 0 16px 8px;
+    padding: 0 0 8px;
     gap: 6px;
-    scroll-padding-inline: 16px;
+    scroll-padding-inline: 0;
   }
 
   .series-tabs::-webkit-scrollbar {
@@ -3255,6 +3333,14 @@ section {
     margin-bottom: 24px;
   }
 
+  .brand-section,
+  .series-group,
+  .wheel-grid,
+  .wheel-card {
+    min-width: 0;
+    max-width: 100%;
+  }
+
   .series-title {
     font-size: 0.8rem;
     margin-bottom: 12px;
@@ -3262,8 +3348,8 @@ section {
 
   /* Wheel grid — 3 columns on tablet */
   .wheel-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
   }
 
   .wheel-card:hover {
@@ -3272,11 +3358,11 @@ section {
   }
 
   .wheel-card-info {
-    padding: 8px 8px 12px;
+    padding: 9px;
   }
 
   .wheel-name {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     letter-spacing: 0.5px;
     margin-bottom: 2px;
   }
@@ -3293,6 +3379,33 @@ section {
 
   .wheel-swatch-more {
     font-size: 0.6rem;
+  }
+
+  .wheel-img-wrap img {
+    object-fit: contain;
+    background: #fff;
+  }
+
+  .wheel-card-meta {
+    margin-top: 8px;
+  }
+
+  .wheel-card-badges span {
+    min-height: 21px;
+    padding: 3px 5px;
+    font-size: 0.56rem;
+    letter-spacing: 0.35px;
+  }
+
+  .wheel-card-badges span + span,
+  .wheel-card-specs {
+    display: none;
+  }
+
+  .wheel-card-cta {
+    min-height: 34px;
+    margin-top: 8px;
+    font-size: 0.62rem;
   }
 
   /* Modal — bottom sheet on mobile */
