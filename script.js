@@ -618,7 +618,7 @@ const wheelData = {
     centerBore: '73.1mm',
     priceRange: '$237 /wheel',
     images: [
-      'https://www.mflowracing.com/cdn/shop/files/MFR1-2085-MACHINEDSILVER1.jpg?v=1771531382&width=800',
+      'https://images.customwheeloffset.com/wheels-compressed/mflowracing/mfr1/mfr1_hypersilvermachined_white.jpg',
       'https://unleashedwheels.com/cdn/shop/files/mflow-racing-mfr1-hyper-black-unleashedwheels.jpg?v=1724878850&width=800',
       'https://unleashedwheels.com/cdn/shop/files/mflow-racing-mfr1-matte-bronze-unleashedwheels.jpg?v=1724879474&width=800'
     ],
@@ -3188,7 +3188,7 @@ const finishImages = {
   },
   // Mflow Road Series
   mfr1: {
-    'Hyper Silver Machined Face': 'https://www.mflowracing.com/cdn/shop/files/MFR1-2085-MACHINEDSILVER1.jpg?v=1771531382&width=800',
+    'Hyper Silver Machined Face': 'https://images.customwheeloffset.com/wheels-compressed/mflowracing/mfr1/mfr1_hypersilvermachined_white.jpg',
     'Matte Bronze': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF1-1985-MATT-BRONZE-1.jpg?v=1757108284&width=800',
     'Matte Black': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF1-1885-MATT-BLACK-1.jpg?v=1757108286&width=800',
     'Hyper Black': 'https://cdn.shopify.com/s/files/1/0569/7139/5175/files/MF1-2085-HYPER-BLACK-1.jpg?v=1757108285&width=800'
@@ -3448,7 +3448,59 @@ const FW_LOW = new Map(); // "slug|size" -> units left, for low-stock urgency
 let catalogFiltersReady = false;
 function fwIsSoldOut(slug, size) { return FW_SOLD_OUT.has(slug + '|' + size); }
 function fwLowLeft(slug, size) { return FW_LOW.get(slug + '|' + size); }
+
+function getInitialWheelCardImage(wheel, id) {
+  const finishMap = buildFinishImageMap(wheel, id);
+  const finishes = new Set();
+  if (wheel && wheel.variants) {
+    Object.values(wheel.variants).forEach(variant => {
+      (variant.finishes || []).forEach(finish => finishes.add(canonicalFinishName(finish)));
+    });
+  }
+  const preferred = pickCardDefaultFinish(id, [...finishes], finishMap);
+  return getFinishImage(finishMap, preferred)
+    || (wheel.images && wheel.images[0])
+    || Object.values(wheel.variants || {}).find(variant => variant.image)?.image
+    || '';
+}
+
+function populateHomepageWheelGrid() {
+  const grid = document.getElementById('homepageWheelGrid');
+  if (!grid || grid.dataset.populatedAll === 'true') return;
+
+  const brandOrder = { aodhan: 0, mflow: 1, vors: 2 };
+  const ids = Object.keys(wheelData)
+    .filter(id => !hiddenWheels.has(id))
+    .sort((a, b) => {
+      const brandDelta = (brandOrder[getWheelBrand(a)] ?? 9) - (brandOrder[getWheelBrand(b)] ?? 9);
+      if (brandDelta) return brandDelta;
+      return (wheelData[a]?.name || a).localeCompare(wheelData[b]?.name || b, undefined, { numeric: true });
+    });
+
+  ids.forEach(id => {
+    if (grid.querySelector(`.wheel-card[data-wheel="${id}"]`)) return;
+    const wheel = wheelData[id];
+    if (!wheel) return;
+    const img = getInitialWheelCardImage(wheel, id).replace('width=800', 'width=400');
+    const card = document.createElement('div');
+    card.className = 'wheel-card';
+    card.dataset.wheel = id;
+    card.innerHTML = `
+      <div class="wheel-img-wrap"><img decoding="async" src="${img}" alt="${wheel.name || id}" loading="lazy"></div>
+      <div class="wheel-card-info">
+        <p class="wheel-name">${(wheel.name || id).replace(/^AODHAN |^MFLOW |^VORS /, '')}</p>
+        <p class="wheel-price"></p>
+        <div class="wheel-swatches"></div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+
+  grid.dataset.populatedAll = 'true';
+}
+
 function applyWheelCards() {
+  populateHomepageWheelGrid();
   document.querySelectorAll('.wheel-card').forEach(card => {
   const id = card.dataset.wheel;
   const wheel = wheelData[id];
